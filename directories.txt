@@ -1,0 +1,1311 @@
+.
+./Emergency
+./Shells
+./Liguria
+./Liguria/done
+./Liguria/DCIM
+./Liguria/tifs
+./Liguria/work
+./Liguria/fails
+./Liguria/local
+./Liguria/jpegs
+./Liguria/cd
+./Liguria/parts
+./DCIM
+./work2
+./Pictures
+./Pictures/Helicon Focus
+./Pictures/Helicon Focus/Panorama
+./Pictures/Helicon Focus/Samples
+./Pictures/Bretagne
+./Pictures/Bretagne/Work
+./Bretagne
+./Bretagne/Work
+./Bretagne/done
+./Bretagne/ToRedo
+./Bretagne/jpegs
+./Webcam
+./ValleVersasca
+./ValleVersasca/done
+./ValleVersasca/DCIM
+./ValleVersasca/DCIM/169ND300
+./ValleVersasca/DCIM/170ND300
+./ValleVersasca/DCIM/159ND300
+./ValleVersasca/orig
+./ValleVersasca/tifs
+./ValleVersasca/work
+./ValleVersasca/fails
+./ValleVersasca/local
+./ValleVersasca/jpegs
+./ValleVersasca/snails
+./ValleVersasca/tmp
+./ValleVersasca/xcf
+./ValleVersasca/parts
+./AdvancedFind
+./Sommer2014
+./Sommer2014/jpegs
+./Sommer2014/parts
+./Essen
+./Essen/done
+./Essen/tifs
+./Essen/work
+./Essen/local
+./Essen/jpegs
+./Essen/Gewünschte Bilder Mutti
+./Essen/parts
+./Insects
+./Insects/tifs
+./Insects/jpegs
+./backup_
+./backup_/Parts
+./Music
+./Music/Palastorchester mit seinem Sänger Max Raabe
+./Music/Palastorchester mit seinem Sänger Max Raabe/Hitpalast
+./Music/Melissa Etheridge
+./Music/Melissa Etheridge/Brave And Crazy
+./Music/Melissa Etheridge/Never Enough
+./Music/Nicolaus Esterhazy Sinfonia
+./Music/Nicolaus Esterhazy Sinfonia/The Best of Beethoven
+./Music/Equinox
+./Music/Equinox/Through The Field
+./Music/Limp Bizkit
+./Music/Limp Bizkit/Results May Vary
+./Music/Limp Bizkit/Chocolate Starfish And The Hotdog Flavored Water
+./Music/Limp Bizkit/Greatest Hitz
+./Music/Limp Bizkit/Significant Other
+./Music/Limp Bizkit/New Old Songs
+./Music/Black Eyed Peas
+./Music/Black Eyed Peas/Elephunk (Asia Special Edition) [Disc 1]
+./Music/Outkast
+./Music/Outkast/Idlewild
+./Music/Outkast/ATliens
+./Music/Outkast/Big Boi & Dre Present... Outkast
+./Music/Status Quo
+./Music/Status Quo/Rocking All Over The World
+./Music/Status Quo/Ain't Complaining
+./Music/Status Quo/12 Gold Bars
+./Music/Status Quo/Rock 'Til You Drop
+./Music/Snow
+./Music/Snow/12 Inches Of Snow
+./Music/The Jeff Healey Band
+./Music/The Jeff Healey Band/Hell To Pay
+./Music/The Jeff Healey Band/See The Light
+./Music/The Jeff Healey Band/Get Me Some
+./Music/The Jeff Healey Band/Feel This
+./Music/The Jeff Healey Band/Cover To Cover
+./Music/Mr. Big
+./Music/Mr. Big/Lean Into It
+./Music/Mr. Big/Mr.Big
+./Music/Mr. Big/Hey Man
+./Music/Mr. Big/Bump Ahead
+./Music/Mr. Big/Get Over It
+./Music/Simple Minds
+./Music/Simple Minds/New Gold Dream
+./Music/Simple Minds/Neon Lights
+./Music/Simple Minds/Glittering Prize (Simple Minds 1981 - 1992)
+./Music/Simple Minds/Good News From The Next World
+./Music/Simple Minds/Sparkle In The Rain
+./Music/Simple Minds/Once Upon A Time
+./Music/Simple Minds/Live in The City Of Light
+./Music/Simple Minds/The Best Of
+./Music/Simple Minds/Street Fighting Years
+./Music/Simple Minds/Neapolis
+./Music/Simple Minds/Real Life
+./Music/Kansas
+./Music/Kansas/The Best Of Kansas
+./Music/Kansas/The Best Of Kansas/The Best Of Kansas
+./Music/Black Eyed Peas Feat. Justin Timberlake
+./Music/Black Eyed Peas Feat. Justin Timberlake/Elephunk (Asia Special Edition) [Disc 1]
+./Music/Madonna
+./Music/Madonna/Music
+./Music/Madonna/Ray Of Light
+./Music/Faith No More
+./Music/Faith No More/The Real Thing
+./Music/Richard Bandler
+./Music/ChristinaAguilera
+./Music/ChristinaAguilera/Bionic [Deluxe Edition] [Disc 1]
+./Music/ChristinaAguilera/Stripped
+./Music/ChristinaAguilera/Burlesque
+./Music/The Guess Who
+./Music/The Guess Who/The Best Of
+./Music/Avantasia
+./Music/Avantasia/Angel of Babylon
+./Music/Avantasia/The Wicked Symphony
+./Music/Rage Against the Machine
+./Music/Rage Against the Machine/Live And Rare
+./Music/Rage Against the Machine/Rage Against The Machine
+./Music/Rage Against the Machine/Evil Empire
+./Music/Rage Against the Machine/The Battle of Los Angeles
+./Music/Rage Against the Machine/Renegades
+./Music/Tom Jones
+./Music/Tom Jones/Mr. Jones
+./Music/Tom Jones/Reload
+./Music/The Pretenders
+./Music/The Pretenders/Packed
+./Music/The Pretenders/Last Of Independents
+./Music/The Pretenders/Learning To Crawl
+./Music/The Pretenders/Get Close
+./Music/The Pretenders/The Isle Of View
+./Music/Aerosmith
+./Music/Aerosmith/Lightning Strikes (Live In Boston 1981)
+./Music/Aerosmith/Just Push Play
+./Music/Aerosmith/Pump
+./Music/Aerosmith/Get A Grip
+./Music/Aerosmith/Permanent Vacation
+./Music/4 Non Blondes
+./Music/4 Non Blondes/Bigger, Better, Faster, More!
+./Music/Avril Lavigne
+./Music/Avril Lavigne/Under My Skin
+./Music/Avril Lavigne/Let Go
+./Music/Lynyrd Skynyrd
+./Music/Lynyrd Skynyrd/(Pronounced 'leh-'nérd 'skin-'nérd)
+./Music/Lynyrd Skynyrd/Gimme Back My Bullets
+./Music/Lynyrd Skynyrd/Twenty
+./Music/Lynyrd Skynyrd/Skynyrd's Innyrds
+./Music/Lynyrd Skynyrd/Unplugged (Full Album)
+./Music/Lynyrd Skynyrd/Street Survivors
+./Music/Lynyrd Skynyrd/A Retrospective
+./Music/Lynyrd Skynyrd/The Last Rebel
+./Music/Lynyrd Skynyrd/The Essential Lynyrd Skynyrd
+./Music/Lynyrd Skynyrd/Edge Of Forever
+./Music/Lynyrd Skynyrd/Nuthin' Fancy
+./Music/Lynyrd Skynyrd/Southern By The Grace Of God (Full Album)
+./Music/Lynyrd Skynyrd/Endangered Species
+./Music/Lynyrd Skynyrd/Vicious Cycle
+./Music/Evanescence
+./Music/Evanescence/The Open Door
+./Music/Evanescence/Evanescence
+./Music/Evanescence/Wind up
+./Music/Evanescence/Fallen
+./Music/Crash Test Dummies
+./Music/Crash Test Dummies/God Shuffled His Feet
+./Music/Karsh Kale
+./Music/Karsh Kale/Realize
+./Music/Luciana Souza_Romero Lubambo
+./Music/Luciana Souza_Romero Lubambo/Duos II
+./Music/Bandler
+./Music/Bandler/PES #1 - Design Your Destiny
+./Music/Aisha Duo
+./Music/Aisha Duo/Quiet Songs
+./Music/Ozzy Osbourne
+./Music/Ozzy Osbourne/No More Tears
+./Music/Ozzy Osbourne/The Ultimate Sin
+./Music/Gotthard
+./Music/Gotthard/Domino Effect
+./Music/Gotthard/Defrosted
+./Music/Gotthard/Gotthard
+./Music/Gotthard/Human Zoo
+./Music/Gotthard/G
+./Music/Gotthard/Lipservice
+./Music/Gotthard/Open
+./Music/Gotthard/One Life One Soul - Best Of Ballads
+./Music/Gotthard/Homerun
+./Music/Gotthard/Misc
+./Music/Gotthard/Dial Hard
+./Music/Inspiration
+./Music/Gringolts Quartet
+./Music/Gringolts Quartet/Schumann String Quartets
+./Music/Cradle 2 The Grave
+./Music/Scissor Sisters
+./Music/Scissor Sisters/Ta-Dah!
+./Music/The Proclaimers
+./Music/Yo-Yo Ma & The Silk Road Ensemble
+./Music/Yo-Yo Ma & The Silk Road Ensemble/Silk Road Journeys_ Beyond the Horizon
+./Music/Vanessa Amorosi
+./Music/Vanessa Amorosi/Change
+./Music/Vanessa Amorosi/The Power
+./Music/Steve Vai
+./Music/Steve Vai/Alive In An Ultra World [Disc 1]
+./Music/Steve Vai/Archives Vol4
+./Music/Steve Vai/Fire Garden
+./Music/Steve Vai/Alien Love Secrets
+./Music/Steve Vai/The 7th Song_ Enchanting Guitar Melodies
+./Music/Steve Vai/Alive In An Ultra World (Disc 2)
+./Music/Steve Vai/Sex & Religion
+./Music/Steve Vai/G3_ Live In Concert
+./Music/Steve Vai/Real Illusions_ Reflections
+./Music/Steve Vai/Flex-Able
+./Music/Steve Vai/The Ultra Zone
+./Music/Steve Vai/Archives, Vol. 4
+./Music/Steve Vai/The Elusive Light And Sound Vol. 1
+./Music/Steve Vai/The Story of Light ("Real Illusions: ... of a...")
+./Music/Steve Vai/Passion & Warfare
+./Music/Antonio Vivaldi
+./Music/Antonio Vivaldi/Master Classics
+./Music/Deep Heat 6 The Sixth Sense
+./Music/The Offspring
+./Music/The Offspring/Americana
+./Music/The Offspring/Conspiracy Of One
+./Music/Nickelback
+./Music/Nickelback/All The Right Reasons
+./Music/Nickelback/State
+./Music/Nickelback/Silver Side Up
+./Music/Nickelback/The Long Road
+./Music/Nickelback/Dark Horse
+./Music/Nickelback/Curb
+./Music/buda
+./Music/Jimmy Page & David Coverdale
+./Music/Jimmy Page & David Coverdale/Coverdale_Page
+./Music/Heart
+./Music/Heart/Heart
+./Music/Heart/Brigade
+./Music/Bomfunk MC's
+./Music/Bomfunk MC's/In Stereo
+./Music/The Mamas & The Papas
+./Music/The Mamas & The Papas/Daydream - The Famous Hits
+./Music/Katrina & The Waves
+./Music/Katrina & The Waves/Break Of Hearts
+./Music/Katrina & The Waves/Turnaround
+./Music/Katrina & The Waves/Pet The Tiger
+./Music/Katrina & The Waves/Walk On Water
+./Music/Katrina & The Waves/Break of Hearts
+./Music/Katrina & The Waves/Edge Of The Land
+./Music/Rabih Abou-Khalil
+./Music/Rabih Abou-Khalil/The Sultan's Picnic
+./Music/Rabih Abou-Khalil/Al-Jadida
+./Music/Rabih Abou-Khalil/Arabian Waltz
+./Music/Rabih Abou-Khalil/Blue Camel
+./Music/Norah Jones
+./Music/Norah Jones/Feels Like Home
+./Music/Katherine Crowe
+./Music/Katherine Crowe/Unbreakable
+./Music/Anastacia
+./Music/Anastacia/Anastacia
+./Music/Anastacia/Freak of Nature
+./Music/Alan Bergman
+./Music/Alan Bergman/Lyrically
+./Music/OPM
+./Music/OPM/Menace To Sobriety
+./Music/Ronan Keating
+./Music/Ronan Keating/Elton John_
+./Music/Creed
+./Music/Creed/Human Clay
+./Music/Creed/Weathered
+./Music/Creed/My Own Prison
+./Music/Shakira
+./Music/Shakira/She Wolf
+./Music/Shakira/Laundry Service
+./Music/Shakira/Fijación Oral - Vol. 1
+./Music/Shakira/Oral Fixation, Vol. 2
+./Music/Unbekannter Interpret
+./Music/Unbekannter Interpret/Unbekanntes Album
+./Music/Meredith Brooks
+./Music/Meredith Brooks/Blurring The Edges
+./Music/Anastacia & Elton John
+./Music/Anastacia & Elton John/One Night Only
+./Music/Vanessa Mae
+./Music/Vanessa Mae/The Violin Player
+./Music/Vanessa Mae/Storm
+./Music/Genesis
+./Music/Genesis/And Then There Were Three
+./Music/Genesis/We Can't Dance
+./Music/Genesis/Genesis
+./Music/Genesis/Selling England By The Pound
+./Music/Genesis/A Trick Of The Tail
+./Music/Genesis/Three Sides Live
+./Music/Genesis/Abacab
+./Music/Genesis/From Genesis To Revelation
+./Music/Genesis/Invisible Touch
+./Music/Genesis/Turn It On Again
+./Music/Genesis/Duke
+./Music/Genesis/Calling All Stations
+./Music/Genesis/Summer Nights
+./Music/Eric Johnson
+./Music/Eric Johnson/G3_ Live In Concert
+./Music/Ritchie Blackmore's Rainbow
+./Music/Ritchie Blackmore's Rainbow/Stranger In Us All
+./Music/Yes
+./Music/Yes/Fragile
+./Music/rhythm-lab.com_amen_pack
+./Music/AC_DC
+./Music/AC_DC/Stiff Upper Lip
+./Music/AC_DC/Stiff Upper Lip (Australian Tour Edition
+./Music/AC_DC/Back In Black
+./Music/AC_DC/Who Made Who
+./Music/AC_DC/Ballbreaker
+./Music/AC_DC/If You Want Blood You've Got It [Live]
+./Music/AC_DC/For Those About To Rock We Salute You
+./Music/Rob 'n' Raz Feat. Leila K
+./Music/Rob 'n' Raz Feat. Leila K/Rob 'n' Raz Featuring Leila K
+./Music/Ofra Haza
+./Music/Ofra Haza/Kirya
+./Music/Ofra Haza/Shaday
+./Music/Elton John
+./Music/Elton John/One Night Only
+./Music/Marilyn Manson
+./Music/Marilyn Manson/The Golden Age Of Grotesque
+./Music/Marilyn Manson/Last Tour On Earth
+./Music/Marilyn Manson/Holy Wood
+./Music/Marilyn Manson/Lest We Forget (The Best Of)
+./Music/Marilyn Manson/Portrait Of An American Family
+./Music/Marilyn Manson/Remix & Repent
+./Music/Marilyn Manson/Mechanical Animals
+./Music/Marilyn Manson/Smells Like Children
+./Music/Marilyn Manson/Antichrist Superstar
+./Music/David Zinman_ Tonhalle Orchestra
+./Music/David Zinman_ Tonhalle Orchestra/Schumann_ Symphonies [Disc 1]
+./Music/David Zinman_ Tonhalle Orchestra/Strauss (R)_ Don Juan, Till Eulenspiegel
+./Music/Unknown Artist
+./Music/Unknown Artist/Unknown Album
+./Music/Gary Moore
+./Music/Gary Moore/Dark Days In Paradise
+./Music/Gary Moore/Back To The Blues
+./Music/Gary Moore/After Hours
+./Music/Gary Moore/Blues Alive
+./Music/Gary Moore/Still Got The Blues
+./Music/Gary Moore/A Different Beat
+./Music/Gary Moore/Blues For Greeny
+./Music/Gary Moore/After The War
+./Music/Yngwie J. Malmsteen
+./Music/Yngwie J. Malmsteen/Inspiration
+./Music/Yngwie J. Malmsteen/Fire & Ice
+./Music/Yngwie J. Malmsteen/Concerto Suite For Electric Guitar And O
+./Music/Yngwie J. Malmsteen/Rising Force
+./Music/Yngwie J. Malmsteen/The Seventh Sign
+./Music/Yngwie J. Malmsteen/Marching Out
+./Music/Elton John & Kiki Dee
+./Music/Elton John & Kiki Dee/One Night Only
+./Music/Kate Winslet
+./Music/50 Cent
+./Music/50 Cent/Get Rich Or Die Tryin'
+./Music/Stacie Orrico
+./Music/Stacie Orrico/Stacie Orrico
+./Music/Puddle Of Mud
+./Music/Puddle Of Mud/Life on Display
+./Music/Puddle Of Mud/Come clean
+./Music/Joe Satriani, Eric Johnson, Steve Vai
+./Music/Joe Satriani, Eric Johnson, Steve Vai/G3_ Live In Concert
+./Music/HaBanot Nechama
+./Music/HaBanot Nechama/HaBanot Nechama
+./Music/Creedence Clearwater Revival
+./Music/Creedence Clearwater Revival/24 Carat [Live] [Disc 1]
+./Music/Creedence Clearwater Revival/24 Carat [Live] [Disc 2]
+./Music/Creedence Clearwater Revival/Creedence Clearwater Revival-24 Carat (D
+./Music/Nusrat Fateh Ali Khan
+./Music/Nusrat Fateh Ali Khan/Mustt Mustt
+./Music/Nusrat Fateh Ali Khan/Devotional Songs
+./Music/Annie Lennox
+./Music/Annie Lennox/Diva
+./Music/Giacomo Puccini
+./Music/Giacomo Puccini/Tosca (Highlights)
+./Music/Giacomo Puccini/Madama Butterfly - Highlights
+./Music/... der mit der Stimme tanzt
+./Music/Portico Quartet
+./Music/Portico Quartet/Knee-Deep in the North Sea (2011 Remaster)
+./Music/Fatboy Slim
+./Music/Fatboy Slim/Better Living Through Chemistry
+./Music/Fatboy Slim/You've Come A Long Way, Baby
+./Music/Fatboy Slim/Remixes
+./Music/Fatboy Slim/Live On Brighton Beach
+./Music/Fatboy Slim/Palookaville
+./Music/Fatboy Slim/Halfway Between The Gutter And The Stars
+./Music/Fatboy Slim/That Old Pair Of Jeans
+./Music/Fatboy Slim/Slash Dot Dash
+./Music/Fatboy Slim/On The Floor At The Boutique (Mixed By Fatboy Slim)
+./Music/Eminem
+./Music/Eminem/The Marshall Mathers LP
+./Music/Eminem/Recovery
+./Music/Eminem/The Eminem Show
+./Music/Eminem/Relapse
+./Music/Eminem/Misc
+./Music/Eminem/The Marshall Mathers LP 2
+./Music/Gorillaz
+./Music/Gorillaz/Gorillaz
+./Music/Gorillaz/Laika Come Home
+./Music/Gorillaz/Demon Days
+./Music/Gorillaz/Live in London
+./Music/Gorillaz/Greatest Hits
+./Music/Gorillaz/G-Sides
+./Music/The Rolling Stones
+./Music/The Rolling Stones/Through the Past Darkly (Big Hits Vol. 2)
+./Music/The Rolling Stones/Jump Back - The Best Of The Rolling Stones
+./Music/The Rolling Stones/Voodoo Lounge
+./Music/The Rolling Stones/Dirty Work
+./Music/The Rolling Stones/A Bigger Bang
+./Music/The Rolling Stones/Undercover
+./Music/The Rolling Stones/Exile On Main Street
+./Music/The Rolling Stones/Let It Bleed
+./Music/The Rolling Stones/Stripped
+./Music/The Rolling Stones/Forty Licks
+./Music/The Rolling Stones/Hot Rocks 1964-1971
+./Music/The Rolling Stones/Big Hits (Full Album)
+./Music/The Rolling Stones/Aftermath
+./Music/The Rolling Stones/Sticky Fingers (Full Album)
+./Music/The Rolling Stones/Bridges To Babylon
+./Music/The Rolling Stones/Steel Wheels
+./Music/The Rolling Stones/Electric Motherfuckers (Full Album)
+./Music/The Rolling Stones/Flashpoint
+./Music/Andy Boller
+./Music/Andy Boller/Face the Light Alone
+./Music/Five
+./Music/Five/Five [UK]
+./Music/Big Boi & Dre Present... Outkast
+./Music/Scatman John
+./Music/Scatman John/Scatman's World
+./Music/Scatman John/Everybody Jam!
+./Music/Enya
+./Music/Enya/Watermark
+./Music/Yngwie J. Malmsteen's Rising Force
+./Music/Yngwie J. Malmsteen's Rising Force/Odyssey
+./Music/The Bloodhound Gang
+./Music/The Bloodhound Gang/Hooray For Boobies
+./Music/Jimmy Page & Robert Plant Unledded
+./Music/Jimmy Page & Robert Plant Unledded/No Quarter_ Jimmy Page & Robert Plant Un
+./Music/Johnny Winter
+./Music/Johnny Winter/Serious Business
+./Music/T Rex & Mark Bolan
+./Music/Roxette
+./Music/Roxette/Look Sharp!
+./Music/Elton John & Bryan Adams
+./Music/Elton John & Bryan Adams/One Night Only
+./Music/Faithless
+./Music/Faithless/Irreverence
+./Music/Nancy Argenta, Anne Sofie Von Otter, Etc
+./Music/Nancy Argenta, Anne Sofie Von Otter, Etc/Bach_ Christmas Oratorio [Disc 1]
+./Music/Nancy Argenta, Anne Sofie Von Otter, Etc/Bach_ Christmas Oratorio [Disc 2]
+./Music/Papa Roach
+./Music/Papa Roach/Lovehatetragedy
+./Music/Papa Roach/Infest
+./Music/Elton John And Mary J Blige
+./Music/Elton John And Mary J Blige/One Night Only
+./Music/Robbie Williams
+./Music/Robbie Williams/Life Thru a Lens
+./Music/Robbie Williams/Rudebox
+./Music/Robbie Williams/Live At Knebworth
+./Music/Robbie Williams/I've Been Expecting You
+./Music/Robbie Williams/Intensive Care
+./Music/Robbie Williams/Live Summer 2003
+./Music/Robbie Williams/Unknown Album
+./Music/Robbie Williams/Escapology
+./Music/Robbie Williams/The Ego Has Landed
+./Music/Robbie Williams/Reality Killed The Video Star
+./Music/Robbie Williams/Greatest Hits
+./Music/Robbie Williams/Swing When You're Winning
+./Music/Robbie Williams/Life Thru A Lens [UK]
+./Music/Robbie Williams/Intensive Care (Parental Advisory) [PA]
+./Music/Robbie Williams/Sing When You're Winning
+./Music/Mozart
+./Music/Mozart/The Best Of Mozart
+./Music/Various Artists
+./Music/Various Artists/Crete Through Nikos Kazantzakis
+./Music/Various Artists/I've Been Expecting You
+./Music/Bob Dylan
+./Music/Bob Dylan/The 30th Anniversary Concert Celebration
+./Music/Bob Dylan/Dylan & The Dead
+./Music/Bob Dylan/Blonde On Blonde
+./Music/Bob Dylan/Slow Train Coming
+./Music/Bob Dylan/Bob Dylan's Greatest Hits
+./Music/Bob Dylan/Greatest Hits
+./Music/Bob Dylan/Oh Mercy
+./Music/Bob Dylan/The Essential Bob Dylan
+./Music/Bob Dylan/The Times They Are A-Changin'
+./Music/Bob Dylan/Time Out Of Mind
+./Music/Cinderella
+./Music/Cinderella/Long Cold Winter
+./Music/Molly Hatchet
+./Music/Molly Hatchet/Greatest Hits
+./Music/John Lee Hooker
+./Music/John Lee Hooker/Boom Boom
+./Music/Tom Waits
+./Music/Tom Waits/Orphans_ Brawlers, Bawlers & Bastards [D
+./Music/Muddy Waters
+./Music/Muddy Waters/Screamin' and Cryin'
+./Music/Muddy Waters/The Best of
+./Music/Muddy Waters/Muddy Waters at Newport 1960
+./Music/Muddy Waters/I'm Ready
+./Music/Muddy Waters/The Ultimate Collection
+./Music/The Who
+./Music/The Who/Winter Time Trip (tracks 1-13)
+./Music/The Who/Tommy
+./Music/The Who/Quadrophenia [Disc 1]
+./Music/The Who/Who's Next (Full Album)
+./Music/The Who/Join Together
+./Music/The Who/Face Dances
+./Music/The Who/The Who By Numbers
+./Music/The Who/Quadrophenia [Disc 2]
+./Music/The Who/Who Are You
+./Music/The Who/My Generation
+./Music/The Who/A Quick One
+./Music/The Who/Odds & Sods
+./Music/The Who/The Who Sell Out
+./Music/Guano Apes
+./Music/Guano Apes/Walking On A Thin Line
+./Music/Vixen
+./Music/Vixen/Tangerine
+./Music/Vixen/Rev It Up
+./Music/Fergie
+./Music/Fergie/The Dutchess
+./Music/Fergie/The Duchess
+./Music/System Volume Information
+./Music/System Volume Information/_restore{017226FB-C5FE-4999-80EB-E41B3BDA380B}
+./Music/System Volume Information/_restore{017226FB-C5FE-4999-80EB-E41B3BDA380B}/RP49
+./Music/Bill Whelan
+./Music/Bill Whelan/Riverdance - Music From The Show
+./Music/The Posies
+./Music/The Posies/Every Kind of Light
+./Music/The Sisters Of Mercy
+./Music/The Sisters Of Mercy/Vision Thing
+./Music/The Sisters Of Mercy/Floodland
+./Music/Linkin Park
+./Music/Linkin Park/Under Attack (B-Sides)
+./Music/Linkin Park/Underground v2.0
+./Music/Linkin Park/Faint
+./Music/Linkin Park/Hybrid Theory
+./Music/Linkin Park/Underground v3.0
+./Music/Linkin Park/Live In Texas
+./Music/Linkin Park/Hybrid Theory EP
+./Music/Linkin Park/Reanimation
+./Music/Linkin Park/Rare And Unreleased
+./Music/Linkin Park/Collision Course
+./Music/Linkin Park/Park Numb
+./Music/Linkin Park/Meteora
+./Music/Beethoven_ Symphony #9, Fidelio Overture
+./Music/Simone Kermes
+./Music/Simone Kermes/Colori d'Amore
+./Music/PJ Harvey
+./Music/PJ Harvey/Let England Shake
+./Music/Hendrix and Cousins
+./Music/Hendrix and Cousins/for right now
+./Music/Bruce Springsteen
+./Music/Bruce Springsteen/Bruce Springsteen & The E Street Band - Greatest Hits
+./Music/Bruce Springsteen/Live 1975-1985
+./Music/Bruce Springsteen/The Rising
+./Music/Bruce Springsteen/Darkness of the Edge of Town
+./Music/Bruce Springsteen/Greeting from Asbury Park, N.J
+./Music/Bruce Springsteen/Nebraska
+./Music/Bruce Springsteen/Greatest Hits
+./Music/Bruce Springsteen/Born In The U.S.A
+./Music/Bruce Springsteen/Human Touch
+./Music/Bruce Springsteen/Bruce Springsteen & The E Street Band - Live In New York City
+./Music/Bruce Springsteen/Hungry Heart
+./Music/Bruce Springsteen/Lucky Town
+./Music/BBM (Baker, Bruce and Moore)
+./Music/BBM (Baker, Bruce and Moore)/Around The Next Dream
+./Music/The Prodigy
+./Music/The Prodigy/The Fat Of The Land
+./Music/Blood Sugar Sex Magik
+./Music/HIM
+./Music/HIM/Love Metal
+./Music/Jethro Tull
+./Music/Jethro Tull/Catfish Rising
+./Music/Jethro Tull/Rock Island
+./Music/Jethro Tull/Through The Years
+./Music/Jethro Tull/The Broadsword And The Beast
+./Music/Jethro Tull/Aqualung
+./Music/Jethro Tull/J-Tull Dot Com
+./Music/Jethro Tull/Stand Up
+./Music/Jethro Tull/Roots to Branches
+./Music/Jethro Tull/Crest Of A Knave
+./Music/Whitesnake
+./Music/Whitesnake/Ready An' Willing
+./Music/Vanessa Carlton
+./Music/Vanessa Carlton/Be Not Nobody
+./Music/Pink
+./Music/Pink/I'm Not Dead
+./Music/Pink/M!ssundaztood
+./Music/Pink/Funhouse
+./Music/Walter Trout Band
+./Music/Walter Trout Band/Livin' Every Day
+./Music/Walter Trout Band/Tellin' Stories
+./Music/Walter Trout Band/Positively Beale St
+./Music/Walter Trout Band/Breaking The Rules
+./Music/Red Hot Chili Peppers
+./Music/Red Hot Chili Peppers/The Abbey Road E.P
+./Music/Red Hot Chili Peppers/One Hot Minute
+./Music/Red Hot Chili Peppers/Out in LA
+./Music/Red Hot Chili Peppers/Live in Hide Park
+./Music/Red Hot Chili Peppers/The Uplift Mofo Party Plan
+./Music/Red Hot Chili Peppers/Californication
+./Music/Red Hot Chili Peppers/Love Rollercoaster
+./Music/Red Hot Chili Peppers/Freaky Styley
+./Music/Red Hot Chili Peppers/Blood Sugar Sex Magik
+./Music/Red Hot Chili Peppers/Red Hot Chili Peppers
+./Music/Red Hot Chili Peppers/Greatest Hits
+./Music/Red Hot Chili Peppers/Live At Slane Castle
+./Music/Red Hot Chili Peppers/Mother's Milk
+./Music/Red Hot Chili Peppers/Stadium Arcadium
+./Music/Red Hot Chili Peppers/What hits!
+./Music/Red Hot Chili Peppers/By The Way
+./Music/Ringtones
+./Music/Downloads
+./Music/Bryan Adams
+./Music/Bryan Adams/Cuts Like A Knife
+./Music/Bryan Adams/Hits On Fire [Disc 1]
+./Music/Bryan Adams/18 'Til I Die
+./Music/Bryan Adams/Reckless
+./Music/The Darkness
+./Music/The Darkness/Hot Cakes
+./Music/The Darkness/The Platinum Collection
+./Music/Paula Abdul
+./Music/Paula Abdul/Forever Your Girl
+./Music/Shania Twain
+./Music/Shania Twain/Up! (Red Disc)
+./Music/Shania Twain/Come On Over
+./Music/Shania Twain/Up! (Blue Disc)
+./Music/Suzanne Vega
+./Music/Suzanne Vega/Suzanne Vega
+./Music/Ricky Martin
+./Music/Ricky Martin/Sound Loaded
+./Music/Janet Jackson
+./Music/Janet Jackson/Janet Jackson's Rhythm Nation 1814
+./Music/The Corrs
+./Music/The Corrs/In Blue
+./Music/The Corrs/Unplugged
+./Music/The Cranberries
+./Music/The Cranberries/Everybody Else Is Doing It, So Why Can't
+./Music/The Cranberries/To The Faithful Departed
+./Music/Tone Loc
+./Music/Tone Loc/Loc-ed After Dark
+./Music/Tone Loc/Funky cold Medina
+./Music/Blondie
+./Music/Blondie/No Exit
+./Music/SimoneKermes
+./Music/SimoneKermes/iColoreDAmore
+./Music/Martin O
+./Music/Martin O/ der mit der Stimme tanzt
+./Music/Robbie Williams & Nicole Kidman
+./Music/Robbie Williams & Nicole Kidman/Unknown Album
+./Music/Paul Gilbert
+./Music/Paul Gilbert/Fuzz Universe
+./Music/Pink Floyd
+./Music/Pink Floyd/Legendary Rock Stars Greatest Hits
+./Music/Pink Floyd/Obscured By Clouds
+./Music/Pink Floyd/Ummagumma
+./Music/Pink Floyd/Royal Philharmonic Orchestra Plays The Music Of Pink Floyd
+./Music/Pink Floyd/More
+./Music/Pink Floyd/A Momentary Lapse Of Reason
+./Music/Pink Floyd/The Dark Side Of The Moon
+./Music/Pink Floyd/I'm Not Dead
+./Music/Pink Floyd/A Saucerful Of Secrets
+./Music/Pink Floyd/Us And Them, Symphonic Pink Floyd
+./Music/Pink Floyd/The Final Cut
+./Music/Pink Floyd/A Collection Of Great Dance Songs
+./Music/Pink Floyd/Meddle
+./Music/Pink Floyd/Delicate Sound Of Thunder
+./Music/Pink Floyd/The Piper At The Gates Of Dawn
+./Music/Pink Floyd/Eclipse
+./Music/Pink Floyd/The Division Bell
+./Music/Pink Floyd/Is There Anybody Out There
+./Music/Pink Floyd/Wish You Were Here
+./Music/Pink Floyd/Pulse
+./Music/Pink Floyd/The Wall
+./Music/Pink Floyd/Animals
+./Music/Pink Floyd/Misc
+./Music/Pink Floyd/Atom Heart Mother
+./Music/Pink Floyd/Relics
+./Music/Emerson, Lake & Palmer
+./Music/Emerson, Lake & Palmer/Live at The Royal Albert Hall
+./Music/Emerson, Lake & Palmer/Black Moon
+./Music/Emerson, Lake & Palmer/Misc
+./Music/Simon & Garfunkel
+./Music/Simon & Garfunkel/The Concert in Central Park
+./Music/Simon & Garfunkel/The Essential
+./Music/Simon & Garfunkel/The Definitive
+./Music/Simon & Garfunkel/Tales Form New York
+./Music/Simon & Garfunkel/Bridge Over Troubled Water
+./Music/Simon & Garfunkel/Live Form New York City 1967
+./Music/Habib Koité and Bamada
+./Music/Habib Koité and Bamada/Muso Ko
+./Music/ZZ Top
+./Music/ZZ Top/Rhythmeen
+./Music/ZZ Top/Fandango
+./Music/ZZ Top/El Loco
+./Music/ZZ Top/One Foot In The Blues
+./Music/ZZ Top/Afterburner
+./Music/ZZ Top/Tres Hombres
+./Music/ZZ Top/Recycler
+./Music/ZZ Top/Rio Grande Mud
+./Music/ZZ Top/Eliminator
+./Music/ZZ Top/Mescalero
+./Music/ZZ Top/ZZ Top's First Album
+./Music/ZZ Top/XXX
+./Music/ZZ Top/Antenna
+./Music/ZZ Top/Tejas
+./Music/Rainbow
+./Music/Rainbow/Long Live Rock 'N' Roll
+./Music/Rainbow/Ritchie Blackmore's Rainbow
+./Music/Rainbow/Down To Earth
+./Music/Rainbow/Rising
+./Music/Rainbow/Difficult to Cure
+./Music/Kate Bush
+./Music/Kate Bush/Hounds Of Love
+./Music/Kate Bush/Never For Ever
+./Music/Kate Bush/The Whole Story
+./Music/Kate Bush/The Kick Inside
+./Music/Kate Bush/The Red Shoes
+./Music/Spin Doctors
+./Music/Spin Doctors/Pocket Full Of Kryptonite
+./Music/Spin Doctors/Turn It Upside Down
+./Music/Spin Doctors/Two Princes (The Best Of Spindoctors)
+./Music/Spin Doctors/Two Princes (The Best Of Spindoctors)/Spin Doctors - Two Princes (The Best Of Spindoctors)
+./Music/Spin Doctors/The Best Of
+./Music/Spin Doctors/Miscd
+./Music/Four Weddings And A Funeral
+./Music/Podcasts
+./Music/Podcasts/Mind Readers Dictionary
+./Music/Podcasts/MindReadersDictionary.com
+./Music/Marla Glen
+./Music/Marla Glen/This Is Marla Glen
+./Music/Alanis Morissette
+./Music/Alanis Morissette/Flavors Of Entanglement
+./Music/Alanis Morissette/Under Rug Swept
+./Music/Alanis Morissette/Supposed Former Infatuation Junkie
+./Music/Alanis Morissette/Jagged Little Pill
+./Music/Alanis Morissette/havoc and bright lights
+./Music/Aaron Goldberg
+./Music/Aaron Goldberg/Worlds
+./Music/The Pogues
+./Music/The Pogues/Rum, Sodomy And The Lash
+./Music/Seal
+./Music/Seal/Seal [1991]
+./Music/Slash
+./Music/Slash/Slash
+./Music/Clannad
+./Music/Clannad/Banba
+./Music/Seeed
+./Music/Seeed/Next!
+./Music/Seeed/Music Monks
+./Music/Katie Melua
+./Music/Katie Melua/Piece By Piece
+./Music/Tracy Chapman
+./Music/Tracy Chapman/Tried And True
+./Music/Edith Piaf
+./Music/Edith Piaf/De L'Accordéoniste à Milord
+./Music/Edith Piaf/Edith Piaf Vol. 7
+./Music/Edith Piaf/The Very Best of Edith Piaf
+./Music/Edith Piaf/30ème Anniversaire
+./Music/David Lee Roth
+./Music/David Lee Roth/Skyscraper
+./Music/David Lee Roth/Eat 'em and Smile
+./Music/David Lee Roth/Your Filthy Little Mouth
+./Music/David Lee Roth/A Little Ain't Enough
+./Music/Neville Marriner_ Academy Of St. Martin
+./Music/Neville Marriner_ Academy Of St. Martin/Mozart_ Symphonies #30 & 41
+./Music/Neville Marriner_ Academy Of St. Martin/Mozart Symphonies Nos.35_Haffner_ & 36 _
+./Music/Neville Marriner_ Academy Of St. Martin/Mozart_ Symphonies #38 & 39
+./Music/Del Tha Funky Homosapien
+./Music/Del Tha Funky Homosapien/I Wish My Brother George Was Here
+./Music/Zorbas
+./Music/Zorbas/The Greek
+./Music/Tori Amos
+./Music/Tori Amos/Under the Pink
+./Music/Tori Amos/Strange Little Girls
+./Music/Tori Amos/Boys For Pele
+./Music/Tori Amos/Little Earthquakes
+./Music/Tori Amos/From The Choirgirl Hotel
+./Music/Tori Amos/Abnormally Attracted to Sin
+./Music/Tori Amos/The Beekeeper
+./Music/Marc Bolan & T. Rex
+./Music/Marc Bolan & T. Rex/The 16 Greatest Hits
+./Music/Meat Loaf
+./Music/Meat Loaf/Bat Out Of Hell
+./Music/Meat Loaf/Bat Out Of Hell II - Back Into Hell
+./Music/Meat Loaf/Bat Out Of Hell III_ The Monster Is Loos
+./Music/Moody Blues
+./Music/Moody Blues/The Best Of The Moody Blues
+./Music/Moody Blues/In Search Of The Lost Chord
+./Music/Moody Blues/To Our Children's Children's Children
+./Music/Moody Blues/This Is The Moody Blues
+./Music/Moody Blues/Strange Times
+./Music/Moody Blues/Keys Of The Kingdom
+./Music/Hitpalast
+./Music/Hitpalast/CD2
+./Music/Hitpalast/CD1
+./Music/Van Halen
+./Music/Van Halen/Women And Children First
+./Music/Van Halen/Van Halen III
+./Music/Van Halen/A Different Kind of Truth
+./Music/Van Halen/Van Halen
+./Music/Deep Purple
+./Music/Deep Purple/Purpendicular
+./Music/Deep Purple/Fireball
+./Music/Deep Purple/Burn
+./Music/Deep Purple/Slaves And Masters
+./Music/Deep Purple/Made In Japan [Disc 1] [Live]
+./Music/Deep Purple/Deep Purple in Rock [Bonus Tracks]
+./Music/Deep Purple/Abandon
+./Music/DefLeppard
+./Music/DefLeppard/Hysteria
+./Music/DefLeppard/1992 - Adrenalize
+./Music/Huey Lewis & The News
+./Music/Huey Lewis & The News/Fore!
+./Music/Huey Lewis & The News/The Heart Of Rock & Roll (The Best Of Huey Lewis & The News)
+./Music/Huey Lewis & The News/Sports
+./Music/Huey Lewis & The News/Hard At Play
+./Music/Huey Lewis & The News/Four Chords & Several Years Ago
+./Music/Huey Lewis & The News/Picture This
+./Music/Huey Lewis & The News/0
+./Music/Huey Lewis & The News/Small World
+./Music/Metallica
+./Music/Metallica/Garage Inc. [Disc 2]
+./Music/Metallica/S&M
+./Music/Metallica/Load
+./Music/Metallica/Kill 'Em All
+./Music/Metallica/Black Album
+./Music/Metallica/Death Magnetic
+./Music/Metallica/Ride The Lightning
+./Music/Metallica/Master of Puppets
+./Music/Metallica/Reload
+./Music/Metallica/Reload/m4a
+./Music/Metallica/Garage Inc. [Disc 1]
+./Music/Metallica/St. Anger
+./Music/Metallica/_..And Justice For All
+./Music/Joe Satriani
+./Music/Joe Satriani/Is There Love in Space_
+./Music/Joe Satriani/The Extremist
+./Music/Joe Satriani/G3_ Live In Concert
+./Music/Joe Satriani/IsThereLoveInSPace
+./Music/Hanggai
+./Music/Hanggai/He Who Travels Far
+./Music/Herbert Von Karajan_ Berlin Philharmonic
+./Music/Herbert Von Karajan_ Berlin Philharmonic/Albinoni_ Adagio_ Pachelbel_ Canon, Etc_
+./Music/Gipsy Kings
+./Music/Gipsy Kings/Luna De Fuego
+./Music/Kula Shaker
+./Music/Kula Shaker/K
+./Music/Kula Shaker/Peasants, Pigs & Astronauts
+./Music/Carlos Santana
+./Music/Carlos Santana/Supernatural
+./Music/Deborah Harry
+./Music/Deborah Harry/Debravation
+./Music/Compilations
+./Music/Compilations/Cradle 2 The Grave
+./Music/Compilations/Deep Heat 6 The Sixth Sense
+./Music/Compilations/Murphy's Commemorative CD
+./Music/Compilations/Shrek
+./Music/Compilations/Mission Impossible 2
+./Music/Compilations/Ray
+./Music/Compilations/Four Weddings And A Funeral
+./Music/Compilations/The Matrix
+./Music/Compilations/Pulp Fiction
+./Music/Compilations/Shrek 2
+./Music/Compilations/Wer Früher Stirbt Ist Länger Tot
+./Music/Züri West
+./Music/Züri West/Haubi Songs
+./Music/The Georgia Satellites
+./Music/The Georgia Satellites/Let It Rock_ The Best Of The Georgia Sat
+./Music/Wolfgang Amadeus Mozart
+./Music/Wolfgang Amadeus Mozart/Requiem In D Minor Kv 626
+./Music/Dire Straits
+./Music/Dire Straits/Money For Nothing
+./Music/Dire Straits/Making Movies
+./Music/Dire Straits/Communique
+./Music/Dire Straits/Sultans Of Swing
+./Music/Dire Straits/Brothers In Arms
+./Music/Dire Straits/Alchemy
+./Music/Dire Straits/Ticket To Heaven
+./Music/Dire Straits/On Every Street
+./Music/Dire Straits/Dire Straits
+./Music/Dire Straits/Love Over Gold
+./Music/Paco de Lucía, Al Di Meola & John McLaughlin
+./Music/Paco de Lucía, Al Di Meola & John McLaughlin/Friday Night in San Francisco
+./Music/Jean Michel Jarre
+./Music/Jean Michel Jarre/Revolutions
+./Music/Jean Michel Jarre/Oxygene 7-13
+./Music/Jean Michel Jarre/Rendez-vous
+./Music/Jean Michel Jarre/Geometry Of Love
+./Music/Jean Michel Jarre/The Symphonic Jean Michel Jarre
+./Music/Jean Michel Jarre/Oxygene 1-6
+./Music/Jean Michel Jarre/Equinoxe
+./Music/Jean Michel Jarre/The Symphonic
+./Music/Jean Michel Jarre/Oxygene (30th Anniversary Re-Master)
+./Music/Bon Jovi
+./Music/Bon Jovi/Keep The Faith
+./Music/Bon Jovi/Crush
+./Music/Bon Jovi/Bounce
+./Music/Bon Jovi/These Days
+./Music/Bon Jovi/Slippery When Wet
+./Music/Little Angels
+./Music/Little Angels/Jam
+./Music/Mariah Carey
+./Music/Mariah Carey/Music Box
+./Music/Steve Earle
+./Music/Steve Earle/Copperhead Road
+./Music/Ladysmith Black Mambazo
+./Music/Ladysmith Black Mambazo/The Best of Ladysmith Black Mambazo [Polygram International]
+./Music/Ladysmith Black Mambazo/The Best of Ladysmith Black Mambazo [Polygram International]/Ladysmith Black Mambazo - The Best of Ladysmith Black Mambazo [Polygram International]
+./Music/Ladysmith Black Mambazo/In Harmony
+./Music/James Blunt
+./Music/James Blunt/Back to bedlam
+./Music/James Blunt/All The Lost Souls
+./Music/Art of Noise
+./Music/Art of Noise/The Best Of The Art Of Noise
+./Music/Grieg_ Peer Gynt Suites #1 & 2, Etc_
+./Music/Blackmores Night
+./Music/Blackmores Night/A Knight In York
+./Music/Blackmores Night/The Village Lanterne (Disc 2)
+./Music/Blackmores Night/Autumn Sky
+./Music/Blackmores Night/The Village Lanterne
+./Music/Electric Light Orchestra
+./Music/Electric Light Orchestra/Out Of the Blue
+./Music/Electric Light Orchestra/Discovery
+./Music/Frank Zappa
+./Music/Frank Zappa/Stricly Genteel
+./Music/Frank Zappa/Sheik Yerbouti
+./Music/Frank Zappa/Strictly Commercial
+./Music/Guns N' Roses
+./Music/Guns N' Roses/Use Your Illusion I
+./Music/Guns N' Roses/Chinese Democracy
+./Music/Guns N' Roses/Appetite For Destruction
+./Music/Guns N' Roses/Use Your Illusion II
+./Music/Murray Perahia_ Chamber Orchestra Of Eur
+./Music/Murray Perahia_ Chamber Orchestra Of Eur/Mozart_ Piano Concertos #21 & 27
+./Music/Nelly Furtado
+./Music/Nelly Furtado/Folklore
+./Music/Nelly Furtado/Whoa Nelly!
+./Music/Nelly Furtado/Loose
+./Music/Cher
+./Music/Cher/Love Hurts
+./Music/Cher/Believe
+./Music/Cher/It's A Man's World
+./Music/The Bangles
+./Music/The Bangles/Everything
+./Music/The Bangles/All Over The Place_ Different Light_ Eve
+./Music/The Bangles/Different Light
+./Music/The Bangles/Doll Revolution
+./Music/Sheryl Crow
+./Music/Sheryl Crow/Tuesday Night Music Club
+./Music/Sheryl Crow/The Globe Sessions
+./Music/Sheryl Crow/Sheryl Crow
+./Music/Ready An' Willing
+./Music/Fleetwood Mac
+./Music/Fleetwood Mac/Behind The Mask
+./Music/Fleetwood Mac/Greatest Hits I
+./Music/Fleetwood Mac/Say You Will
+./Music/Fleetwood Mac/Time
+./Music/Fleetwood Mac/Greatest Hits II
+./Music/Fleetwood Mac/Tango In The Night
+./Music/Fleetwood Mac/Rumours
+./Music/Fleetwood Mac/The Hits of Fleetwood Mac
+./Music/Fleetwood Mac/The Dance
+./Music/Voice Memos
+./Music/Manfred Mann
+./Music/Manfred Mann/The Very Best of
+./Music/Manfred Mann/Criminal Tango
+./Music/Manfred Mann/Classic Masters
+./Music/Manfred Mann/Watch
+./Music/Manfred Mann/Mann Alive
+./Music/Manfred Mann/Budapest Live
+./Music/Manfred Mann/Solar Fire
+./Music/Manfred Mann/Earth Band - Blindin'
+./Music/Manfred Mann/Plains Music
+./Music/Manfred Mann/The Best Of
+./Music/Manfred Mann/20 Years - 1971-1991
+./Music/Manfred Mann/The Complete Greatest Hits of Manfred Mann
+./Music/Rush
+./Music/Rush/A Farewell to Kings
+./Music/Rush/Snakes & Arrows
+./Music/Rush/Permanent Waves
+./Music/Rush/Vapor Trails
+./Music/The Dandy Warhols
+./Music/The Dandy Warhols/Welcome to the Monkey House
+./Music/The Dandy Warhols/Come Down
+./Music/The Dandy Warhols/Thirteen Tales From Urban Bohemia
+./Music/The Dandy Warhols/Dandy's Rule OK
+./Music/Eurythmics
+./Music/Eurythmics/Ultimate Collection
+./Music/Led Zeppelin
+./Music/Led Zeppelin/Houses Of The Holy
+./Music/Led Zeppelin/The Song Remains The Same
+./Music/Led Zeppelin/Led Zeppelin III
+./Music/Led Zeppelin/Remasters
+./Music/Led Zeppelin/Physical Graffiti
+./Music/Led Zeppelin/How The West Was Won
+./Music/Led Zeppelin/Led Zeppelin II
+./Music/Led Zeppelin/Led Zeppelin IV
+./Music/Led Zeppelin/Led Zeppelin
+./Music/Thunder
+./Music/Thunder/Laughing On Judgement Day
+./Music/Thunder/The Thrill Of It All [Disc 1]
+./Music/Thunder/Behind Closed Doors
+./Music/Defrage
+./Music/Defrage/Jackal
+./Music/Third World
+./Music/Third World/Serious Business
+./Music/Bill Hicks
+./Music/Bill Hicks/Relentless
+./Music/Carl Orff
+./Music/Carl Orff/Carmina Burana
+./Music/Helen Donath, Robert Holl_ Leopold Hager
+./Music/Helen Donath, Robert Holl_ Leopold Hager/Mozart_ Complete Works, Vol. 9 - Operas
+./Music/Schubert
+./Music/Queen
+./Music/Queen/Queen II
+./Music/Queen/Made In  Heaven
+./Music/Queen/Greatest Hits I
+./Music/Queen/The Game
+./Music/Queen/Greatest Hits III
+./Music/Queen/Sheer Heart Attack
+./Music/Queen/Innuendo
+./Music/Queen/News Of The World
+./Music/Queen/Flash Gordon
+./Music/Queen/Jazz
+./Music/Queen/Greatest Hits II
+./Music/Queen/The Cosmos Rocks
+./Music/Queen/The Miracle
+./Music/Queen/Live Magic
+./Music/Queen/A Day at the Races
+./Music/Queen/Live At Wembley '86
+./Music/Queen/Classic Queen
+./Music/Queen/A Night At the Opera
+./Music/Queen/A Kind Of Magic
+./Music/Fergie - The Dutchess
+./work_
+./work_/brian
+./Sursee
+./Grunzen
+./Grunzen/done
+./Grunzen/Parts_unparted
+./work
+./work/orig
+./work/tifs
+./work/work
+./work/114ND300
+./work/local
+./work/jpegs
+./work/113ND300
+./work/tmp
+./work/xcf
+./work/115ND300
+./work/Parts
+./work/116ND300
+./work/parts
+./work/untitled folder
+./KINGSTON
+./KINGSTON/DCIM
+./KINGSTON/DCIM/114ND300
+./KINGSTON/DCIM/113ND300
+./KINGSTON/DCIM/117ND300
+./KINGSTON/114ND300
+./KINGSTON/118ND300
+./KINGSTON/113ND300
+./KINGSTON/117ND300
+./KINGSTON/115ND300
+./KINGSTON/128ND300
+./KINGSTON/116ND300
+./Book
+./Book/backuplinks
+./Book/extracted
+./Book/Toscana
+./Book/Toscana/tmp
+./Book/test
+./Book/Sargans
+./Book/Cats
+./Summer
+./Elements
+./Elements/work_
+./Elements/work
+./Elements/work/114ND300
+./Elements/work/113ND300
+./Elements/work/115ND300
+./Elements/work/Parts
+./Elements/work/116ND300
+./Elements/work/untitled folder
+./Walenstadt
+./Walenstadt/done
+./Walenstadt/DCIM
+./Walenstadt/DCIM/112ND300
+./Walenstadt/DCIM/111ND300
+./Walenstadt/tifs
+./Walenstadt/work
+./Walenstadt/fails
+./Walenstadt/local
+./Walenstadt/jpegs
+./Walenstadt/jpegs/tifs
+./Walenstadt/video
+./Walenstadt/cd
+./Walenstadt/parts
+./112ND300
+./local
+./BlurbFeedback_files
+./BlurbFeedback_files/like_data
+./backup
+./backup/Parts
+./StructureSynth
+./Chur
+./Chur/tifs
+./Chur/work
+./Chur/jpegs
+./Chur/parts
+./Sundown
+./Fotolia
+./Summer2015
+./Summer2015/done
+./Summer2015/orig
+./Summer2015/tifs
+./Summer2015/work
+./Summer2015/fails
+./Summer2015/local
+./Summer2015/jpegs
+./Summer2015/tmp
+./Summer2015/xcf
+./Summer2015/parts
+./131ND300
+./118ND300
+./Gonzen
+./Gonzen/Parts
+./106ND300
+./113ND300
+./S�ntis
+./Solothurn
+./Solothurn/work
+./Solothurn/local
+./Solothurn/jpegs
+./Solothurn/parts
+./RaysGaff
+./shells
+./shells/.metadata
+./shells/.metadata/.plugins
+./shells/.metadata/.plugins/org.eclipse.ui.workbench
+./shells/.metadata/.plugins/org.eclipse.debug.ui
+./shells/.metadata/.plugins/org.eclipse.ui.intro
+./shells/.metadata/.plugins/org.eclipse.debug.core
+./shells/.metadata/.plugins/org.eclipse.debug.core/.launches
+./shells/.metadata/.plugins/org.eclipse.cdt.make.core
+./shells/.metadata/.plugins/org.eclipse.core.resources
+./shells/.metadata/.plugins/org.eclipse.core.resources/.safetable
+./shells/.metadata/.plugins/org.eclipse.core.resources/.history
+./shells/.metadata/.plugins/org.eclipse.core.resources/.root
+./shells/.metadata/.plugins/org.eclipse.core.resources/.root/.indexes
+./shells/.metadata/.plugins/org.eclipse.cdt.ui
+./shells/.metadata/.plugins/org.eclipse.jdt.ui
+./shells/.metadata/.plugins/org.eclipse.jdt.core
+./shells/.metadata/.plugins/org.eclipse.cdt.core
+./shells/.metadata/.plugins/org.eclipse.core.runtime
+./shells/.metadata/.plugins/org.eclipse.core.runtime/.settings
+./shells/.metadata/.plugins/org.eclipse.jdt.junit.core
+./shells/.metadata/.plugins/org.eclipse.jdt.junit.core/history
+./shells/.metadata/.plugins/org.eclipse.cdt.dsf.ui
+./shells/.metadata/.plugins/org.eclipse.ui.workbench.texteditor
+./Luzern
+./Luzern/work
+./Luzern/local
+./Luzern/jpegs
+./Luzern/parts
+./Rheintal
+./Grabs
+./Untitled Folder 3
+./tmp
+./Toscana
+./Toscana/orig
+./Toscana/candidates
+./Toscana/tifs
+./Toscana/work
+./Toscana/fails
+./Toscana/bak
+./Toscana/local
+./Toscana/backup
+./Toscana/clouds
+./Toscana/jpegs
+./Toscana/stars
+./Toscana/stars/bak
+./Toscana/bak2
+./Toscana/tmp
+./Toscana/xcf
+./Toscana/parts
+./Verona
+./Verona/done
+./Verona/DCIM
+./Verona/work
+./Verona/fails
+./Verona/local
+./Verona/jpegs
+./Verona/parts
+./Untitled Folder 2
+./JanP
+./JanP/CD
+./.Trash-1000
+./.Trash-1000/expunged
+./.Trash-1000/files
+./.Trash-1000/info
+./xcf
+./xcf/Parts
+./BadRagaz
+./BadRagaz/tifs
+./BadRagaz/work
+./BadRagaz/jpegs
+./BadRagaz/parts
+./music
+./music/SimoneKermes
+./music/SimoneKermes/iColoreDAmore
+./Untitled Folder
+./Saentis
+./Saentis/done
+./Saentis/work
+./Saentis/fails
+./Saentis/local
+./Saentis/jpegs
+./Saentis/parts
+./loacalbak
+./Test
+./�berlingen
+./Liguria2015
+./Liguria2015/done
+./Liguria2015/orig
+./Liguria2015/Stackees
+./Liguria2015/tifs
+./Liguria2015/work
+./Liguria2015/bak
+./Liguria2015/local
+./Liguria2015/backup
+./Liguria2015/jpegs
+./Liguria2015/jpegs/fails
+./Liguria2015/snails
+./Liguria2015/tmp
+./Liguria2015/work_bak
+./Liguria2015/xcf
+./Liguria2015/parts
+./Einsiedeln
+./England
+./England/done
+./England/parts
+./Simon and Rachel
+./FlowerShoot
+./Current
+./Z�rich
+./Z�rich/PartsPending
+./Stuttgart
+./Bretagne, Ferien 2010
+./media
+./media/LinuxMageia
+./media/USBFAT2
+./media/USBFAT2/Photos
+./media/USBFAT2/Photos/07052005
+./media/USBFAT2/Photos/05052005
+./media/USBFAT2/Photos/102_PANA
+./media/USBFAT2/Photos/06052005
+./media/UbuntuNew
+./media/LACIE SETUP
+./lost+found
+./Steuererklärung
+./115ND300
+./cd
+./Parts
+./Parts/Parts
+./Parts/Parts/Parts
+./Milano
+./110ND300
+./Winter2014
+./Winter2014/DCIM
+./Winter2014/DCIM/162ND300
+./Winter2014/orig
+./Winter2014/tifs
+./Winter2014/work
+./Winter2014/local
+./Winter2014/tmp
+./Winter2014/xcf
+./Winter2014/parts
+./Ueberlingen
+./Ueberlingen/jpegs
+./116ND300
+./Sargans
+./Sargans/work
+./Sargans/local
+./Sargans/jpegs
+./Sargans/parts
+./Cats
+./Cats/Align
+./Merano
+./Merano/done
+./Merano/fail
+./Como

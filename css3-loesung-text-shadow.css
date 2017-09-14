@@ -1,0 +1,48 @@
+h1 {
+    font-size: 24pt;
+    font-family: sans-serif;
+    color: yellow;
+    text-shadow: 0 0 5px black;
+}
+h2 {
+    font-size: 24pt;
+    font-family: sans-serif;
+    color: yellow;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    vertical-align:top;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+h3 {
+    font-size: 14pt;
+    font-family: sans-serif;
+    color: yellow;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    vertical-align:top;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+a.directory {
+    font-size: 16pt;
+    font-family: sans-serif;
+    color: red;
+    text-shadow: 0 0 5px black;
+    text-decoration:none;
+    margin-left:10%;
+}
+div.info{
+    font-size: 16pt;
+    font-family: sans-serif;
+    color: white;
+    text-shadow: 0 0 5px black;
+    text-decoration:none;
+    white-space: nowrap;
+}
+div,span{
+    font-size: 10pt;
+    font-family: sans-serif;
+}
