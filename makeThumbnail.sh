@@ -4,11 +4,20 @@ while [[ $# -gt 0 ]]; do
 
     key="$1"
     corrpath=`realpath "$2"`
+    basepath=`realpath "$2/.."`
 
     case $key in
         -e|--exif)
-            echo "$corrpath" | sed "s:\(.*/\)*\([^/]*\):exiftool \"\1\2\" > \"\1.\2.txt\":" >> /tmp/log.txt
-            echo "$corrpath" | sed "s:\(.*/\)*\([^/]*\):exiftool \"\1\2\" > \"\1.\2.txt\":" | sh
+
+            picfile=`echo "$corrpath" | sed -e "s:\.txt$::" -e "s:\(.*/\)*\.*\([^/]*\):\1\2:"`
+
+            if [ -n "$picfile" ]; then 
+
+                echo "$picfile" | sed "s:\(.*/\)*\([^/]*\):exiftool \"\1\2\" > \"\1.\2.txt\":" >> /tmp/log.txt
+                echo "$picfile" | sed "s:\(.*/\)*\([^/]*\):exiftool \"\1\2\" > \"\1.\2.txt\":" | sh
+
+            fi
+
             shift # past argument
         ;;
 
@@ -37,8 +46,9 @@ while [[ $# -gt 0 ]]; do
         ;;
 
         -l|--list)
-            echo "`date` $corrpath/.listing.txt" >> /tmp/log.txt
+            echo "`date` $basepath $corrpath/.listing.txt" >> /tmp/log.txt
             ls -t "$corrpath"/*.{jpg,JPG} "$corrpath"/{jpegs,done,DCIM,work,parts}/*.{jpg,JPG} > "$corrpath/.listing.txt"
+            perl -pi.bak -e "s@^$basepath@\.@" "$corrpath/.listing.txt"
             chmod a+rw "$corrpath/.listing.txt"
             shift # past argument
         ;;
@@ -47,16 +57,22 @@ while [[ $# -gt 0 ]]; do
 
             if [[ "$corrpath" -ot "$corrpath"/.listing.txt ]]; then
 
-                echo "`date` $corrpath/.listing.txt" >> /tmp/log.txt
+                echo "`date` $basepath $corrpath/.listing.txt" >> /tmp/log.txt
+
                 cat $corrpath/.listing.txt | sort > $corrpath/.listing.sort1.txt
-                ls -t "$corrpath"/*.{jpg,JPG} "$corrpath"/{jpegs,done,DCIM,work,parts}/*.{jpg,JPG} > "$corrpath/.listing.sort2.txt"
+                ls -t "$corrpath"/*.{jpg,JPG} "$corrpath"/{jpegs,done,DCIM,work,parts}/*.{jpg,JPG} | sort > "$corrpath/.listing.sort2.txt"
+
+                perl -pi.bak -e "s@^$basepath@\.@" "$corrpath/.listing.sort1.txt"
+                perl -pi.bak -e "s@^$basepath@\.@" "$corrpath/.listing.sort2.txt"
+
                 grep -Fxv -f $corrpath/.listing.sort1.txt $corrpath/.listing.sort2.txt > $corrpath/.listing.diff1.txt
                 grep -Fxv -f $corrpath/.listing.sort2.txt $corrpath/.listing.sort1.txt > $corrpath/.listing.diff2.txt
+
                 cat $corrpath/.listing.diff1.txt $corrpath/.listing.txt > $corrpath/.listing2.txt
                 mv $corrpath/.listing2.txt $corrpath/.listing.txt
                 grep -v -f $corrpath/.listing.diff2.txt $corrpath/.listing.txt > .listing2.txt
                 mv $corrpath/.listing2.txt $corrpath/.listing.txt
-                rm $corrpath/.listing.sort* $corrpath/.listing.diff*
+                #rm $corrpath/.listing.sort* $corrpath/.listing.diff*
                 chmod a+rw "$corrpath/.listing.*"
 
             fi

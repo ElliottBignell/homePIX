@@ -1,11 +1,19 @@
 var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
 var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
 
-window.addEventListener('resize', handleResize,  false);        
+$( window ).on( "resize", function() {                                         
+
+    var elems = $('[id^=picture_]' ).length;
+    $( "#picture_" + elems ).trigger( "load" );
+});
+
 window.addEventListener('load',   prepareResize, false);        
 
 var widths  = [];
 var heights = [];
+var rows    = [];
+var rowIds  = [];
+var defaultHeight = 200;
 
 $("img").one("load", function() {
 
@@ -18,13 +26,6 @@ $("img").one("load", function() {
   if(this.complete) $(this).load();
 });
  
-function handleResize(evt) 
-{                                         
-    var elems = $('[id^=picture_]' ).length;
-
-    resizeGroups( $( "#picture_" + elems ) );
-}
-
 function prepareResize(evt) 
 {                                         
     prepareGroups();
@@ -44,8 +45,15 @@ function prepareGroups( prefix )
 
 function resizeGroups( obj ) 
 {                                         
-    var prefix = obj.id.replace( /_[0-9]*/, "" );
-    var elems  = obj.id.replace( /.*_/, "" );
+    var id = obj.id;
+
+    var prefix = id.replace( /_[0-9]*/, "" );
+    var elems  = id.replace( /.*_/, "" );
+    var divID = "#div_" + (elems - 1 + 1);
+    var titleID = "#title" + (elems - 1 + 1);
+    var text = $( titleID ).text();
+
+    $( divID ).find("h1").text( text );
 
     //var elems = $('[id^=' + prefix + ']' ).length;
 
@@ -55,7 +63,6 @@ function resizeGroups( obj )
     var begin = 1;
     var end = 0;
     var pic       = $( "#" + prefix + "_" + begin );
-    var groupWidth = 0;
     var screenWidth = document.documentElement.clientWidth;
     var padding = 6;
 
@@ -63,34 +70,60 @@ function resizeGroups( obj )
 
         try {
 
+            var groupno = 1;
+            var groupWidth = padding;
+
             while ( ++end <= elems && groupWidth <= screenWidth ) {
 
+                var oldbegin = begin;
                 var key = prefix + '_' + end;
+                var newGroupWidth = groupWidth;
 
-                if ( 200 != heights[ key ] ) {
+                do {
 
-                    widths[  key ] = $( "#" + key ).width();
-                    heights[ key ] = $( "#" + key ).height();
-                }
+                    key = prefix + '_' + begin;
+
+                    if ( heights[ key ] != 0 ) {
+
+                        var aspect = widths[ key ] / heights[ key ];
+                        var elemWidth = defaultHeight * aspect;
+                        newGroupWidth = groupWidth + elemWidth + padding;
+
+                        if ( newGroupWidth <= screenWidth ) {
+                            groupWidth = newGroupWidth;
+                        }
+                    }
+
+                } while ( ++begin <= elems && newGroupWidth <= screenWidth );
+
+                var groupEnd = begin - 1;
+                begin = oldbegin;
 
                 var elemWidth  = widths[  key ];
                 var elemHeight = heights[ key ];
                 var newWidth = groupWidth + elemWidth;
 
-                if ( newWidth > screenWidth ) {
+                //if ( newWidth > screenWidth ) {
 
                     var proportion = ( groupWidth + padding ) / screenWidth;
-                    var newheight = Math.round( 200.0 / ( proportion != 0 ? proportion : 1 ) );
+                    var newheight = Math.round( defaultHeight / ( proportion != 0 ? proportion : 1 ) );
+
+                    if ( newheight > ( defaultHeight * 2 ) ) {
+                        newheight = defaultHeight * 2;
+                    }
+
+                    rows[ groupno ] = { 
+                        'count': 0,
+                        'begin': 0,
+                        'end': 0
+                    };
+
+                    rows[ groupno ].begin = begin;
+                    rows[ groupno ].end   = groupEnd;
 
                     do {
 
                         key = prefix + '_' + begin;
-
-                        if ( 200 != heights[ key ] ) {
-
-                            widths[  key ] = $( "#" + key ).width();
-                            heights[ key ] = $( "#" + key ).height();
-                        }
 
                         if ( heights[ key ] != 0 ) {
 
@@ -98,25 +131,32 @@ function resizeGroups( obj )
 
                             try {
 
-                                var id =  "#" + prefix + "_" + begin ;
+                                var thisid =  "#" + prefix + "_" + begin ;
 
-                                $( id ).removeAttr( "height" );
-                                $( id ).removeAttr( "width" );
-                                $( id ).attr( "height",  newheight          );
-                                $( id ).attr( "width",   newheight * aspect );
+                                $( thisid ).removeAttr( "height" );
+                                $( thisid ).removeAttr( "width" );
+
+                                $( thisid ).attr( "height",  newheight          );
+                                $( thisid ).attr( "width",   newheight * aspect );
+                                $( thisid ).attr( "groupno", groupno            );
+
+                                rows[ groupno ].count++;
+                                rowIds[ begin ] = groupno;
                             }
                             catch (err) {
                                 console.log( err );
                             }
                         }
-                    } while ( ++begin < end );
+                        else
+                            console.log( "Skipping " + key + "\n" );
 
-                    groupWidth = elemWidth + padding;
-                    elemWidth = 0;
-                }
-                else {
-                    groupWidth += elemWidth + padding;
-                }
+                    } while ( ++begin < groupEnd );
+
+                    groupno++;
+                //}
+
+                begin = groupEnd; 
+                groupWidth = padding;
             }
         }
         catch (err) {

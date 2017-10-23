@@ -34,11 +34,42 @@
     $defaultExt= 'jpg';
     $allExt    = '[jJ][pP][gG]';
     $picdir    = $_GET["dir"];
-    $picfile   = $_GET["file"];
+    $filename   = $_GET["file"];
     $pathpat   = '/^[A-Za-z0-9_]*$/';
+        
+    $prettydir = preg_replace( '{^/(.*)$}', '$1', $picdir );
+    $lofile    = preg_replace( "{^(.*)/([^/]*\.jpg)$}", '$1/.low_$2', $filename );
+    $absDir = preg_replace( '/[\/]pics/', '..', $picdir, 1 );
+
     $filepat   = '/(?<!tnl_)(?<!low_)[A-Za-z0-9_]*\.' . $allExt . '/';
     $fragpat   = '/([0-9]*)(\t )*\.\/(.*\.' . $allExt . ')/';
     $findpat   = '/([0-9]*)\t\.\/(.*\.txt)/';
+
+    function echoButton( $text, $findValue )
+    {
+        return "<td style='background-color:black;column-span:all;padding:0px;width:3vw;'>
+                  <div class='tooltip'>
+                      <a href=index.php><h2>$text</h2></a>
+                      <span class='tooltiptext'>
+                          $findValue
+                      </span>
+                  </div>
+               </td>";
+    }
+
+    function echoBox( $findValue )
+    {
+      return "<td style='background-color:black;column-span:all;padding:0px;width:3vw;'>
+              <div class='tooltip'>
+                  <a href=index.php>
+                      <div id='search_box'><div id='search'></div><span id='cabe'></span></div>
+                  </a>>
+                  <span class='tooltiptext'>
+                      $findValue
+                  </span>
+              </div>
+          </td>";
+    }
 
     function echoHeader( $findValue )
     {
@@ -69,7 +100,7 @@
               <td style="background-color:black;column-span:all;padding:0px;width:55vw;">
               </td>
               <td style="background-color:black;column-span:all;padding:0px;width:34vw;">
-                  <form name="search" onSubmit="return false;">
+                  <form id="multisearch">
                       <fieldset>
                           <input id="find" style="align:right;width:32vw;" type="text" value="$findValue">
                           <input type="submit" style="display:none"/>
@@ -77,24 +108,13 @@
                   </form>
                   <!--<form action="$_SERVER[PHP_SELF]" method="POST">-->
               </td>
-              <td style="background-color:black;column-span:all;padding:0px;width:3vw;">
-                  <div class="tooltip">
-                      <a href=index.php>
-                          <div id="search_box"><div id="search"></div><span id="cabe"></span></div>
-                      </a>>
-                      <span class="tooltiptext">
-                          Tool Tip
-                      </span>
-                  </div>
-              </td>
-              <td style="background-color:black;column-span:all;padding:0px;width:3vw;">
-                  <div class="tooltip">
-                      <a href=index.php><h2>&#x2295;</h2></a>
-                      <span class="tooltiptext">
-                          Tool Tip
-                      </span>
-                  </div>
-              </td>
+HEADERTABLE;
+        echo echoBox( "Tool Tip" );
+        echo echoButton( "&#x2295;", "Tool Tip" );
+        echo echoButton( "&#x2611;", "Tool Tip" );
+        echo echoButton( "&#x2622;", "Tool Tip" );
+        echo echoButton( "&#x262E;", "Tool Tip" );
+        echo <<<HEADERTABLE3
               <td style="background-color:black;column-span:all;padding:0px;width:1vw;">
               </td>
           </tr>
@@ -128,7 +148,7 @@
                     $('#albumcount').text( albums );
                 });
             </script>
-HEADERTABLE;
+HEADERTABLE3;
     }
 
     function echoDirectory( $folder, $picdir, $cnt, $thumbnail, $file, $index )
@@ -248,8 +268,8 @@ DIRECTORY;
 
     if ( ! $isFind ) {
 
-        if ( !empty( $picfile ) ) {
-            $fileListing = listAlbum( $picfile );
+        if ( !empty( $filename ) ) {
+            $fileListing = listAlbum( $filename );
         }
         else {
             $fileListing = listDir( "../" . $prettydir );
@@ -336,7 +356,12 @@ DIRECTORY;
     $files = explode( "\n", $fileListing );
 
     $cnt = count( $files );
-    $photocnt += $cnt;
+
+    iterateOverFiles( $fileListing, $filepat, $fragpat, function( $file ) 
+    {
+        global $photocnt; $photocnt++;
+        return true;
+    } );
 
     echo "<div id=\"photocounthidden\" style=\"visibility:hidden;\">$photocnt</div>";
     echo "<div id=\"albumcounthidden\" style=\"visibility:hidden;\">$albumcnt</div>";
@@ -347,10 +372,10 @@ DIRECTORY;
 
         makeThumbnails( $file, $thumbnail, $loThumbnail );
 
-                $dir = preg_replace( '{^\.*(.*)/([^/]*)$}', '$1',    $file,        1 );
-               $file = preg_replace( '{^\.*(.*)/([^/]*)$}', '$2',    $file,        1 );
-          $thumbnail = preg_replace( '/[\.]/',              '/pics', $thumbnail,   1 );
-        $loThumbnail = preg_replace( '/[\.]/',              '/pics', $loThumbnail, 1 );
+                $dir = preg_replace( '{^\.*(/[^/]*/)(.*)$}', '$1', $file,            1 );
+               $file = preg_replace( '{^\.*/([^/]*)/(.*)$}', '$2', $file,            1 );
+          $thumbnail = preg_replace( '/[\.]/',               '/pics',  $thumbnail,   1 );
+        $loThumbnail = preg_replace( '/[\.]/',               '/pics',  $loThumbnail, 1 );
 
         $tipText = preg_replace( '/.*[\/]/', '', $file );
 
@@ -380,6 +405,7 @@ echo <<<HEADERTABLE2
     </script>
 HEADERTABLE2;
 ?>
+<?php include 'hiddenTags.php';?>
 </body>
 </html>
 

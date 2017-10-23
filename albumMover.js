@@ -39,14 +39,22 @@ function extend(base, sub) {
 
 function mover() 
 {
+    var settings;
+    var mapFun;
+    var sortFun;
+    var threshold;
 };
 
 mover.prototype = {
+
   navigate: function( idx, evt ) {
     this.move( idx, evt );
   },
   select: function( idx, evt ) {
     this.set( idx, evt );
+  },
+  setFunction: function( fnc ) {
+    this.setByFunctor( fnc );
   },
   setDirName: function( directoryName ) {
     this.setDirectory( directoryName );
@@ -61,6 +69,9 @@ mover.prototype = {
     // Abstract
   },
   setDirectory: function( directoryName ) {
+    // Abstract
+  },
+  setByFunctor: function( fnc ) {
     // Abstract
   }
 };
@@ -142,6 +153,9 @@ fileMover.prototype = {
     set: function( idx, evt ) 
     {
     },
+    setByFunctor: function( fnc ) 
+    {
+    },
     setDirectory: function( directoryName ) 
     {
     }
@@ -163,9 +177,34 @@ function albumMover( dir )
     // Call the parent's constructor
     mover.call(this);
 
-    $( this ).bind( "yell", function(){
-        alert("In");
-    });
+    this.mapFun = function( obj, x, i ) 
+        { 
+            var entry = {
+                html: document.getElementById( 'div_'     + ( i + 1 ) ).innerHTML,
+                keys: document.getElementById( 'keywords' + ( i + 1 ) ).innerHTML,
+                datetime: document.getElementById( 'datetime' + ( i + 1 ) ).innerHTML,
+                sortkey: document.getElementById( 'datetime' + ( i + 1 ) ).innerHTML,
+                selected: ( obj.settings[ i ] == 1 ? true : false ),
+                oldindex: i,
+                newindex: i
+            };
+
+            return entry;
+        }.bind( null, this );
+
+    this.sortFun = function( obj, a, b ) 
+        { 
+            if ( !a.selected &&  b.selected ) 
+                return b.newindex <  obj.threshold ?  1 : -1;
+            if (  a.selected && !b.selected ) 
+                return b.newindex >= obj.threshold ? -1 :  1;
+
+            return 0;
+        }.bind( null, this );
+
+    //$( this ).bind( "yell", function(){
+        //alert("In");
+    //});
 };
 
 albumMover.prototype = 
@@ -174,82 +213,71 @@ albumMover.prototype =
     {
         var count = this.settings.length;
 
-        newHTML = Array.apply( null, Array( count ) ).map( 
-            function( x, i ) { return document.getElementById( 'div_' + ( i + 1 ) ).innerHTML; } 
-        );
-
-        oldHTML = Array.apply( null, Array( count ) ).map( 
-            function( x, i ) { return document.getElementById( 'div_' + ( i + 1 ) ).innerHTML; } 
-        );
-
-        var source = 0;
-        var target = 0;
-
-        while ( target < idx - 1 && source < count ) {
-
-            if ( this.settings[ source ] == 0 ) {
-
-                newHTML[ target ] = oldHTML[ source ];
-                this.settings[ target++ ] = 0;
-                console.log( "first: " + idx + " " + (target-1) + " " + this.settings[ target - 1 ] );
-            }
-
-            source++;
+        function selection( a, b )
+        {
+            if ( !a.selected &&  b.selected ) 
+                return 1;
+            if (  a.selected && !b.selected ) 
+                return -1;
+            return 0;
         }
 
-        var oldsource = target;
-        source = 0;
+        var selcount = 0;
 
-        while ( source < count ) {
+        var obj = this;
 
-            if ( this.settings[ source ] == 1 ) {
+        this.content = Array.apply( null, Array( count ) ).map( this.mapFun );
 
-                newHTML[ target ] = oldHTML[ source ];
-                this.settings[ target++ ] = 1;
-                console.log( "second: " + idx + " " + (target-1) + " " + this.settings[ target - 1 ] );
-            }
-
-            source++;
-        }
-
-        source = oldsource;
-
-        while ( source < count ) {
-
-            if ( this.settings[ source ] == 0 ) {
-
-                newHTML[ target ] = oldHTML[ source ];
-                this.settings[ target++ ] = 0;
-                console.log( "third: " + idx + " " + target + " " + this.settings[ target ] );
-            }
-                
-            source++;
-        }
-
-//
-//            if ( 0 != this.settings[ source ] ) {
-//
-//                var strA = document.getElementById( 'div_' + source ).innerHTML;
-//                var strB = document.getElementById( 'div_' + target ).innerHTML;
-//
-//                strA = strA.replace( /((dir-number|piclink|picture)_)[0-9]+/g, "$1" + target );
-//                strB = strB.replace( /((dir-number|piclink|picture)_)[0-9]+/g, "$1" + source );
-//
-//                document.getElementById( 'div_' + source ).innerHTML = strB;
-//                document.getElementById( 'div_' + target ).innerHTML = strA;
-//
-//                target++;
-//                cnt++;
-//            }
+        this.content.sort( selection );
 
         for ( i = 0; i < count; i++ ) {
 
-            var str = newHTML[ i ];
-            str = str.replace( /((dir-number|piclink|picture)_)[0-9]+/g, "$1" + ( i + 1 ) );
-            document.getElementById( 'div_' + ( i + 1 ) ).innerHTML = str;
+            selcount += this.content[ i ].selected ? 1 : 0;
+            this.content[ i ].newindex = i;
         }
-            //$( "div_" + index ).load( self );
-            //$( "div_" + idx   ).load( self );
+
+        this.threshold = idx + selcount - 1;
+
+        this.content.sort( this.sortFun );
+
+        for ( i = 0; i < count; i++ ) {
+
+            this.settings[ i ] = this.content[ i ].selected ? 1 : 0;
+
+            var oldIndex = this.content[ i ].oldindex;
+
+            if ( i != oldIndex ) {
+
+                var str = this.content[ i ].html;
+                str = str.replace( /((dir-number|piclink|picture)_)[0-9]+/g, "$1" + ( i + 1 ) );
+                document.getElementById( 'div_' + ( i + 1 ) ).innerHTML = str;
+
+                var str = this.content[ i ].keys;
+                document.getElementById( 'keywords' + ( i + 1 ) ).innerHTML = str;
+
+                str = this.content[ i ].datetime;
+                document.getElementById( 'datetime' + ( i + 1 ) ).innerHTML = str;
+
+                $( "#picture_" + ( i + 1 ) ).attr("style", 
+                    "border:2px solid " 
+                  + ( ( this.settings[ i ] ) == 0 ? "white;" : "green;" )
+                    );
+
+                //if ( this.content[ i ].selected ) {
+
+                    $.ajax({
+                        method: 'POST',
+                        url: 'newlist.php',
+                        data: 
+                        {
+                            path:     this.picdir,
+                            moveFrom: oldIndex,
+                            moveTo:   i
+                        }
+                    });
+                //}
+            }
+        }
     },
     move: function( idx, evt )
     {
@@ -271,24 +299,21 @@ albumMover.prototype =
               + ( ( this.settings[ newIndex - 1 ] ) == 0 ? "red;" : "blue;" )
                 );
 
-            index = idx;
-
             if ( idx != index ) {
+
+                index = idx;
 
                 $( '#picture_' + index ).goTo();
                 $( '#piclink_' + index ).focus();
 
-                if ( evt.ctrlKey ) {
-                    
-                    $.ajax({
-                      method: 'POST',
-                      url: 'newlist.php',
-                      data: {path:this.picdir,moveFrom:oldIndex + 1,moveTo:newIndex + 1}
-                    });
-                }
-
                 this.navigate( index, evt );
             }
+
+            if ( evt.ctrlKey ) {
+                $(window).trigger('resize');
+            }
+
+            evt.preventDefault();
         }
     },
     set: function( idx, evt ) 
@@ -297,8 +322,44 @@ albumMover.prototype =
 
             index = idx;
 
-            this.settings[ index - 1 ] = 1;
-            this.navigate( index, evt );
+            if ( 0 == this.settings[ index - 1 ] ) {
+
+                this.settings[ index - 1 ] = 1;
+                this.navigate( index, evt );
+            }
+            else
+                this.settings[ index - 1 ] = 0;
+        }
+    },
+    setByFunctor: function( fnc ) 
+    {
+        try {
+
+            var count = this.settings.length;
+
+            this.content = Array.apply( null, Array( count ) ).map( fnc );
+
+            for ( i = 0; i < count; i++ ) {
+
+                this.settings[ i ] = ( this.content[ i ].selected == true ) ? 1 : 0;
+
+                $( "#picture_" + i ).attr("style", 
+                    "border:2px solid " 
+                  + ( ( this.settings[ i ] ) == 0 ? "white;" : "green;" )
+                    );
+            }
+
+            for ( i = 0; i < count; i++ ) {
+
+                if ( this.content[ i ].selected == true ) {
+
+                    this.navigate( i + 1, null );
+                    break;
+                }
+            }
+        }
+        catch ( err ) {
+            console.log( err.message );
         }
     },
     setDirectory: function( directoryName ) 

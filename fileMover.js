@@ -16,7 +16,7 @@ fileMover.prototype.select = function( idx )
 fileMover.prototype.navigate = function( idx )
 {
     alert( "navigate" );
-    var imgText = document.getElementById( 'img' + idx ).innerHTML;
+    var imgText = document.getElementById( 'img'   + idx ).innerHTML;
     var lowText = document.getElementById( 'low' + idx ).innerHTML;
 
     var keyWords = document.getElementById( 'keywords' + idx).innerHTML.replace( /,/g, ", " );
