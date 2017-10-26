@@ -45,18 +45,16 @@
         return $retval;
     }
 
-    function doTags( $filename, $absDir, $keys, &$tags )
+    function doTags( $filename, $keys, &$tags )
     {
-        $file = preg_replace( '{^(.*/)*[\.]*([^/]*\.jpg)(\.txt)*$}', '.$2.txt', $filename );
-        $exiffile = $absDir . "/" . $file;
+        $file = preg_replace( '{^(.*/)*[\.]*([^/]*\.jpg)(\.txt)*$}', '$1/.$2.txt', $filename );
+        $exiffile = preg_replace( '/\/pics\/*/',                '../',      $file     );
 
         if ( !file_exists( $exiffile ) ) {
-            exec( "./makeThumbnail.sh -e $absDir/$file" );
+            exec( "./makeThumbnail.sh -e $exiffile" );
         }
 
         if ( file_exists( $exiffile ) ) {
-
-            $exiffile = $absDir . "/" . $file;
 
             $listing = file_get_contents( $exiffile);
             $listing = nl2br($listing, true);
@@ -139,7 +137,7 @@
 
             $file =  preg_replace( "{^\./(.*)$}", "/pics/$1", $file );
 
-            echo "<div style=\"display:none;\" id=img" . $index . ">";
+            echo "\n<div style=\"display:none;\" id=img" . $index . ">";
             echo "$file";
             echo "</div>";
 
@@ -154,7 +152,7 @@
 
             $tags = array();
 
-            doTags( $file, $absDir, $keys, $tags );
+            doTags( $file, $keys, $tags );
 
             $keytags = array();
 
@@ -183,7 +181,7 @@
 
             foreach( $keytags as $key => $value ) {
 
-                echo "<span style=\"display:none;\" id=\"" . $key . "\">" .
+                echo "\n\t<span style=\"display:none;\" id=\"" . $key . "\">" .
                     preg_replace( '{<[a-zA-z]*>}', '', $value ) .
                     "</span>";
             }

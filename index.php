@@ -161,9 +161,7 @@ HEADERTABLE3;
                 <a href=index.php?dir="/pics$picdir/$formatdir"&file=$formatfile>
                     <section class="wrapper" id="dir-number_$index">
                         <header><h1>$folder</h1></header>
-                        <article>
-                            <img class="lazyload" id="img-number_$index" src="/pics/$thumbnail" data-src="/pics/$thumbnail" alt="$file" style="border:2px solid white">
-                        </article>
+                        <img class="lazyload" id="img-number_$index" src="/pics/$thumbnail" data-src="/pics/$thumbnail" alt="$file" style="border:2px solid white">
                     </section>
                     <span class="tooltiptext">
                         <article>$folder</article>
@@ -383,14 +381,23 @@ DIRECTORY;
 
         echo <<<IMAGE
             <div class="tooltip" id="div_$index">
-                <section class="wrapper" id="dir-number_$index">
-                    <a id="piclink_$index" href="image.php?file=$file&dir=/pics$dir&index=$index&count=$cnt">
-                        <img id="picture_$index" class="lazyload" src="$loThumbnail" data-src="$thumbnail" alt="$file" style="border:$colour;"></img>
+                <a id="piclink_$index" href="image.php?file=$file&dir=/pics$dir&index=$index&count=$cnt">
+                    <section class="wrapper" id="file-number_$index">
                         <span class="tooltipheader">
-                            <header id="header_$file"><h1>$tipText</h1></header>
+                            <header id="header_$index"><h1>$tipText</h1></header>
                         </span>
-                    </a>
-                </section>
+                        <img id="picture_$index" 
+                             class="lazyload" 
+                             src="$loThumbnail" 
+                             data-src="$thumbnail" 
+                             alt="$file" 
+                             style="border:$colour;">
+                        </img>
+                    </section>
+                    <span class="tooltiptext">
+                        <article id="art_keywords_$index">No keywords</article>
+                    </span>
+                </a>
             </div>
 IMAGE;
 

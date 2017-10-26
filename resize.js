@@ -49,11 +49,17 @@ function resizeGroups( obj )
 
     var prefix = id.replace( /_[0-9]*/, "" );
     var elems  = id.replace( /.*_/, "" );
-    var divID = "#div_" + (elems - 1 + 1);
-    var titleID = "#title" + (elems - 1 + 1);
-    var text = $( titleID ).text();
+    var index = ( elems - 1 + 1 );
+    var keywords = $( "#keywords" + index ).html();
+    var text     = $( "#title"    + index ).html();
 
-    $( divID ).find("h1").text( text );
+    if ( "" != text ) {
+        $( "#header_"       + index ).html( "<h1>" + text + "</h1>" );
+    }
+
+    if ( "" != keywords ) {
+        $( "#art_keywords_" + index ).html( keywords.replace( /,/g, "<br>" ) );
+    }
 
     //var elems = $('[id^=' + prefix + ']' ).length;
 

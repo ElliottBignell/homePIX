@@ -249,7 +249,7 @@ albumMover.prototype =
             if ( i != oldIndex ) {
 
                 var str = this.content[ i ].html;
-                str = str.replace( /((dir-number|piclink|picture)_)[0-9]+/g, "$1" + ( i + 1 ) );
+                str = str.replace( /((file-number|dir-number|piclink|picture|art_keywords|header)_)[0-9]+/g, "$1" + ( i + 1 ) );
                 document.getElementById( 'div_' + ( i + 1 ) ).innerHTML = str;
 
                 var str = this.content[ i ].keys;

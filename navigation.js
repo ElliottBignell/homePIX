@@ -33,7 +33,7 @@ $('#find').on('search', function(e) {
 $('#multisearch').submit(function( e ) {
 
     var value  =  $('#find').val();
-    var substr = value.match( /(g|v|[0-9\^]*,[0-9$]*|[0-9]+|\%)([\W])(.*)\2(s|m([0-9]+)|\>|\<|\=\".*\")/i );
+    var substr = value.match( /(g|v|[0-9\^]*,[0-9$]*|[0-9]+|\%)([\W])(.*)\2(s|m([0-9]+)|\>|\<|(k|t)(\+|\-)*\=\".*\")/i );
 
     e.preventDefault();
 
@@ -152,24 +152,83 @@ $('#multisearch').submit(function( e ) {
 
         var exifSet = function( word, first, last )
         {
-            var keywords = word.match( /\=\"(.*)\"/ );
+            var keywords = word.match( /(k|t)(\+|\-)*\=\"(.*)\"/ );
 
-            var url = $( "#piclink_" + first ).attr( "href" );
-            var files = url.match( /.*file=(.*)\&dir=(.*)\&index=.*/ );
+            for ( var i = first; i <= last; i++ ) {
 
-            if ( null != files ) {
+                var url = $( "#piclink_" + i ).attr( "href" );
+                var files = url.match( /.*file=(.*)\&dir=(.*)\&index=.*/ );
 
-                $.ajax({
-                    url: 'keywords.php',
-                    data:
-                    {
-                        path:    files[ 2 ] + files[ 1 ],
-                        keyword: keywords[ 1 ],
-                        firstN:  first,
-                        lastN:   last
-                    },
-                    success: function( result ) { alert( result ); $( "#keywords" + first ).innerHTML( result ); }
-                });
+                if ( null != files ) {
+
+                    var filepath = files[ 2 ] + files[ 1 ];
+
+                    var setTitle = function() {
+
+                        return {
+                            opcode:    0, // Flag for Title, interpreted server-side
+                            path:      filepath,
+                            title:     keywords[ 3 ],
+                            index:     i
+                        };
+                    };
+
+                    var setKeywords = function( op ) {
+
+                        return {
+                            opcode:    op, // Flag for Keywords, interpreted server-side
+                            path:      filepath,
+                            keyword:   keywords[ 3 ],
+                            index:     i
+                        };
+                    };
+
+                    var retTitle = function( result ) {
+
+                        var items = result.match( /(.*)\t(.*)/ );
+
+                        if ( null != items ) {
+                            $( "#header_" + items[ 1 ] ).html( "<h1>" + items[ 2 ] + "</h1>" ); 
+                        }
+                    };
+
+                    var retKeywords = function( result ) {
+
+                        var items = result.match( /(.*)\t(.*)/ );
+
+                        if ( null != items ) {
+
+                            $( "#keywords"      + items[ 1 ] ).html( items[ 2 ] ); 
+                            $( "#art_keywords_" + items[ 1 ] ).text( items[ 2 ] ); 
+                        }
+                    };
+
+                    var dataFn = setTitle;
+                    var  retFn = retTitle;
+
+                    switch ( true ) {
+                    case  /k\=\"(.*)\"/.test( keywords ):
+                        dataFn = setKeywords.bind( null, 1 );
+                        retFn  = retKeywords;
+                        break;
+                    case  /k\+\=\"(.*)\"/.test( keywords ):
+                        dataFn = setKeywords.bind( null, 2 );
+                        retFn  = retKeywords;
+                        break;
+                    case  /k\-\=\"(.*)\"/.test( keywords ):
+                        dataFn = setKeywords.bind( null, 3 );
+                        retFn  = retKeywords;
+                        break;
+                    default:
+                        break;
+                    }
+
+                    $.ajax({
+                        url: 'keywords.php',
+                        data: dataFn(),
+                        success: retFn
+                    });
+                }
             }
         }
 
