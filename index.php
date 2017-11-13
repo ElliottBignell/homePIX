@@ -3,6 +3,7 @@
 <head>
 <title>Picture Browser Home Directory</title>
 <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link href="css3-loesung-text-shadow.css" rel="stylesheet" />
 <link href="directories.css" rel="stylesheet" />
@@ -74,40 +75,41 @@
     function echoHeader( $findValue )
     {
         echo <<<HEADERTABLE
-          <table style="background-color:black;width:100vw;padding:0px;">
-          <tr style="background-color:black;width:100vw;padding:0px;">
-              <td style="background-color:black;column-span:all;padding:0px;width:1vw;">
-              </td>
-              <td style="background-color:black;column-span:all;padding:0px;width:3vw;">
-                  <div class="tooltip">
-                    <a href=index.php>
-                        <table
-                            <tr>
-                                <td style="padding-right:5px;">
-                                    <h3>HOMEpix</h3>
-                                </td>
-                                <td style="padding-left:5px;">
-                                    <h2>&#x2302;</h2>
-                                </td>
-                            </tr>
-                        </table>
-                    </a>
-                    <span class="tooltiptext">
-                        Tool Tip
-                    </span>
-                  </div>
-              </td>
-              <td style="background-color:black;column-span:all;padding:0px;width:55vw;">
-              </td>
-              <td style="background-color:black;column-span:all;padding:0px;width:34vw;">
-                  <form id="multisearch">
-                      <fieldset>
-                          <input id="find" style="align:right;width:32vw;" type="text" value="$findValue">
-                          <input type="submit" style="display:none"/>
-                      </fieldset>
-                  </form>
-                  <!--<form action="$_SERVER[PHP_SELF]" method="POST">-->
-              </td>
+          <div id="pageheader">
+              <table style="background-color:black;width:100vw;padding:0px;">
+              <tr style="background-color:black;width:100vw;padding:0px;">
+                  <td style="background-color:black;column-span:all;padding:0px;width:1vw;">
+                  </td>
+                  <td style="background-color:black;column-span:all;padding:0px;width:3vw;">
+                      <div class="tooltip">
+                        <a href=index.php>
+                            <table
+                                <tr>
+                                    <td style="padding-right:5px;">
+                                        <h3>HOMEpix</h3>
+                                    </td>
+                                    <td style="padding-left:5px;">
+                                        <h2>&#x2302;</h2>
+                                    </td>
+                                </tr>
+                            </table>
+                        </a>
+                        <span class="tooltiptext">
+                            Tool Tip
+                        </span>
+                      </div>
+                  </td>
+                  <td style="background-color:black;column-span:all;padding:0px;width:55vw;">
+                  </td>
+                  <td style="background-color:black;column-span:all;padding:0px;width:34vw;">
+                      <form id="multisearch">
+                          <fieldset>
+                              <input id="find" style="align:right;width:32vw;" type="text" value="$findValue">
+                              <input type="submit" style="display:none"/>
+                          </fieldset>
+                      </form>
+                      <!--<form action="$_SERVER[PHP_SELF]" method="POST">-->
+                  </td>
 HEADERTABLE;
         echo echoBox( "Tool Tip" );
         echo echoButton( "&#x2295;", "Tool Tip" );
@@ -137,17 +139,18 @@ HEADERTABLE;
                     </td>
                 </tr>
             </table>
-            <script type="text/javascript">
+          </div>
+        <script type="text/javascript">
 
-                $(document).ready(function() {
+            $(document).ready(function() {
 
-                    var photos = $('#photocounthidden').html();
-                    var albums = $('#albumcounthidden').html();
+                var photos = $('#photocounthidden').html();
+                var albums = $('#albumcounthidden').html();
 
-                    $('#photocount').text( photos );
-                    $('#albumcount').text( albums );
-                });
-            </script>
+                $('#photocount').text( photos );
+                $('#albumcount').text( albums );
+            });
+        </script>
 HEADERTABLE3;
     }
 
@@ -225,6 +228,8 @@ DIRECTORY;
     }
 
     echoHeader( $findValue );
+
+    echo "<div id=\"mainlist\">";
 
     $isFind = ( preg_match( '/^[\/]".*"$/', $picdir ) );
 
@@ -383,21 +388,33 @@ DIRECTORY;
             <div class="tooltip" id="div_$index">
                 <a id="piclink_$index" href="image.php?file=$file&dir=/pics$dir&index=$index&count=$cnt">
                     <section class="wrapper" id="file-number_$index">
-                        <span class="tooltipheader">
-                            <header id="header_$index"><h1>$tipText</h1></header>
+                        <span class="tooltipsubject">
+                            <img id="picture_$index" 
+                                 class="lazyload" 
+                                 src="$loThumbnail" 
+                                 data-src="$thumbnail" 
+                                 alt="$file" 
+                                 style="border:$colour;position:relative;top:100%;left:0%;z-index:0;">
+                            </img>
                         </span>
-                        <img id="picture_$index" 
-                             class="lazyload" 
-                             src="$loThumbnail" 
-                             data-src="$thumbnail" 
-                             alt="$file" 
-                             style="border:$colour;">
-                        </img>
                     </section>
-                    <span class="tooltiptext">
+                    <div id="header_$index" class="tooltipleft tooltiptext tooltiplefttext">
+                        $tipText
+                    </div>
+                    <span class="tooltiptext tooltiptop">
+                        <article id="art_pageno_$index">$index</article>
+                    </span>
+                    <span class="tooltiptext tooltipbottom">
                         <article id="art_keywords_$index">No keywords</article>
                     </span>
                 </a>
+                <span class="tooltipedit">
+                    <form id="editprops">
+                        <fieldset>
+                            <input id="title" type="text" value="test">
+                        </fieldset>
+                    </form>
+                </span>
             </div>
 IMAGE;
 
@@ -413,6 +430,7 @@ echo <<<HEADERTABLE2
 HEADERTABLE2;
 ?>
 <?php include 'hiddenTags.php';?>
+</div>
 </body>
 </html>
 

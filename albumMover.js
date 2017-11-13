@@ -106,7 +106,7 @@ fileMover.prototype = {
 
         $( "#main"    ).attr("data-src",imgText );
         $( "#main"    ).attr("alt",     imgText );
-        $( "#main"    ).attr("src",     imgText );
+        $( "#main"    ).attr("src",     lowText );
         $( "#mainlink").attr("href",    imgText );
         $( "#description" ).attr( "innerHTML", "TODO<br>" );
         $( "#dimensions"  ).attr( "innerText", ( 

@@ -1,9 +1,51 @@
+body, div {
+    margin:0;
+    padding:0;
+}
+body {
+    /* Disable scrollbars and ensure that the body fills the window */
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+#pageheader {
+    /* Provide scrollbars if needed and fix the header dimensions */
+    position: absolute;
+    top:0;
+    width: 100%;
+    height: 70px;
+}
+#pagefooter {
+    /* Provide scrollbars if needed and fix the header dimensions */
+    position: absolute;
+    top:calc( 100% - 45px );
+    width: 100%;
+    bottom: 100%;
+    height: 45px;
+}
+#mainlist {
+    /* Provide scrollbars if needed, position below header, and derive height from top/bottom */
+    overflow: auto;
+    position: absolute;
+    width: 100%;
+    height: calc( 100% - 135px );
+    top: 70px;
+}
+#mainpic {
+    /* Provide scrollbars if needed, position below header, and derive height from top/bottom */
+    overflow: hidden;
+    position: absolute;
+    top:40px;
+    height: calc( 100% - 85px );
+    width: 100%;
+}
+
 .wrapper {
     margin:0em;
     position:relative;
     padding-left:0em; /* line-height of .wrapper div:first-child span */
     padding-right:0em; /* line-height of .wrapper div:first-child span */
-    padding-top:0.5em; /* line-height of .wrapper div:first-child span */
+    padding-top:0em; /* line-height of .wrapper div:first-child span */
     background:#fff;
     color:yellow;
 }
@@ -12,10 +54,9 @@
     position:absolute;
     top:0.5em;
     left:0.25em;
-    bottom:0;
     width:2em; /* line-height of .wrapper div:first-child span */
-    padding-top:0.5em; /* line-height of .wrapper div:first-child span */
-    padding-bottom:0.5em; /* line-height of .wrapper div:first-child span */
+    padding-top:0em; /* line-height of .wrapper div:first-child span */
+    padding-bottom:0em; /* line-height of .wrapper div:first-child span */
     overflow:hidden;
     white-space:nowrap;
     background:#000;
@@ -46,7 +87,7 @@
 .wrapper article {
     display:inline-block;
     height:200px;
-    padding:2px 2px 2px 1em;
+    padding:2px 2px 2px 2px;
     vertical-align:middle;
     -moz-box-sizing:border-box;
     -webkit-box-sizing:border-box;

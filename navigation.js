@@ -61,7 +61,10 @@ $('#multisearch').submit(function( e ) {
 
         var selectGorV = function( i )
         {
-            var keys = document.getElementById( 'keywords' + ( i + 1 ) ).innerHTML;
+            var keys = $( "#keywords"+ ( i + 1 ) ).html() + "," + 
+                       $( "#title"   + ( i + 1 ) ).html() + "," + 
+                       $( "#comment" + ( i + 1 ) ).html() + "," + 
+                       $( "#header_" + ( i + 1 ) ).html();
 
             return ( ( "" != keys && keys.match( regexp ) ) ? selval : !selval );
         }
@@ -135,10 +138,9 @@ $('#multisearch').submit(function( e ) {
 
             var one = forwards ? 1 : -1;
 
-            imgnav.sortFun = function( obj, forth, a, b ) 
-                { 
-                    return (a.sortkey < b.sortkey) ? forth : ((a.sortkey > b.sortkey) ? forth : 0);
-                }.bind( null, imgnav, forwards );
+            imgnav.sortFun = function( obj, forth, a, b ) { 
+                return (a.sortkey < b.sortkey) ? forth : ((a.sortkey > b.sortkey) ? forth : 0);
+            }.bind( null, imgnav, forwards );
 
             var event = new MouseEvent('click', {
                     'view': window,
@@ -297,19 +299,19 @@ function handleTouchMove(evt)
     if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
 
         if ( xDiff > 0 ) {
-            advance();
+            //advance();
         } 
         else {
-            retreate();
+            //retreat();
         }                       
     } 
     else {
     
         if ( yDiff > 0 ) {
-            /* up swipe */ 
+            //advance();
         } 
         else { 
-            /* down swipe */
+            //retreat();
         }                                                                 
     }
 
@@ -480,45 +482,79 @@ function getQueryVariable(variable)
 function detectswipe(el,func) 
 {
     swipe_det = new Object();
-    swipe_det.sX = 0; swipe_det.sY = 0; swipe_det.eX = 0; swipe_det.eY = 0;
+
+    swipe_det.sX = 0; 
+    swipe_det.sY = 0; 
+    swipe_det.eX = 0; 
+    swipe_det.eY = 0;
+
     var min_x = 30;  //min x swipe for horizontal swipe
     var max_x = 30;  //max x difference for vertical swipe
     var min_y = 50;  //min y swipe for vertical swipe
     var max_y = 60;  //max y difference for horizontal swipe
     var direc = "";
+
     ele = document.getElementById(el);
+
     ele.addEventListener('touchstart',function(e){
             var t = e.touches[0];
             swipe_det.sX = t.screenX; 
             swipe_det.sY = t.screenY;
-            },false);
+        },false);
+
     ele.addEventListener('touchmove',function(e){
             e.preventDefault();
             var t = e.touches[0];
             swipe_det.eX = t.screenX; 
             swipe_det.eY = t.screenY;    
-            },false);
-    ele.addEventListener('touchend',function(e){
-            //horizontal detection
-            if ((((swipe_det.eX - min_x > swipe_det.sX) || (swipe_det.eX + min_x < swipe_det.sX)) && ((swipe_det.eY < swipe_det.sY + max_y) && (swipe_det.sY > swipe_det.eY - max_y) && (swipe_det.eX > 0)))) {
-            if(swipe_det.eX > swipe_det.sX) direc = "r";
-            else direc = "l";
+        },false);
+
+    ele.addEventListener('touchend',function(e) {
+
+            if ((((swipe_det.eX - min_x > swipe_det.sX) || 
+                  (swipe_det.eX + min_x < swipe_det.sX) ) && 
+                 ((swipe_det.eY < swipe_det.sY + max_y) && 
+                  (swipe_det.sY > swipe_det.eY - max_y) && 
+                  (swipe_det.eX > 0))
+            )) {
+
+                //horizontal detection
+                if(swipe_det.eX > swipe_det.sX) 
+                    retreat();
+                else 
+                    advance();
             }
-            //vertical detection
-            else if ((((swipe_det.eY - min_y > swipe_det.sY) || (swipe_det.eY + min_y < swipe_det.sY)) && ((swipe_det.eX < swipe_det.sX + max_x) && (swipe_det.sX > swipe_det.eX - max_x) && (swipe_det.eY > 0)))) {
-            if(swipe_det.eY > swipe_det.sY) direc = "d";
-            else direc = "u";
+            else if ((((swipe_det.eY - min_y > swipe_det.sY) || 
+                       (swipe_det.eY + min_y < swipe_det.sY)) && 
+                      ((swipe_det.eX < swipe_det.sX + max_x) && 
+                       (swipe_det.sX > swipe_det.eX - max_x) && 
+                       (swipe_det.eY > 0))
+            )) {
+
+                //vertical detection
+                if(swipe_det.eY > swipe_det.sY) 
+                    advance();
+                else 
+                    retreat();
             }
 
             if (direc != "") {
-            if(typeof func == 'function') func(el,direc);
+                if(typeof func == 'function') 
+                    func(el,direc);
             }
             direc = "";
             swipe_det.sX = 0; swipe_det.sY = 0; swipe_det.eX = 0; swipe_det.eY = 0;
-            },false);  
+        },false);  
 }
 
 function myfunction(el,d) 
 {
-    advance();
+    switch ( d ) {
+    case "r":
+        advance();
+        break;
+    case "l":
+        retreat();
+        break;
+    }
 }

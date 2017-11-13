@@ -4,8 +4,9 @@
 
         <title>Image Page</title>
         <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
+        <link href="directories.css" rel="stylesheet" />
         <link href="clearall.css" rel="stylesheet" />
         <link href="css3-loesung-text-shadow.css" rel="stylesheet" />
 
@@ -66,12 +67,17 @@
             $lofile    = preg_replace( "{^(.*)/([^/]*\.jpg)$}", '$1/.low_$2', $filename );
             $absDir = preg_replace( '/[\/]pics/', '..', $picdir, 1 );
 
+            if ( !file_exists( $lofile ) ) {
+                exec( "./makeThumbnail.sh -o $absDir/$lofile" );
+            }
+
             $stylestr = "display:block;margin-left:auto;margin-right:auto;border:0px;ipadding:0px;max-width:100%;max-height:100%;object-fit:contain;";
 
     $img_url = doExif( $filename, $absDir );
 
     echo <<<HEADERTABLE
-            <table id="maintab" style="width:100%;height:100%;padding:0px;border:0px;">
+        <div id="pageheader">
+              <table style="background-color:black;width:100vw;padding:0px;">
                 <tr style="background-color:black;width:100%;padding:0px;">
                     <td colspan=3 style="background-color:black;column-span:all;padding:0px;">
                         <a href=index.php><h1>&#x2302;</h1></a>
@@ -80,20 +86,24 @@
                         <input type="text" onkeydown="doSubmit()" id="find" style="align:right;width:32vw;">
                     </td>
                 </tr>
-                <tr colspan=4 style="width:100%;height:100%;object-fit:contain;">
-                    <td style="width:25px">
+            </table>
+        </div>
+        <div id="mainpic">
+            <table id="maintab" style="width:100%;height:calc( 100% - 40px );padding:0px;border:0px;">
+                <tr colspan=4>
+                    <td style="width:25px;vertical-align:middle;">
                         <a href=javascript:retreat()><h1>&#9664;</h1></a>
                     </td>
-                    <td id="picframe" style="max-width:99%;max-height:99%;object-fit:contain;">
+                    <td id="picframe" style="width:calc( 100% - 270px );object-fit:contain;vertical-align:middle;">
                         <a id="mainlink" href="$picdir$filename">
                             <img id="main" class="lazyload" data-src="$picdir$filename" src="$picdir/$lofile" alt="$picdir$filename" style="$stylestr"/>
                         </a>
                     </td>
-                    <td style="width:25px;">
+                    <td style="width:25px;vertical-align:middle;">
                         <a href=javascript:advance()><h1>&#9654;</h1></a>
                     </td>
-                    <td id="sidebar" style="width:220px;vertical-align:top;">
-                        <div style="font:inherit;overflow:auto;vertical-align:top;">
+                    <td style="width:220px;">
+                        <div style="font:inherit;overflow:auto;vertical-align:top;position:absolute;top:65px;width:200px;height:calc( 100% - 310 );">
                             <span id="title" class="titletext" style="font-size:100%;">
                                 Title<br>
                             </span>
@@ -173,12 +183,17 @@
                         </div>
                     </td>
                 </tr>
+            </table>
+        </div>
+        <div id="pagefooter">
+            <table style="background-color:black;width:100vw;padding:0px;height:45px;">
                 <tr style="background-color:black;width:100%;padding:0px;">
                     <td id="footbar" colspan=4 style="background-color:black;column-span:all;padding:0px;">
                         <h1>$filename in $prettydir</h1>
                     </td>
                 </tr>
             </table>
+        </div>
 HEADERTABLE;
 
         ?>

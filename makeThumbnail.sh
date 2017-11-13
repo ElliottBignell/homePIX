@@ -33,9 +33,31 @@ while [[ $# -gt 0 ]]; do
             shift # past argument
         ;;
 
+        -o|--low)
+
+            tnl=`echo $corrpath | sed s:\.low_::`
+            listing=`echo $corrpath | sed s:\.low_.*::`
+
+            if [ ! -f $corrpath ] || [ $tnl -nt $corrpath ]; then 
+                convert $tnl -quality 10% $corrpath
+                echo "`date` making `pwd`\t$corrpath\t from $tnl" >> /tmp/log.txt
+            fi
+
+            ls "${listing}" | grep "jpg$" | while read line; do
+
+                tnl=`echo ${listing}${line} | sed "s:\(^.*/\)\([^/]*\)$:\1.low_\2:"`
+
+                if [ ! -f ${tnl} ] || [ ${listing}${line} -nt ${tnl} ]; then 
+                    convert "${listing}${line}" -quality 10% "${tnl}" &
+                fi
+            done
+
+            shift # past argument
+        ;;
+
         -f|--file)
 
-            tnl=`echo $corrpath | sed s:\.tnl_::`
+            tnl=`echo $corrpath | sed s:\.low_::`
 
             if [ ! -f $corrpath ] || [ $corrpath -nt $tnl ]; then 
                 convert $tnl -resize x200 -quality 90% $corrpath

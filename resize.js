@@ -3,8 +3,12 @@ var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
 
 $( window ).on( "resize", function() {                                         
 
-    var elems = $('[id^=picture_]' ).length;
-    $( "#picture_" + elems ).trigger( "load" );
+    var count = $('img[id^=picture]').length;
+    var index = 1;
+
+    while ( index <= count) {
+        resizeGroups( "#picture_" + index++ );
+    }
 });
 
 window.addEventListener('load',   prepareResize, false);        
@@ -13,14 +17,13 @@ var widths  = [];
 var heights = [];
 var rows    = [];
 var rowIds  = [];
-var defaultHeight = 200;
 
 $("img").one("load", function() {
 
     widths[  this.id ] = $(this).width();
     heights[ this.id ] = $(this).height();
 
-    resizeGroups( this );
+    resizeGroups( this.id );
 
 }).each(function() {
   if(this.complete) $(this).load();
@@ -43,10 +46,8 @@ function prepareGroups( prefix )
    );
 }
 
-function resizeGroups( obj ) 
+function resizeGroups( id ) 
 {                                         
-    var id = obj.id;
-
     var prefix = id.replace( /_[0-9]*/, "" );
     var elems  = id.replace( /.*_/, "" );
     var index = ( elems - 1 + 1 );
@@ -69,12 +70,14 @@ function resizeGroups( obj )
     var begin = 1;
     var end = 0;
     var pic       = $( "#" + prefix + "_" + begin );
-    var screenWidth = document.documentElement.clientWidth;
+    var screenWidth  = document.documentElement.clientWidth;
+    var screenHeight = document.documentElement.clientHeight;
     var padding = 6;
+    var defaultHeight = screenHeight / 2;
 
     while ( end <= elems ) {
 
-        try {
+        //try {
 
             var groupno = 1;
             var groupWidth = padding;
@@ -102,7 +105,6 @@ function resizeGroups( obj )
 
                 } while ( ++begin <= elems && newGroupWidth <= screenWidth );
 
-                var groupEnd = begin - 1;
                 begin = oldbegin;
 
                 var elemWidth  = widths[  key ];
@@ -114,59 +116,66 @@ function resizeGroups( obj )
                     var proportion = ( groupWidth + padding ) / screenWidth;
                     var newheight = Math.round( defaultHeight / ( proportion != 0 ? proportion : 1 ) );
 
-                    if ( newheight > ( defaultHeight * 2 ) ) {
-                        newheight = defaultHeight * 2;
+                    if ( newheight > ( defaultHeight ) ) {
+                        newheight = defaultHeight;
                     }
 
                     rows[ groupno ] = { 
+                        'index': groupno,
                         'count': 0,
-                        'begin': 0,
-                        'end': 0
+                        'begin': begin,
+                        'end': begin - 1,
+                        'newheight': newheight
                     };
 
-                    rows[ groupno ].begin = begin;
-                    rows[ groupno ].end   = groupEnd;
-
-                    do {
-
-                        key = prefix + '_' + begin;
-
-                        if ( heights[ key ] != 0 ) {
-
-                            var aspect = widths[ key ] / heights[ key ];
-
-                            try {
-
-                                var thisid =  "#" + prefix + "_" + begin ;
-
-                                $( thisid ).removeAttr( "height" );
-                                $( thisid ).removeAttr( "width" );
-
-                                $( thisid ).attr( "height",  newheight          );
-                                $( thisid ).attr( "width",   newheight * aspect );
-                                $( thisid ).attr( "groupno", groupno            );
-
-                                rows[ groupno ].count++;
-                                rowIds[ begin ] = groupno;
-                            }
-                            catch (err) {
-                                console.log( err );
-                            }
-                        }
-                        else
-                            console.log( "Skipping " + key + "\n" );
-
-                    } while ( ++begin < groupEnd );
-
-                    groupno++;
+                    resizeGroup( prefix, rows[ groupno ] );
                 //}
 
-                begin = groupEnd; 
+                begin = rows[ groupno++ ].end; 
                 groupWidth = padding;
             }
-        }
-        catch (err) {
-            console.log( err );
-        }
+        //}
+        //catch (err) {
+            //console.log( err );
+        //}
     }
+}
+
+function resizeGroup( prefix, group )
+{
+    do {
+
+        var begin = group.begin;
+
+        var key = prefix + '_' + begin;
+
+        if ( heights[ key ] != 0 ) {
+
+            var aspect = widths[ key ] / heights[ key ];
+
+            //try {
+
+                var thisid =  "#" + prefix + "_" + begin ;
+                var height = group.newheight / 2;
+
+                $( thisid ).removeAttr( "height" );
+                $( thisid ).removeAttr( "width" );
+
+                $( thisid ).attr( "height",  height          );
+                $( thisid ).attr( "width",   height * aspect );
+                $( thisid ).attr( "groupno", group.index     );
+
+                $( "#header_" + begin ).width( height - 6 );
+
+                rows[ group.index ].count++;
+                rowIds[ begin ] = group.index;
+            //}
+            //catch (err) {
+                //console.log( err );
+            //}
+        }
+        else
+            console.log( "Skipping " + key + "\n" );
+
+    } while ( ++begin < group.end );
 }

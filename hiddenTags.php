@@ -156,7 +156,7 @@
 
             $keytags = array();
 
-            $keytags[ "low"             . $index ] = "/pics/$thumbnail" ;
+            $keytags[ "low"             . $index ] = "$thumbnail" ;
             $keytags[ "aspectRatio"     . $index ] = doDimensions( $file, $absDir, 0 );
             $keytags[ "picWidth"        . $index ] = doDimensions( $file, $absDir, 1 );
             $keytags[ "picHeight"       . $index ] = doDimensions( $file, $absDir, 2 );
