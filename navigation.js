@@ -1,7 +1,7 @@
 var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
 var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
-var index;
-var count;
+var index = 0;
+var count = 0;
 var  file = getQueryVariable( "file"  );
 var   dir = getQueryVariable( "dir"   );
 
@@ -273,6 +273,18 @@ $('#multisearch').submit(function( e ) {
                 patterns[ i ].callback();
             }
         }
+    }
+    else {
+
+        var retSearch = 
+
+        $.ajax({
+            url: 'search.php',
+            data: { search:value },
+            success: function( result ) {
+                    window.location.href = "index.php?dir=/pics&file=" + result;
+                }
+            });
     }
 });
 

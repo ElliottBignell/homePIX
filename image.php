@@ -10,15 +10,19 @@
         <link href="clearall.css" rel="stylesheet" />
         <link href="css3-loesung-text-shadow.css" rel="stylesheet" />
 
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
-        <script src="albumMover.js" async=""></script>
-        <script src="navigation.js" async=""></script>
-        <script src="lazysizes-gh-pages/lazysizes.min.js" async=""></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
+        <script src="mover.js" type="text/javascript"></script>
+        <script src="fileMover.js" type="text/javascript"></script>
+        <script src="navigation.js" type="text/javascript"></script>
+        <script src="lazysizes-gh-pages/lazysizes.min.js" type="text/javascript"></script>
+        <script src="resize.js"></script>
 
     </head>
-    <body onload="imgnav = new fileMover();imgnav.navigate( index, null );detectswipe('main', myfunction);">
+    <body>
         <?php
         
+            error_reporting( E_ALL | E_STRICT );
+
             include dirname(__FILE__)."/common.php";
 
             function doGPS( $listing )
@@ -64,7 +68,7 @@
             $filename = $_GET["file"];
         
             $prettydir = preg_replace( '{^/(.*)$}', '$1', $picdir );
-            $lofile    = preg_replace( "{^(.*)/([^/]*\.jpg)$}", '$1/.low_$2', $filename );
+            $lofile    = preg_replace( "{^(.*)/([^/]*\.jpg)$}", '$1/.tnllo_$2', $filename );
             $absDir = preg_replace( '/[\/]pics/', '..', $picdir, 1 );
 
             if ( !file_exists( $lofile ) ) {
@@ -196,6 +200,13 @@
         </div>
 HEADERTABLE;
 
+echo <<<HEADERTABLE2
+    <script type="text/javascript">
+        imgnav = new fileMover( '../$prettydir/' );
+        imgnav.navigate( 1, null );
+        detectswipe('main', myfunction);
+    </script>
+HEADERTABLE2;
         ?>
     <?php include 'hiddenTags.php';?>
   </body>

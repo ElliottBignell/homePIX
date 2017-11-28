@@ -57,7 +57,7 @@ while [[ $# -gt 0 ]]; do
 
         -f|--file)
 
-            tnl=`echo $corrpath | sed s:\.low_::`
+            tnl=`echo $corrpath | sed s:\.tnl_::`
 
             if [ ! -f $corrpath ] || [ $corrpath -nt $tnl ]; then 
                 convert $tnl -resize x200 -quality 90% $corrpath
