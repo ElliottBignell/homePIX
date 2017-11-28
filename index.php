@@ -155,6 +155,8 @@ HEADERTABLE;
 
             $('#photocount').text( photos );
             $('#albumcount').text( albums );
+
+            $(window).trigger('resize');
         });
     </script>
 HEADERTABLE3;
@@ -166,14 +168,17 @@ function echoDirectory( $folder, $picdir, $cnt, $thumbnail, $file, $index )
     $formatfile = preg_replace( '/\s/', "%20", $file   );
 
     echo <<<DIRECTORY
-        <div class="tooltip">
-            <a href=index.php?dir="/pics$picdir/$formatdir"&file=$formatfile>
-                <section class="wrapper" id="dir-number_$index">
-                    <header><h1>$folder</h1></header>
-                    <img class="lazyload" id="img-number_$index" src="/pics/$thumbnail" data-src="/pics/$thumbnail" alt="$file" style="border:2px solid white">
+        <div class="tooltip" id="dir_$index">
+            <a id="dirlink_$index" href=index.php?dir="/pics$picdir/$formatdir"&file=$formatfile>
+                <span class="tooltipsubject" id="dir-number_$index">
+                    <img class="lazyload" id="img-number_$index" src="/pics/$thumbnail" data-src="/pics/$thumbnail" alt="$file" style="border:2px solid white;height:200px;">
                 </section>
-                <span class="tooltiptext">
-                    <article>$folder</article>
+                <div id="header_dir_o_$index" class="tooltipleft tooltipdir">
+                    <div id="header_dir_$index" class="tooltiplefttext">
+                        $folder
+                    </div>
+                </div>
+                <span class="tooltiptext tooltipbottom">
                     <article>Contains $cnt files</article>
                 </span>
             </a>
@@ -362,7 +367,7 @@ iterateOverFiles( $fileListing, $filepat, $fragpat, function( $file )
     $colour = $index != $selindex ? "2px solid white" : "2px solid red";
 
     echo <<<IMAGE
-        <div class="tooltip" id="div_$index">
+        <div class="tooltip" id="div_$index" style="min-height:200px;">
             <a id="piclink_$index" href="image.php?file=$file&dir=/pics$dir&index=$index&count=$cnt">
                 <section class="wrapper" id="file-number_$index">
                     <span class="tooltipsubject">
@@ -371,12 +376,14 @@ iterateOverFiles( $fileListing, $filepat, $fragpat, function( $file )
                              src="$loThumbnail" 
                              data-src="$thumbnail" 
                              alt="$file" 
-                             style="border:$colour;position:relative;top:100%;left:0%;z-index:0;">
+                             style="border:$colour;position:relative;top:100%;left:0%;z-index:0;height:200px;">
                         </img>
                     </span>
                 </section>
-                <div id="header_$index" class="tooltipleft tooltiptext tooltiplefttext">
-                    $tipText
+                <div id="header_o_$index" class="tooltipleft tooltiptext">
+                    <div id="header_$index" class="tooltiplefttextnooff">
+                        $tipText
+                    </div>
                 </div>
                 <span class="tooltiptext tooltiptop">
                     <article id="art_pageno_$index">$index</article>

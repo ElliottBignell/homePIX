@@ -6,9 +6,7 @@ $( window ).on( "resize", function() {
     var count = $('img[id^=picture]').length;
     var index = 1;
 
-    while ( index <= count) {
-        resizeGroups( "#picture_" + index++ );
-    }
+    resizeGroups( "#picture_" + count );
 });
 
 window.addEventListener('load',   prepareResize, false);        
@@ -18,7 +16,7 @@ var heights = [];
 var rows    = [];
 var rowIds  = [];
 
-$("img").one("load", function() {
+$("img").on("load", function() {
 
     widths[  this.id ] = $(this).width();
     heights[ this.id ] = $(this).height();
@@ -51,29 +49,36 @@ function resizeGroups( id )
     var prefix = id.replace( /_[0-9]*/, "" );
     var elems  = id.replace( /.*_/, "" );
     var index = ( elems - 1 + 1 );
-    var keywords = $( "#keywords" + index ).html();
-    var text     = $( "#title"    + index ).html();
 
-    if ( "" != text ) {
-        $( "#header_"       + index ).html( "<h1>" + text + "</h1>" );
-    }
-
-    if ( "" != keywords ) {
-        $( "#art_keywords_" + index ).html( keywords.replace( /,/g, "<br>" ) );
-    }
-
-    //var elems = $('[id^=' + prefix + ']' ).length;
-
-    if ( 0 == elems )
+    if ( 0 == index )
         return;
 
     var begin = 1;
     var end = 0;
-    var pic       = $( "#" + prefix + "_" + begin );
+    var pic       = $( prefix + "_" + begin );
     var screenWidth  = document.documentElement.clientWidth;
     var screenHeight = document.documentElement.clientHeight;
     var padding = 6;
     var defaultHeight = screenHeight / 2;
+
+    $('[id^=keywords]').each( 
+        function() { 
+
+            var keywords =  $( this ).html().replace( /,/g, "<br>" );
+            var arttag = "#" + this.id.replace( /keywords/, "art_keywords_" );
+            $( arttag ).html( keywords );
+            
+            var titletag  = "#" + this.id.replace( /keywords/, "title"   );
+            var headertag = "#" + this.id.replace( /keywords/, "header_" );
+            var title =  $( titletag ).html();
+            $( headertag ).html( title );
+            //var text     = $( "#title"    + index ).html();
+
+            //if ( "" != text ) {
+                //$( "#header_" + index ).html( text );
+            //}
+
+        } );
 
     while ( end <= elems ) {
 
@@ -155,7 +160,7 @@ function resizeGroup( prefix, group )
 
             //try {
 
-                var thisid =  "#" + prefix + "_" + begin ;
+                var thisid =  prefix + "_" + begin ;
                 var height = group.newheight / 2;
 
                 $( thisid ).removeAttr( "height" );

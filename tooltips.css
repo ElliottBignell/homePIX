@@ -1,48 +1,82 @@
 /* Tooltip container */
 .tooltip {
     position: relative;
+    overflow:hidden;
     display: inline-block;
     /* border-bottom: 1px dotted black; */ /* If you want dots under the hoverable text */
 }
 
 .tooltip .tooltipleft {
 
+    position:absolute; 
     left: 0%;
-    top: 0%;
-    padding: 5px 5px;
+    top: 2px;
+    width: 18px;
+    padding: 5px 2px;
     background-color: black;
     color: yellow;
-    text-align: middle;
-    vertical-align: middle;
+    text-align: center;
+    vertical-align: top;
+    margin:auto; 
+    height: calc( 100% - 16px );
 }
 
 .tooltip .tooltiplefttext {
 
-    -moz-transform-origin:0 50%;
-    -moz-transform:rotate(-90deg) translate(-50%, 50%);
-    -webkit-transform-origin:0 50%;
-    -webkit-transform:rotate(-90deg) translate(-50%, 50%);
-    -o-transform-origin:0 50%;
-    -o-transform:rotate(-90deg) translate(-50%, 50%);
-    -ms-transform-origin:0 50%;
-    -ms-transform:rotate(-90deg) translate(-50%, 50%);
-    transform-origin:0 50%;
-    transform:rotate(-90deg) translate(-50%, 50%);
-    
-    position:absolute; 
-    bottom:0px; 
-    left:2px; 
-    margin:auto; 
-    font-weight:bold; 
-
     /* Text and font */
-    width:100%;
-    height:14px;
     font-size: 12pt;
     font-family: sans-serif;
     font-weight: bold;
-    text-align: middle;
-    vertical-align: middle;
+    text-align: center;
+    vertical-align: top;
+
+    -moz-transform-origin:top left;
+    -webkit-transform-origin:top left;
+    -o-transform-origin:top left;
+    -ms-transform-origin:top left;
+    transform-origin:top left;
+
+    -moz-transform:rotate(-90deg) translate( -190px, 0 );
+    -webkit-transform:rotate(-90deg) translate( -190px, 0 );
+    -o-transform:rotate(-90deg) translate( -190px, 0 );
+    -ms-transform:rotate(-90deg) translate( -190px, 0 );
+    transform:rotate(-90deg) translate( -190px, 0 );
+}
+
+.tooltip .tooltiplefttextnooff {
+
+    /* Text and font */
+    font-size: 12pt;
+    font-family: sans-serif;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: top;
+
+    -moz-transform-origin:top left;
+    -webkit-transform-origin:top left;
+    -o-transform-origin:top left;
+    -ms-transform-origin:top left;
+    transform-origin:top left;
+
+    -moz-transform:rotate(-90deg);
+    -webkit-transform:rotate(-90deg);
+    -o-transform:rotate(-90deg);
+    -ms-transform:rotate(-90deg);
+    transform:rotate(-90deg) translate( -190px, 0 );
+}
+
+/* Non-dynamic header for directories */
+.tooltip .tooltipdir {
+
+    position:absolute; 
+    left: 0%;
+    top: 2px;
+    width: 18px;
+    visibility: visible;
+
+    /* Position the tooltip text */
+    z-index: 1;
+    margin-left: 0px;
 }
 
 .tooltip .tooltiptop {
@@ -77,8 +111,6 @@
 .tooltip .tooltiptext {
 
     visibility: hidden;
-    text-align: left;
-    vertical-align: middle;
 
     /* Position the tooltip text */
     position: absolute;
@@ -93,14 +125,9 @@
 /* Tooltip arrow */
 .tooltip .tooltiptext::after {
     content: "";
-    position: absolute;
-    bottom: 0%;
-    left: 20px;
-    margin-left: -20px;
     border-width: 0px;
     border-style: solid;
     border-color: #555 transparent transparent transparent;
-    transform : rotate(180deg);
 }
 
 /* Show the tooltip text when you mouse over the tooltip container */
@@ -112,8 +139,6 @@
 /* Tooltip header */
 .tooltip .tooltipsubject {
     visibility: visible;
-    position: relative;
-    height: 50%;
 }
 
 /* Tooltip header */
