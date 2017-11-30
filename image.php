@@ -207,7 +207,11 @@ echo <<<HEADERTABLE2
         detectswipe('main', myfunction);
     </script>
 HEADERTABLE2;
-        ?>
+
+    $filename = "";
+
+    ?>
+
     <?php include 'hiddenTags.php';?>
   </body>
 </html>

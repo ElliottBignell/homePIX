@@ -4,7 +4,7 @@
 function albumMover( dir ) 
 {
     count = $('*').filter(function () {
-        return this.id.match(/picture_\d+/); //regex for the pattern "picture_ followed by a number"
+        return this.id.match(/img\d+/); //regex for the pattern "img followed by a number"
     }).length;
 
     index = 1;
@@ -16,6 +16,9 @@ function albumMover( dir )
 
     this.mapFun = function( obj, x, i ) 
         { 
+            if ( !$('#div_' + ( i + 1 ) ).length ) { alert( "Failed on " + i ); }
+            if ( !$('#keywords' + ( i + 1 ) ).length ) { alert( "Failed on " + i ); }
+
             var entry = {
                 html: document.getElementById( 'div_'     + ( i + 1 ) ).innerHTML,
                 keys: document.getElementById( 'keywords' + ( i + 1 ) ).innerHTML,
@@ -42,13 +45,15 @@ function albumMover( dir )
     //$( this ).bind( "yell", function(){
         //alert("In");
     //});
-};
+}
 
 albumMover.prototype = 
 {
     ctrlmove: function( idx )
     {
-        var count = this.settings.length;
+        count = $('*').filter(function () {
+            return this.id.match(/img\d+/); //regex for the pattern "img followed by a number"
+        }).length;
 
         function selection( a, b )
         {
@@ -118,10 +123,16 @@ albumMover.prototype =
     },
     move: function( idx, evt )
     {
+        count = $('*').filter(function () {
+            return this.id.match(/img\d+/); //regex for the pattern "img followed by a number"
+        }).length;
+
         if ( idx > 0 && idx <= count ) {
 
-            if ( evt.ctrlKey ) {
-                this.ctrlmove( idx );    
+            if ( null != evt ) {
+                if ( evt.ctrlKey ) {
+                    this.ctrlmove( idx );    
+                }
             }
 
             var oldIndex = index;
@@ -146,11 +157,13 @@ albumMover.prototype =
                 this.navigate( index, evt );
             }
 
-            if ( evt.ctrlKey ) {
-                $(window).trigger('resize');
-            }
+            if ( null != evt ) {
+                if ( evt.ctrlKey ) {
+                    $(window).trigger('resize');
+                }
 
-            evt.preventDefault();
+                evt.preventDefault();
+            }
         }
     },
     set: function( idx, evt ) 

@@ -72,14 +72,25 @@
         }
     }
 
-    $listing = file_get_contents( ".." . $dirname . "/.listing.txt" );
+    if ( "" == $filename ) {
+        $listing = file_get_contents( ".." . $dirname . "/.listing.txt" );
+shell_exec( "echo 'Filename: " . $listing . "' >>log.txt" );
+    }
+    else {
+        $listing = file_get_contents( $filename );
+    }
+
     $listing = nl2br($listing, true);
+    $fileListing = $listing;
 
     $index = 1;
 
-    $absDir = str_replace(array('\'', '"'), '', $absDir);
+    if ( "" == $filename ) {
 
-    $fileListing = listDir( $absDir );
+        $absDir = str_replace(array('\'', '"'), '', $absDir);
+
+        $fileListing = listDir( $absDir );
+    }
 
     $allExt    = '[jJ][pP][gG]';
     $filepat   = '/(?<!tnl_)(?<!low_)[A-Za-z0-9_]*\.' . $allExt . '/';

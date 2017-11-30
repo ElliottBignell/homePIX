@@ -7,7 +7,7 @@ function fileMover( dir )
     count = getQueryVariable( "count" );
 
     mover.call( this );
-};
+}
 
 fileMover.prototype = 
 {
@@ -18,6 +18,7 @@ fileMover.prototype =
     move: function( idx, evt )
     {
         var imgText = document.getElementById( 'img' + idx ).innerHTML;
+
         var lowText = document.getElementById( 'low' + idx ).innerHTML;
 
         var keyWords = document.getElementById( 'keywords' + idx).innerHTML.replace( /,/g, ", " );

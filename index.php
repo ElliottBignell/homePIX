@@ -22,6 +22,7 @@
 
 </head>
 <body>
+<?php include 'detectmobilebrowser.php';?>
 <?php include 'makeThumbnails.php';?>
 <?php  
 
@@ -48,14 +49,33 @@ $cwd       = getcwd();
 $prettydir = preg_replace( '{^/(.*)$}', '$1', $picdir );
 $lofile    = preg_replace( "{^(.*)/([^/]*\.jpg)$}", '$1/.low_$2', $filename );
 $absDir = preg_replace( '/[\/]pics/', '..', $picdir, 1 );
+$dirname = preg_replace( '/[\/]pics/', '..', $picdir, 1 );
 
 $filepat   = '/(?<!tnl_)(?<!low_)[A-Za-z0-9_]*\.' . $allExt . '/';
 $fragpat   = '/([0-9]*)(\t )*\.\/(.*\.' . $allExt . ')/';
 $findpat   = '/([0-9]*)\t\.\/(.*\.txt)/';
 
+$is = isMobile();
+
+$headerheight = ( 0 == $is ? "70px" : "100px" );
+$maintop      = ( 0 == $is ?  "80px" : "110px" );
+
+function echoSearchField( $width )
+{
+    return "
+              <form id='multisearch'>
+                  <fieldset>
+                      <input id='find' style='align:right;width:" . $width . ";' type='text' value='$findValue'>
+                      <input type='submit' style='display:none'/>
+                  </fieldset>
+              </form>
+              <!--<form action='$_SERVER[PHP_SELF]' method='POST'>-->
+            ";
+}
+
 function echoButton( $text, $findValue )
 {
-    return "<td style='background-color:black;column-span:all;padding:0px;width:3vw;'>
+    return "<td style='background-color:black;column-span:all;padding:0px;width:3vw;text-align:center;'>
               <div class='tooltip'>
                   <a href=index.php><h2>$text</h2></a>
                   <span class='tooltiptext'>
@@ -64,9 +84,10 @@ function echoButton( $text, $findValue )
               </div>
            </td>";
 }
-function echoBox( $findValue )
+
+function echoBox( $findValue, $width )
 {
-  return "<td style='background-color:black;column-span:all;padding:0px;width:3vw;'>
+  return "<td style='background-color:black;padding:0px;width:" . $width . ";text-align:center;'>
           <div class='tooltip'>
               <a href=index.php>
                   <div id='search_box'><div id='search'></div><span id='cabe'></span></div>
@@ -80,8 +101,10 @@ function echoBox( $findValue )
 
 function echoHeader( $findValue )
 {
+    global $headerheight, $is;
+
     echo <<<HEADERTABLE
-      <div id="pageheader">
+      <div id="pageheader" style="height:$headerheight;">
           <table style="background-color:black;width:100vw;padding:0px;">
           <tr>
               <td style="column-span:all;padding:0px;width:1vw;">
@@ -89,7 +112,7 @@ function echoHeader( $findValue )
               <td style=";column-span:all;padding:0px;width:3vw;">
                   <div class="tooltip">
                     <a href=index.php>
-                        <table
+                        <table>
                             <tr>
                                 <td style="padding-right:5px;">
                                     <h3>HOMEpix</h3>
@@ -107,24 +130,52 @@ function echoHeader( $findValue )
               </td>
               <td style="column-span:all;padding:0px;width:55vw;">
               </td>
-              <td style="column-span:all;padding:0px;width:34vw;">
-                  <form id="multisearch">
-                      <fieldset>
-                          <input id="find" style="align:right;width:32vw;" type="text" value="$findValue">
-                          <input type="submit" style="display:none"/>
-                      </fieldset>
-                  </form>
-                  <!--<form action="$_SERVER[PHP_SELF]" method="POST">-->
-              </td>
+             <td style='column-span:all;padding:0px;width:34vw;'>
+             </td>
 HEADERTABLE;
-    echo echoBox( "Tool Tip" );
+    if ( 0 == $is ) {
+
+        echo "          <td>";
+        echo echoSearchField( "32vw" );
+        echo "          </td>";
+        echo "          <td>";
+        echo echoBox( "Tool Tip", "3vw" );
+        echo "          </td>";
+    }
+    else
+        echo "<td></td><td></td>";
+
     echo echoButton( "&#x2295;", "Tool Tip" );
-    echo echoButton( "&#x2611;", "Tool Tip" );
-    echo echoButton( "&#x2622;", "Tool Tip" );
-    echo echoButton( "&#x262E;", "Tool Tip" );
-    echo <<<HEADERTABLE3
-              <td style="column-span:all;padding:0px;width:1vw;">
-              </td>
+
+    if ( 0 == $is ) {
+
+        //echo echoButton( "&#x2611;", "Tool Tip" );
+        //echo echoButton( "&#x2622;", "Tool Tip" );
+        //echo echoButton( "&#x262E;", "Tool Tip" );
+    }
+
+        echo <<<HEADERTABLE3
+                  <td style="column-span:all;padding:0px;width:1vw;">
+                  </td>
+HEADERTABLE3;
+
+    if ( 1 == $is ) {
+
+        echo <<<HEADERTABLE4
+                  <td style="column-span:all;padding:0px;width:1vw;">
+                  </td>
+          </tr>
+          <tr>
+HEADERTABLE4;
+        echo "<td colspan='6' style='width:100%;'>";
+        echo echoSearchField( "90%" );
+        echo "</td>";
+        echo echoBox( "Tool Tip", "2vw" );
+    }
+
+    if ( 1 != $is ) {
+
+        echo <<<HEADERTABLE5
           </tr>
       </table>
     <table style="width:100vw;padding:0px;border:none;font-size:14pt;font-weight:bold;">
@@ -133,6 +184,7 @@ HEADERTABLE;
             </td>
             <td style="padding:0px;padding-right:15px;width:15%;text-align:right;">
                 PHOTOS
+            </td>
             <td style="padding:0px;width:15%;text-align:left;font-weight:normal;">
                 <span id="photocount"></span>
             </td>
@@ -143,9 +195,14 @@ HEADERTABLE;
             </td>
             <td style="padding:0px;width:20%;">
             </td>
+HEADERTABLE5;
+    }
+
+    echo <<<HEADERTABLE6
         </tr>
     </table>
   </div>
+
     <script type="text/javascript">
 
         $(document).ready(function() {
@@ -159,7 +216,7 @@ HEADERTABLE;
             $(window).trigger('resize');
         });
     </script>
-HEADERTABLE3;
+HEADERTABLE6;
 }
 
 function echoDirectory( $folder, $picdir, $cnt, $thumbnail, $file, $index )
@@ -213,7 +270,7 @@ if ( $_POST[ 'find' ] ) {
 
 echoHeader( $findValue );
 
-echo "<div id=\"mainlist\" style=\"overflow-y:scroll;overflow-x:hidden;\">";
+echo "<div id=\"mainlist\" style=\"top:" . $maintop . ";overflow-y:scroll;overflow-x:hidden;\">";
 
 $isFind = ( preg_match( '/^[\/]".*"$/', $picdir ) );
 
@@ -264,9 +321,12 @@ if ( ! $isFind ) {
 
     if ( !empty( $albums ) && "" == $picdir) {
 
-        echo "<span class=\"unembellish\">" . 
-             "Albums<br>" .
-             "</span>";
+        if ( 0 == $is ) {
+
+            echo "<span class=\"unembellish\">" . 
+                 "Albums<br>" .
+                 "</span>";
+        }
 
         foreach( $albums as $token ) {
 

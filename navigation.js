@@ -33,7 +33,7 @@ $('#find').on('search', function(e) {
 $('#multisearch').submit(function( e ) {
 
     var value  =  $('#find').val();
-    var substr = value.match( /(g|v|[0-9\^]*,[0-9$]*|[0-9]+|\%)([\W])(.*)\2(s|m([0-9]+)|\>|\<|(k|t)(\+|\-)*\=\".*\")/i );
+    var substr = value.match( /(g|v|[0-9\^]*,[0-9$]*|[0-9]+|\%)([\W])((.*)\2)*(s|m([0-9]+)|\>|\<|(k|t)(\+|\-)*\=\".*\")/i );
 
     e.preventDefault();
 
@@ -46,6 +46,7 @@ $('#multisearch').submit(function( e ) {
         index++;
 
         var text      = substr[ index++ ];
+        index++
         var operation = substr[ index++ ];
 
         var regexp = new RegExp( ".*" + text + ".*", "i" );
@@ -126,6 +127,7 @@ $('#multisearch').submit(function( e ) {
                     'cancelable': true,
                     'ctrlKey': true
                     });
+
             imgnav.navigate( idx, event );
         }
 
@@ -243,8 +245,8 @@ $('#multisearch').submit(function( e ) {
             break;
         case /[0-9\^]*,[0-9$]*/.test( filter ):
             var indices = filter.match( /([0-9\^]*)(,([0-9$]*)*)/i );
-            firstN = ( null == indices[ 1 ] || '^' == indices[ 1 ] ) ?     0 : indices[ 1 ];
-            lastN  = ( null == indices[ 3 ] || '^' == indices[ 3 ] ) ? count : indices[ 3 ];
+            firstN = ( null == indices[ 1 ] || '^' == indices[ 1 ] ) ?     1 : indices[ 1 ] + 1;
+            lastN  = ( null == indices[ 3 ] || '^' == indices[ 3 ] ) ? count : indices[ 3 ] + 1;
             rangeFun = selectRange.bind( null, { current: -1, first: firstN, last: lastN } );
             break;
         case /^[0-9]+$/.test( filter ):
