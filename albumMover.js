@@ -4,7 +4,7 @@
 function albumMover( dir ) 
 {
     count = $('*').filter(function () {
-        return this.id.match(/img\d+/); //regex for the pattern "img followed by a number"
+        return this.id.match(/picture_\d+/); //regex for the pattern "img followed by a number"
     }).length;
 
     index = 1;
@@ -105,7 +105,7 @@ albumMover.prototype =
                   + ( ( this.settings[ i ] ) == 0 ? "white;" : "green;" )
                     );
 
-                //if ( this.content[ i ].selected ) {
+                if ( this.content[ i ].selected ) {
 
                     $.ajax({
                         method: 'POST',
@@ -117,7 +117,7 @@ albumMover.prototype =
                             moveTo:   i
                         }
                     });
-                //}
+                }
             }
         }
     },

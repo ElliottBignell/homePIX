@@ -72,12 +72,6 @@ function resizeGroups( id )
             var headertag = "#" + this.id.replace( /keywords/, "header_" );
             var title =  $( titletag ).html();
             $( headertag ).html( title );
-            //var text     = $( "#title"    + index ).html();
-
-            //if ( "" != text ) {
-                //$( "#header_" + index ).html( text );
-            //}
-
         } );
 
     while ( end <= elems ) {

@@ -12,8 +12,11 @@
     <link href="directories.css" rel="stylesheet" />
     <link href="clearall.css" rel="stylesheet" />
     <link href="tooltips.css" rel="stylesheet" />
+    <link href="panels.css" rel="stylesheet" />
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="mover.js" type="text/javascript"></script>
     <script src="albumMover.js" type="text/javascript"></script>
     <script src="lazysizes-gh-pages/lazysizes.min.js" type="text/javascript"></script>
@@ -73,11 +76,13 @@ function echoSearchField( $width )
             ";
 }
 
-function echoButton( $text, $findValue )
+function panelSwitch( $text, $findValue )
 {
     return "<td style='background-color:black;column-span:all;padding:0px;width:3vw;text-align:center;'>
               <div class='tooltip'>
-                  <a href=index.php><h2>$text</h2></a>
+                  <a href=javascript:togglePanel()>
+                      <h2>$text</h2>
+                  </a>
                   <span class='tooltiptext'>
                       $findValue
                   </span>
@@ -145,13 +150,13 @@ HEADERTABLE;
     else
         echo "<td></td><td></td>";
 
-    echo echoButton( "&#x2295;", "Tool Tip" );
+    echo panelSwitch( "&#x2295;", "Tool Tip" );
 
     if ( 0 == $is ) {
 
-        //echo echoButton( "&#x2611;", "Tool Tip" );
-        //echo echoButton( "&#x2622;", "Tool Tip" );
-        //echo echoButton( "&#x262E;", "Tool Tip" );
+        //echo panelSwitch( "&#x2611;", "Tool Tip" );
+        //echo panelSwitch( "&#x2622;", "Tool Tip" );
+        //echo panelSwitch( "&#x262E;", "Tool Tip" );
     }
 
         echo <<<HEADERTABLE3
@@ -219,17 +224,17 @@ HEADERTABLE5;
 HEADERTABLE6;
 }
 
-function echoDirectory( $folder, $picdir, $cnt, $thumbnail, $file, $index )
+function echoDirectory( $folder, $picdir, $cnt, $thumbnail, $file, $index, $dragdropclass )
 {
     $formatdir  = preg_replace( '/\s/', "%20", $folder );
     $formatfile = preg_replace( '/\s/', "%20", $file   );
 
     echo <<<DIRECTORY
-        <div class="tooltip" id="dir_$index">
+        <div class="tooltip $dragdropclass" id="dir_$index">
             <a id="dirlink_$index" href=index.php?dir="/pics$picdir/$formatdir"&file=$formatfile>
                 <span class="tooltipsubject" id="dir-number_$index">
                     <img class="lazyload" id="img-number_$index" src="/pics/$thumbnail" data-src="/pics/$thumbnail" alt="$file" style="border:2px solid white;height:200px;">
-                </section>
+                </span>
                 <div id="header_dir_o_$index" class="tooltipleft tooltipdir">
                     <div id="header_dir_$index" class="tooltiplefttext">
                         $folder
@@ -294,7 +299,7 @@ if ( $isFind || $findValue ) {
     $folder = "\"" . $findValue . "\"";
 
     if ( ! $isFind ) {
-        echoDirectory( $folder, "$picdir", $cnt, $thumbnail, $file, $n );
+        echoDirectory( $folder, "$picdir", $cnt, $thumbnail, $file, $n, "" );
     }
 }
 
@@ -343,16 +348,11 @@ if ( ! $isFind ) {
                 $cnt = count( $files );
 
                 if ( $cnt > 0 ) {
-
                     makeThumbnails( $files[ 0 ], $thumbnail, $loThumbnail );
-                    echoDirectory( $title, "", $cnt, $thumbnail, $file, $index++ );
-                    return true;
                 }
-                else {
 
-                    echoDirectory( $title, "", $cnt, $thumbnail, $file, $index++ );
-                    return false;
-                }
+                echoDirectory( $title, "", $cnt, $thumbnail, $file, $index++, "droppable" );
+                return ( $cnt > 0 );
             } );
         }
     }
@@ -386,7 +386,7 @@ if ( ! $isFind ) {
                 return false;
             } );
 
-            echoDirectory( $folder, "$picdir", $cnt, $thumbnail, $file, $index++ );
+            echoDirectory( $folder, "$picdir", $cnt, $thumbnail, $file, $index++, "" );
 
             $photocnt += $cnt;
         }
@@ -427,7 +427,7 @@ iterateOverFiles( $fileListing, $filepat, $fragpat, function( $file )
     $colour = $index != $selindex ? "2px solid white" : "2px solid red";
 
     echo <<<IMAGE
-        <div class="tooltip" id="div_$index" style="min-height:200px;">
+        <div class="tooltip droppable draggable" id="div_$index" style="min-height:200px;">
             <a id="piclink_$index" href="image.php?file=$file&dir=/pics$dir&index=$index&count=$cnt">
                 <section class="wrapper" id="file-number_$index">
                     <span class="tooltipsubject">
@@ -472,6 +472,38 @@ echo <<<HEADERTABLE2
     imgnav = new albumMover( '../$prettydir/' );
 </script>
 HEADERTABLE2;
+
+echo <<<PANEL
+<div id="slideout">
+    <div class="tooltip droppable" id="div_0" style="min-height:200px;position:absolute;top:10;left:10;border:black;">
+        <section class="wrapper" id="file-number_0">
+            <span class="tooltipsubject" style="position:relative;top:10;left:10;">
+                <img id="picture_0" 
+                     class="lazyload" 
+                     src="todo.jpg" 
+                     data-src="todo.jpg" 
+                     alt="todo.jpg" 
+                     style="border:black;position:relative;top:10px;left:10px;z-index:0;height:200px;">
+                </img>
+            </span>
+            <form id="editprops" style="position:absolute;top:0;left:0;">
+                <fieldset>
+                    <input id="title" type="text" value="New Album" style="position:absolute;top:10;left:20px;width:250px">
+                </fieldset>
+            </form>
+        </section>
+        <div id="header_o_0" class="tooltipleft tooltiptext">
+            <div id="header_0" class="tooltiplefttextnooff">
+                Drop Here!
+            </div>
+        </div>
+        <span class="tooltiptext tooltipbottom">
+            <article id="art_keywords_0">Drop pictures to create<br>a new album</article>
+        </span>
+    </div>
+</div>
+PANEL;
+
 ?>
 <?php include 'hiddenTags.php';?>
 </div>

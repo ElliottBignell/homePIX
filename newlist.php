@@ -15,7 +15,7 @@
     $to   = $req_dump[ "moveTo"   ];
     $url  = $req_dump[ "path"     ];
 
-    $cmd = "printf '%s\\" . "n' " . $from . "m" . $to . " w q | ed -s " . $url . ".listing.txt";
+    $cmd = "printf '%s\\" . "n' " . ( $from + 1 ) . "m" . $to . " w q | ed -s " . $url . ".listing.txt";
     fwrite( $fp, $cmd . "\n" );
 
     shell_exec( $cmd );

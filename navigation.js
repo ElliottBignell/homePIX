@@ -4,12 +4,58 @@ var index = 0;
 var count = 0;
 var  file = getQueryVariable( "file"  );
 var   dir = getQueryVariable( "dir"   );
+var dragObj;
 
 document.addEventListener( "touchstart", handleTouchStart, false);        
 document.addEventListener( "touchmove",  handleTouchMove,  false);
 document.addEventListener( "keydown",    doKeyDown,        false )
 //document.addEventListener( "keyup",      doKeyUp,          false );
   window.addEventListener( "keypress",   doKeyPress,       false );
+
+$( ".draggable" ).draggable({
+    revert: 'invalid'
+});
+
+$( ".draggable" ).on( "dragstart", function() {
+
+    var regexp = /div_([0-9]*)/;
+    var thismatch = regexp.exec(this.id);
+
+    imgnav.setFunction( function( x, i ) 
+        {
+            var entry = {
+                html: this.innerHTML,
+                selected: ( i - 1 == thismatch[ 1 ] ) ? true : false,
+                oldindex: i - 1,
+                newindex: i - 1
+            };
+
+            return entry;
+        }
+    );
+
+    dragObj = this.id;
+});
+
+$( ".droppable" ).droppable({
+
+  drop: function( event, ui ) {
+
+    //$( "#" + dragObj ).insertBefore( "#" + this.id );
+    $( "#" + dragObj ).css( {
+        top: "0px", 
+        left: "0px" 
+    });
+
+    var regexp = /div_([0-9]*)/;
+    var match = regexp.exec(dragObj);
+    var thismatch = regexp.exec(this.id);
+
+    dispatchOp( ( match[ 1 ] - 1 ) + "," + ( match[ 1 ] - 1 ) + "@B@m" + ( thismatch[ 1 ] - 1 ) );
+
+    return false;
+  }
+});
 
 $( "#find" ).keydown( function( e ) {
 
@@ -26,16 +72,18 @@ $( "#find" ).keydown( function( e ) {
     }
 });
 
+function togglePanel()
+{
+  $('#slideout').toggleClass('on');
+}
+
 $('#find').on('search', function(e) {
     e.preventDefault();
 });
 
-$('#multisearch').submit(function( e ) {
-
-    var value  =  $('#find').val();
+function dispatchOp( value )
+{
     var substr = value.match( /(g|v|[0-9\^]*,[0-9$]*|[0-9]+|\%)([\W])((.*)\2)*(s|m([0-9]+)|\>|\<|[kta](\+|\-)*\=\".*\")/i );
-
-    e.preventDefault();
 
     if ( null != substr ) {
         
@@ -325,6 +373,12 @@ $('#multisearch').submit(function( e ) {
                 }
             });
     }
+}
+
+$('#multisearch').submit(function( e ) {
+
+    dispatchOp( $('#find').val() );
+    e.preventDefault();
 });
 
 var xDown = null;                                                        
