@@ -1,0 +1,191 @@
+/* Tooltip container */
+.tt_base {
+    position: relative;
+    overflow:hidden;
+    display: inline-block;
+    /* border-bottom: 1px dotted black; */ /* If you want dots under the hoverable text */
+}
+
+.tt_base .tt_left {
+
+    position:absolute; 
+    left: 0%;
+    top: 2px;
+    width: 18px;
+    padding: 5px 2px;
+    background-color: black;
+    color: yellow;
+    text-align: center;
+    vertical-align: top;
+    margin:auto; 
+    height: calc( 100% - 0px );
+}
+
+.tt_base .tt_lefttext {
+
+    /* Text and font */
+    font-size: 12pt;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: top;
+
+    -moz-transform-origin:top left;
+    -webkit-transform-origin:top left;
+    -o-transform-origin:top left;
+    -ms-transform-origin:top left;
+    transform-origin:top left;
+
+    -moz-transform:rotate(-90deg) translate( -190px, 0 );
+    -webkit-transform:rotate(-90deg) translate( -190px, 0 );
+    -o-transform:rotate(-90deg) translate( -190px, 0 );
+    -ms-transform:rotate(-90deg) translate( -190px, 0 );
+    transform:rotate(-90deg) translate( -190px, 0 );
+}
+
+.tt_base .tt_lefttextnooff {
+
+    /* Text and font */
+    font-size: 12pt;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: top;
+    margin-left: 0px;
+    color: yellow;
+
+    -moz-transform-origin:top left;
+    -webkit-transform-origin:top left;
+    -o-transform-origin:top left;
+    -ms-transform-origin:top left;
+    transform-origin:top left;
+
+    -moz-transform:rotate(-90deg);
+    -webkit-transform:rotate(-90deg);
+    -o-transform:rotate(-90deg);
+    -ms-transform:rotate(-90deg);
+    transform:rotate(-90deg) translate( -190px, 0 );
+}
+
+/* Non-dynamic header for directories */
+.tt_base .tt_dir {
+
+    position:absolute; 
+    left: 0%;
+    top: 2px;
+    width: 18px;
+    visibility: visible;
+
+    /* Position the tt_base text */
+    z-index: 1;
+    margin-left: 0px;
+}
+
+.tt_base .tt_top {
+
+    right: 0%;
+    top: 0%;
+    padding: 10px 10px;
+    border-radius: 6px;
+    background-color: #555;
+    color: #fff;
+
+    /* Text and font */
+    font-size: 10pt;
+}
+
+.tt_base .tt_bottom {
+
+    right: 0%;
+    bottom: 0%;
+    padding: 10px 10px;
+    border-radius: 6px;
+    background-color: #555;
+    color: #fff;
+
+    /* Text and font */
+    font-size: 10pt;
+}
+
+/* Tooltip text */
+.tt_base .tt_text {
+
+    visibility: hidden;
+
+    /* Position the tt_base text */
+    position: absolute;
+    z-index: 1;
+    margin-left: 0px;
+
+    /* Fade in tt_base */
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+/* Tooltip arrow */
+.tt_base .tt_text::after {
+    content: "";
+    border-width: 0px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+/* Show the tt_base text when you mouse over the tt_ container */
+.tt_base:hover .tt_text {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Tooltip header */
+.tt_base .tt_subject {
+    visibility: visible;
+}
+
+/* Tooltip header */
+.tt_base .tt_header {
+
+    visibility: hidden;
+
+    /* Position the header bar */
+    left: -1px;
+    top: -1px;
+    bottom: 100%;
+}
+
+.tt_base .tt_header::after {
+    position: absolute;
+    left: -1px;
+    top: -1px;
+    bottom: 100%;
+}
+
+.tt_base:hover .tt_header {
+    visibility: visible;
+}
+
+.tt_base .tt_header h1 {
+    border-width: 0px;
+    border-style: solid;
+}
+
+/* Tooltip header */
+.tt_base .tt_edit {
+
+    visibility: hidden;
+
+    /* Position the edit box */
+    position: absolute;
+    z-index: 1;
+    top: 150px;
+    left: 10%;
+    margin-left: 5px;
+}
+
+.tt_base .tt_edit::after {
+    position: absolute;
+    left: 20%;
+    top: 20%;
+    bottom: 100%;
+}
+
+.tt_base:hover .tt_edit {
+    visibility: visible;
+}

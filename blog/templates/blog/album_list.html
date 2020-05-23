@@ -1,0 +1,61 @@
+{% extends "blog/base.html" %}
+{% block content %}
+
+  {% load django_bootstrap_breadcrumbs %}
+
+  {% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb 'Albums' 'album' %}
+  {% endblock %}
+
+  {% render_breadcrumbs %}
+  <div class="techfont" id="div_8" style="min-height:100px;">
+      <h1>Albums</h1>
+
+      <form action="{% url 'album_list' %}" method="get">
+        <input name="pk" type="text" placeholder="Add new...">
+      </form>
+      <br>Click on a picture to  open the album
+    </div>
+
+    {% for album in object_list %}
+      <div class="tt_base droppable draggable techfont" id="div_8">
+          <a id="piclink_8" href="{{ album.name }}">
+            <section class="wrapper" id="file-number_8">
+                <span class="tt_subject">
+                    <img id="picture_8" 
+                         class="lazyload" 
+                         src="/{{ album.modthumb.modpath }}/{{ album.modthumb.file }}" 
+                         data-src="/{{ album.modthumb.modpath }}/{{ album.modthumb.file }}" 
+                         alt="{{ album.modcount }} shots in {{ album.name }}" 
+                         style="border:2px solid white;position:relative;top:100%;left:0%;z-index:0;height:200px;">
+                    </img>
+                </span>
+            </section>
+            <div id="header_o_8" class="tt_left tt_text">
+                <div id="header_8" class="tt_lefttextnooff">
+                    {{ album.name }}
+                </div>
+            </div>
+            <span class="tt_text tt_top">
+                <article id="art_pageno_8">Contains {{ album.modcount }} shots</article>
+            </span>
+            <span class="tt_text tt_bottom">
+                <article id="art_keywords_8">No keywords</article>
+            </span>
+        </a>
+        <span class="tt_edit">
+            <form id="editprops">
+                <fieldset>
+                    <input id="title" type="text" value="{{ album.name }}">
+                </fieldset>
+            </form>
+        </span>
+      </div>
+    {% empty %}
+      No albums loaded
+    {% endfor %}
+
+  </div>
+
+{% endblock %}
