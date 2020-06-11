@@ -1,0 +1,57 @@
+{% extends "homePIX/picturefile_inc.html" %}
+{% block content %}
+{{block.super}}
+
+  <div class="techfont" id="div_8" style="min-height:100px;">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          {% if object_list %}
+            <h1>{% with object_list|first as first_doc %}{{ first_doc.path.modname }}{% endwith %}</h1>
+          {% else %}
+            <h1>Nothing here!</h1>
+          {% endif %}
+        </div>
+        <div class="col-md-6">
+          <span class="pull-right">
+            <form action="{% url 'picture_list' %}" method="get" class="float-right">
+              <input name="search" type="text" placeholder="Search...">
+            </form>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% for folder in object_list %}
+    {% if folder.modtype == 2 %}
+      {% if folder.modcount > 0 %}
+        <div class="tt_base droppable draggable techfont gallery" id="div_{{ folder.modthumb.modpath }}_{{ folder.modthumb.file }}">
+            <a id="piclink_8" href="?{{ folder.modurl }}">
+              <div class="desc">{{ folder.modname }}</div>
+              <div style="position:absolute;top:0px;right:0px;color:black;"><i class="material-icons">folder</i></div>
+              <section class="wrapper" id="file-number_{{ folder.modthumb.modpath }}_{{ folder.modthumb.file }}">
+                  <span class="tt_subject">
+                      <img id="picture_8"
+                           class="lazyload"
+                           src="{{ folder.modthumb.file }}"
+                           data-src="{{ folder.modthumb.file }}"
+                           alt="{{ folder.count }} shots in {{ folder.modpath }}"
+                           style="border:2px solid white;position:relative;top:100%;left:0%;z-index:0;height:200px;">
+                      </img>
+                  </span>
+              </section>
+              <div class="count">Contains {{ folder.modcount }} shots</div>
+          </a>
+        </div>
+      {% endif %}
+    {% endif %}
+  {% empty %}
+    No folders loaded
+  {% endfor %}
+
+{% endblock content %}
+
+{% block picturefile %}
+{{block.super}}
+{% endblock picturefile %}

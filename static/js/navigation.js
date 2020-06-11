@@ -5,28 +5,234 @@ var count = 0;
 var  file = getQueryVariable( "file"  );
 var   dir = getQueryVariable( "dir"   );
 var dragObj;
+var isShiftPressed = false;
+var isCtrlPressed  = false;
+var currentIndex   = -1;
 
-document.addEventListener( "touchstart", handleTouchStart, false);        
+document.addEventListener( "touchstart", handleTouchStart, false);
 document.addEventListener( "touchmove",  handleTouchMove,  false);
-document.addEventListener( "keydown",    doKeyDown,        false )
+//document.addEventListener( "keydown",    doKeyDown,        false )
 //document.addEventListener( "keyup",      doKeyUp,          false );
-  window.addEventListener( "keypress",   doKeyPress,       false );
 
-$( ".draggable" ).draggable({
+$(document).ready(function() {
+
+  $('div[id^=selectable_]').draggable({
+    cursor: 'move',
+    helper: "clone"
+  });
+
+  $('div[id^=selectable_]').draggable({
+
+    dragstart: function(event, ui) {
+        event.dataTransfer.setData("text", event.target.id);
+    }
+  });
+});
+
+$( "div[id^=selectable_]" ).click(function () {
+
+    $( ".tt_focussed" ).removeClass( "tt_focussed" );
+
+    if ( !isShiftPressed ) {
+
+        $( ".tt_selected" ).addClass( "tt_unselected" );
+        $( ".tt_unselected" ).removeClass( "tt_selected" );
+    }
+
+    currentIndex = parseInt( this.id.match(/\d+/) );
+
+    $(this).find( "img[id^=picture_]" ).removeClass( "tt_unselected" );
+    $(this).find( "img[id^=picture_]" ).addClass( "tt_selected" );
+    $(this).find( "img[id^=picture_]" ).addClass( "tt_focussed" );
+});
+
+$( 'body' ).keydown( function( e ) {
+
+    var code = (e.keyCode ? e.keyCode : e.which);
+    var evtobj = window.event? event : e;
+
+    if ( e.target == document.body ||
+       ( e.target. nodeType == 1 && e.target.tagName == 'A' )
+       )
+    {
+        switch ( code ) {
+        case 13: //Return
+            event.preventDefault();
+            //document.getElementById( 'piclink_' + index ).click();
+            break;
+        case 16: //Shift
+            event.preventDefault();
+            isShiftPressed = true;
+            break;
+        case 17: //Ctrl
+            event.preventDefault();
+            isCtrlPressed = true;
+            break;
+        case 35: //End
+            imgnav.navigate( count, e );
+            break;
+        case 36: //Home
+            imgnav.navigate( 1, e );
+            break;
+
+        case 32: //Spacebar
+
+            //if ( e.target == document.body ) {
+
+                $( '#picture_' + index ).goTo();
+                imgnav.select( index, e );
+                e.preventDefault();
+            //}
+
+            break;
+
+        case 'h':
+        case 37: //Left
+            event.preventDefault();
+            if ( currentIndex >= 0 ) {
+                retreat( e );
+            }
+            break;
+
+        case 'l':
+        case 39: //Right
+            event.preventDefault();
+            if ( currentIndex >= 0 ) {
+                advance( e );
+            }
+            break;
+
+        case 38:
+        case 'k':
+            retreatY( e );
+            break;
+        case 40:
+        case 'j':
+            advanceY( e );
+            break;
+        case 'G':
+            break;
+
+        case 'F': // F
+        case 'f': // f
+
+            if ( e ) {
+
+                e.preventDefault();
+                $( "#find" ).focus();
+            }
+            break;
+
+        case 114: // F3
+            e.preventDefault();
+            $( "#find" ).focus();
+            break;
+
+        default:
+            //alert( e.which );
+        }
+    }
+});
+
+
+$( 'body' ).keyup( function( e ) {
+
+    var code = (e.keyCode ? e.keyCode : e.which);
+    var evtobj = window.event? event : e;
+
+    if ( e.target == document.body ||
+       ( e.target. nodeType == 1 && e.target.tagName == 'A' )
+       )
+    {
+        switch ( code ) {
+        case 13: //Return
+            event.preventDefault();
+            //document.getElementById( 'piclink_' + index ).click();
+            break;
+        case 16: //Shift
+            event.preventDefault();
+            isShiftPressed = false;
+            break;
+        case 17: //Ctrl
+            event.preventDefault();
+            isCtrlPressed = false;
+            break;
+        default:
+        }
+    }
+});
+
+function advance( evtobj )
+{
+    moveTo( currentIndex + 1 );
+}
+
+function retreat( evtobj )
+{
+    moveTo( currentIndex - 1 );
+}
+
+function moveTo( index )
+{
+    var newIndex = "#selectable_" + ( index ).toString();
+
+    if ( $( newIndex ).length ) { // Element exists
+
+        currentIndex += 1;
+        $( newIndex ).trigger( "click" );
+    }
+}
+
+$("#removeClass").click(function () {
+	  $('#para1').removeClass('highlight');
+});
+
+$( "div[id^=selectable_]" ).draggable({
     revert: 'invalid'
 });
 
-$('.draggable').on('dragstart', function( event ) {
-    event.dataTransfer.setData("text", event.target.id); 
+$('div[id^=selectable_]').on('dragstart', function( event ) {
+
+    var data = '';
+    
+    $('.tt_selected').each(function(index) {
+
+        var parse = $(this).attr( 'id' ).split( '_' );
+        data += parse[ 2 ] + '\t';
+    });
+
+    event.originalEvent.dataTransfer.setData( "text", data );
 });
 
-$('.droppable').on('drop', function( event ) {
+$('div[id^=selectable_]').on('drop dragdrop', function( event ) {
+
+    var data = event.originalEvent.dataTransfer.getData("text");
+    alert( 'Drop: ' + data);
     event.preventDefault();
-    var data = event.dataTransfer.getData("text");
-    alert( data )
 });
 
-$('.droppable').on('dragover', function( event ) {
+$('div[id^=album_]').on('dragenter', function( event ) {
+
+    $(this).removeClass( "organise_gallery" );
+    $(this).addClass( "drop_gallery" );
+    event.preventDefault();
+});
+
+$('div[id^=album_]').on('dragleave', function( event ) {
+
+    $(this).removeClass( "drop_gallery" );
+    $(this).addClass( "organise_gallery" );
+    event.preventDefault();
+});
+
+$('div[id^=album_]').on('dragover', function( event ) {
+    event.preventDefault();
+});
+
+$('div[id^=album_]').on('drop dragdrop', function( event ) {
+
+    var data = event.originalEvent.dataTransfer.getData("text");
+    alert( 'Drop: ' + data);
     event.preventDefault();
 });
 
@@ -47,7 +253,7 @@ $( '#paneright' ).on('click', '.selected', function( event ) {
 $( '#paneleft' ).on('click', '.keyword', function( event ) {
 
     event.preventDefault();
-    
+
     var btn = event.target;
     var div = document.getElementById( 'select_keywords' );
     var src = document.getElementById( 'all_keywords' );
@@ -67,7 +273,7 @@ $( '#paneleft' ).on('click', '.keyword', function( event ) {
 
     if ( 'No keywords loaded' == div.innerText )
         div.innerText = '';
-        
+
     div.appendChild( btn );
 
     btn.classList.remove( delClass );
@@ -87,10 +293,10 @@ function reload_keyword_buttons( results, pic_id ) {
 
         $.each(this, function() {
 
-            str += '<button onClick="remove_keyword(\'' 
-                 + this 
-                 + '\',' 
-                 + pic_id 
+            str += '<button onClick="remove_keyword(\''
+                 + this
+                 + '\','
+                 + pic_id
                  + ')" type="button" data-react-toolbox="button">\n';
             str += this + ' ';
             str += '<i class="glyphicon glyphicon-remove"></i>\n';
@@ -209,9 +415,9 @@ $('#find').on('search', function(e) {
 });
 
 $( '#slider' ).on( 'input', function( e ) {
-    $( '#page_no' ).html( 
+    $( '#page_no' ).html(
         "<a href=\"?page=" + $( this ).val() + "\">" + $( this ).val() + "</a>"
-    ); 
+    );
 });
 
 function dispatchOp( value )
@@ -219,7 +425,7 @@ function dispatchOp( value )
     var substr = value.match( /(g|v|[0-9\^]*,[0-9$]*|[0-9]+|\%)([\W])((.*)\2)*(s|m([0-9]+)|\>|\<|[kta](\+|\-)*\=\".*\")/i );
 
     if ( null != substr ) {
-        
+
         var index = 1;
 
         var filter    = substr[ index++ ];
@@ -243,9 +449,9 @@ function dispatchOp( value )
 
         var selectGorV = function( i )
         {
-            var keys = $( "#keywords"+ ( i + 1 ) ).html() + "," + 
-                       $( "#title"   + ( i + 1 ) ).html() + "," + 
-                       $( "#comment" + ( i + 1 ) ).html() + "," + 
+            var keys = $( "#keywords"+ ( i + 1 ) ).html() + "," +
+                       $( "#title"   + ( i + 1 ) ).html() + "," +
+                       $( "#comment" + ( i + 1 ) ).html() + "," +
                        $( "#header_" + ( i + 1 ) ).html();
 
             return ( ( "" != keys && keys.match( regexp ) ) ? selval : !selval );
@@ -266,7 +472,7 @@ function dispatchOp( value )
 
         var vimRange = function()
         {
-            imgnav.setFunction( function( x, i ) 
+            imgnav.setFunction( function( x, i )
                 {
                     var entry = {
                         html: document.getElementById( 'div_' + ( i + 1 ) ).innerHTML,
@@ -321,7 +527,7 @@ function dispatchOp( value )
 
             var one = forwards ? 1 : -1;
 
-            imgnav.sortFun = function( obj, forth, a, b ) { 
+            imgnav.sortFun = function( obj, forth, a, b ) {
                 return (a.sortkey < b.sortkey) ? forth : ((a.sortkey > b.sortkey) ? forth : 0);
             }.bind( null, imgnav, forwards );
 
@@ -383,7 +589,7 @@ function dispatchOp( value )
                         var items = result.match( /(.*)\t(.*)/ );
 
                         if ( null != items ) {
-                            $( "#header_" + items[ 1 ] ).html( "<h1>" + items[ 2 ] + "</h1>" ); 
+                            $( "#header_" + items[ 1 ] ).html( "<h1>" + items[ 2 ] + "</h1>" );
                         }
                     };
 
@@ -393,8 +599,8 @@ function dispatchOp( value )
 
                         if ( null != items ) {
 
-                            $( "#keywords"      + items[ 1 ] ).html( items[ 2 ] ); 
-                            $( "#art_keywords_" + items[ 1 ] ).text( items[ 2 ] ); 
+                            $( "#keywords"      + items[ 1 ] ).html( items[ 2 ] );
+                            $( "#art_keywords_" + items[ 1 ] ).text( items[ 2 ] );
                         }
                     };
 
@@ -496,7 +702,7 @@ function dispatchOp( value )
     }
     else {
 
-        var retSearch = 
+        var retSearch =
 
         $.ajax({
             url: 'search.php',
@@ -514,21 +720,21 @@ $('#multisearch').submit(function( e ) {
     e.preventDefault();
 });
 
-var xDown = null;                                                        
+var xDown = null;
 ////////////////////////////////////////////////////////////////
-function handleTouchStart(evt) 
-{                                         
-    xDown = evt.touches[0].clientX;                                      
-    yDown = evt.touches[0].clientY;                                      
-};                                                
+function handleTouchStart(evt)
+{
+    xDown = evt.touches[0].clientX;
+    yDown = evt.touches[0].clientY;
+};
 
-function handleTouchMove(evt) 
+function handleTouchMove(evt)
 {
     if ( ! xDown || ! yDown ) {
         return;
     }
 
-    var xUp = evt.touches[0].clientX;                                    
+    var xUp = evt.touches[0].clientX;
     var yUp = evt.touches[0].clientY;
 
     var xDiff = xDown - xUp;
@@ -538,27 +744,27 @@ function handleTouchMove(evt)
 
         if ( xDiff > 0 ) {
             //advance();
-        } 
+        }
         else {
             //retreat();
-        }                       
-    } 
+        }
+    }
     else {
-    
+
         if ( yDiff > 0 ) {
             //advance();
-        } 
-        else { 
+        }
+        else {
             //retreat();
-        }                                                                 
+        }
     }
 
     /* reset values */
     xDown = null;
-    yDown = null;                                             
+    yDown = null;
 };
 
-function resizeImg( img ) 
+function resizeImg( img )
 {
     stylestr = "display:block;margin-left:auto;margin-right:auto;border:0px;ipadding:0px;object-fit:contain";
 
@@ -572,7 +778,7 @@ function resizeImg( img )
     var imgRatio    = $( "#aspectRatio" + index ).attr( "innerHTML" );
 
     if ( aspectRatio < imgRatio ) {
-        
+
         $( "#main" ).attr("width", width );
         $( "#main" ).attr("height", width / imgRatio < height ? height : width / imgRatio );
     }
@@ -594,6 +800,7 @@ function doKeyUp(e)
 {
 }
 
+/*
 function doKeyDown(e)
 {
     var code = (e.keyCode ? e.keyCode : e.which);
@@ -610,6 +817,7 @@ function doKeyDown(e)
         break;
     }
 }
+*/
 
 function doSubmit()
 {
@@ -617,92 +825,26 @@ function doSubmit()
 }
 
 
-function doKeyPress(e)
+/*function advanceY( evtobj )
 {
-    var code = (e.keyCode ? e.keyCode : e.which);
-    var evtobj = window.event? event : e;
-
-alert( code );
-
-    if ( e.target == document.body ||
-       ( e.target. nodeType == 1 && e.target.tagName == 'A' )
-       ) 
-    {
-        switch ( code ) {
-        case 13: //Return
-            event.preventDefault();
-            //document.getElementById( 'piclink_' + index ).click();
-            break;
-        case 35: //End
-            imgnav.navigate( count, e );
-            break;
-        case 36: //Home
-            imgnav.navigate( 1, e );
-            break;
-
-        case 32: //Spacebar
-
-            //if ( e.target == document.body ) {
-
-                $( '#picture_' + index ).goTo();
-                imgnav.select( index, e );
-                e.preventDefault();
-            //}
-
-            break;
-
-        case 38:
-        case 'k':
-            retreatY( e );
-            break;
-        case 40:
-        case 'j':
-            advanceY( e );
-            break;
-        case 'G':
-            break;
-
-        case 'F': // F
-        case 'f': // f
-
-            if ( e ) {
-
-                e.preventDefault();
-                $( "#find" ).focus();
-            }
-            break;
-
-        case 114: // F3
-            e.preventDefault();
-            $( "#find" ).focus();
-            break;
-
-        default:
-            //alert( e.which );
-        } 
-    }
+    imgnav.navigate(
+        parseInt( index )
+      + parseInt( rows[ rowIds[ index ] ].count )
+      % parseInt( count ), evtobj
+    );
 }
 
-function advanceY( evtobj ) 
-{ 
-    imgnav.navigate( 
-        parseInt( index ) 
-      + parseInt( rows[ rowIds[ index ] ].count ) 
-      % parseInt( count ), evtobj 
-    ); 
-}
-
-function retreatY( evtobj ) 
-{ 
-    imgnav.navigate( 
-        parseInt( index ) 
-      - parseInt( rows[ rowIds[ rows[ rowIds[ index ] ].begin - 1 ] ].count ) 
-      % parseInt( count ), evtobj 
-    ); 
+function retreatY( evtobj )
+{
+    imgnav.navigate(
+        parseInt( index )
+      - parseInt( rows[ rowIds[ rows[ rowIds[ index ] ].begin - 1 ] ].count )
+      % parseInt( count ), evtobj
+    );
 }
 
 function advance( evtobj ) { imgnav.navigate( parseInt( index ) + parseInt( 1 ) % parseInt( count ), evtobj ); }
-function retreat( evtobj ) { imgnav.navigate( parseInt( index ) - parseInt( 1 ) % parseInt( count ), evtobj ); }
+function retreat( evtobj ) { imgnav.navigate( parseInt( index ) - parseInt( 1 ) % parseInt( count ), evtobj ); }*/
 
 function panel1() { panelSwitch( 1 ); }
 function panel2() { panelSwitch( 2 ); }
@@ -724,13 +866,13 @@ function getQueryVariable(variable)
     return(false);
 }
 
-function detectswipe(el,func) 
+function detectswipe(el,func)
 {
     swipe_det = new Object();
 
-    swipe_det.sX = 0; 
-    swipe_det.sY = 0; 
-    swipe_det.eX = 0; 
+    swipe_det.sX = 0;
+    swipe_det.sY = 0;
+    swipe_det.eX = 0;
     swipe_det.eY = 0;
 
     var min_x = 30;  //min x swipe for horizontal swipe
@@ -743,56 +885,56 @@ function detectswipe(el,func)
 
     ele.addEventListener('touchstart',function(e){
             var t = e.touches[0];
-            swipe_det.sX = t.screenX; 
+            swipe_det.sX = t.screenX;
             swipe_det.sY = t.screenY;
         },false);
 
     ele.addEventListener('touchmove',function(e){
             e.preventDefault();
             var t = e.touches[0];
-            swipe_det.eX = t.screenX; 
-            swipe_det.eY = t.screenY;    
+            swipe_det.eX = t.screenX;
+            swipe_det.eY = t.screenY;
         },false);
 
     ele.addEventListener('touchend',function(e) {
 
-            if ((((swipe_det.eX - min_x > swipe_det.sX) || 
-                  (swipe_det.eX + min_x < swipe_det.sX) ) && 
-                 ((swipe_det.eY < swipe_det.sY + max_y) && 
-                  (swipe_det.sY > swipe_det.eY - max_y) && 
+            if ((((swipe_det.eX - min_x > swipe_det.sX) ||
+                  (swipe_det.eX + min_x < swipe_det.sX) ) &&
+                 ((swipe_det.eY < swipe_det.sY + max_y) &&
+                  (swipe_det.sY > swipe_det.eY - max_y) &&
                   (swipe_det.eX > 0))
             )) {
 
                 //horizontal detection
-                if(swipe_det.eX > swipe_det.sX) 
+                if(swipe_det.eX > swipe_det.sX)
                     retreat();
-                else 
+                else
                     advance();
             }
-            else if ((((swipe_det.eY - min_y > swipe_det.sY) || 
-                       (swipe_det.eY + min_y < swipe_det.sY)) && 
-                      ((swipe_det.eX < swipe_det.sX + max_x) && 
-                       (swipe_det.sX > swipe_det.eX - max_x) && 
+            else if ((((swipe_det.eY - min_y > swipe_det.sY) ||
+                       (swipe_det.eY + min_y < swipe_det.sY)) &&
+                      ((swipe_det.eX < swipe_det.sX + max_x) &&
+                       (swipe_det.sX > swipe_det.eX - max_x) &&
                        (swipe_det.eY > 0))
             )) {
 
                 //vertical detection
-                if(swipe_det.eY > swipe_det.sY) 
+                if(swipe_det.eY > swipe_det.sY)
                     advance();
-                else 
+                else
                     retreat();
             }
 
             if (direc != "") {
-                if(typeof func == 'function') 
+                if(typeof func == 'function')
                     func(el,direc);
             }
             direc = "";
             swipe_det.sX = 0; swipe_det.sY = 0; swipe_det.eX = 0; swipe_det.eY = 0;
-        },false);  
+        },false);
 }
 
-function myfunction(el,d) 
+function myfunction(el,d)
 {
     switch ( d ) {
     case "r":

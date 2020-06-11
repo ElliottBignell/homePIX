@@ -1,0 +1,67 @@
+{% extends "homePIX/base.html" %}
+{% block content %}
+
+  <div class="centerstage">
+    <div class="techfont" id="div_" style="min-height:100px;">
+      <div class="row">
+        <div class="col-md-6">
+          <h1>Albums</h1>
+        </div>
+        <div class="col-md-6">
+          <span class="pull-right">
+            <form action="{% url 'album_list' %}" method="get">
+              <input name="pk" type="text" placeholder="Add new...">
+            </form>
+            <br>Click on a picture to  open the album
+          </span>
+        </div>
+      </div>
+    </div>
+  <!--
+  <div class="centerstage">
+    <div class="techfont" id="div_8" style="min-height:100px;">
+
+    </div>
+  </div>
+ -->
+
+{% for album in object_list %}
+  <div class="tt_base droppable draggable techfont gallery" id="div_{{ folder.modthumb.modpath }}_{{ folder.modthumb.file }}">
+    <a id="piclink_8" href="{{ album.name }}?AlbumID={{ album.id }}">
+      <div class="desc">{{ album.name }}</div>
+      <section class="wrapper" id="file-number_{{ folder.modthumb.modpath }}_{{ folder.modthumb.file }}">
+        <span class="tt_subject">
+          <img id="picture_8"
+               class="lazyload"
+               src="{{ album.modthumb.file }}"
+               data-src="{{ album.modthumb.file }}"
+               alt="{{ album.count }} shots in {{ folder.modpath }}"
+               style="border:2px solid white;position:relative;top:100%;left:0%;z-index:0;height:200px;">
+          </img>
+        </span>
+      </section>
+      <div class="count">Contains {{ album.modcount }} shots</div>
+    </a>
+  </div>
+{% empty %}
+ No albums loaded
+  <!--
+  <span class="tt_edit">
+    <form id="editprops">
+      <fieldset>
+        <input id="title" type="text" value="{{ album.name }}">
+      </fieldset>
+    </form>
+  </span>
+  <span class="tt_edit">
+    <form id="editprops">
+      <fieldset>
+        <input id="title" type="text" value="test">
+      </fieldset>
+    </form>
+   </span>
+   -->
+  </div>
+{% endfor %}
+
+{% endblock %}

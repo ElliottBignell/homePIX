@@ -1,0 +1,15 @@
+{% extends "homePIX/base.html" %}
+{% block content %}
+
+    <h1>Process CSV Entries</h1>
+    <form class="post-form" method="POST">
+
+       {% csrf_token %}
+       {{ form.as_p }}
+       <button type="submit" class='save btn brn-default'>Save</button>
+
+    </form>
+
+    <script> var editor = new MediumEditor('.editable');</script>
+
+{% endblock %}

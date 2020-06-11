@@ -1,0 +1,97 @@
+{% extends "homePIX/base.html" %}
+{% block content %}
+
+  <div class="centerstage">
+    <div class="techfont" id="div_" style="min-height:100px;">
+      <div class="row">
+        <div class="col-md-6">
+          <h1>Organisation</h1>
+          <h3>Under heavy construction. You cannot actually do much organising yet.</h3>
+        </div>
+        <div class="col-md-6">
+          <span class="pull-right">
+            <form action="{% url 'picture_list' %}" method="get" class="float-right">
+              <input name="sort"   type="text" placeholder="Sort by...">
+            </form>
+          </span>
+          <span class="pull-right">
+            <form action="{% url 'picturefile_organise' %}" method="get" class="float-right">
+              <input name="organise"   type="text" placeholder="Organise">
+            </form>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pane">
+    <div class="split left draggable droppable">
+      {% for folder in object_list %}
+        {% if folder.modtype == 2 %}
+          {% if folder.modcount > 0 %}
+            <div class="tt_base draggable droppable techfont organise_gallery" id="album_{{ forloop.counter }}">
+                <a id="albumlink_{{ forloop.counter }}" href="?{{ folder.modurl }}">
+                  <div class="desc"><i class="material-icons small-icon">folder</i>{{ folder.modname }}</div>
+                  <section class="wrapper" id="albumsect_{{ forloop.counter }}">
+                      <span class="tt_subject">
+                          <img id="picture_{{ forloop.counter }}"
+                               class="lazyload"
+                               src="{{ folder.modthumb.file }}"
+                               data-src="{{ folder.modthumb.file }}"
+                               alt="{{ folder.count }} shots in {{ folder.modpath }}"
+                               style="border:2px solid white;position:relative;top:100%;left:0%;z-index:0;height:100px;">
+                          </img>
+                      </span>
+                  </section>
+              </a>
+            </div>
+            <br>
+          {% endif %}
+        {% endif %}
+      {% empty %}
+        No folders loaded
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="pane">
+    <div id="content_organise" class="split right draggable droppable">
+      {% for picture in object_list %}
+        {% if picture.modtype == 1 %}
+          <div class="tt_base draggable droppable" id="selectable_{{ forloop.counter }}_{{ picture.modid }}">
+            <!-- <a id="piclink_{{ forloop.counter }}" href="{{ picture.modpath }}/{{ picture.file }}"> -->
+             <section class="wrapper" id="file-number_{{ forloop.counter }}" style="padding:6px;">
+               <span class="tt_subject">
+                 <img id="picture_{{ forloop.counter }}_{{ picture.modid }}"
+                      class="lazyload tt_unselected"
+                      src="{{ picture.modthumb.file }}"
+                      data-src="{{ picture.modthumb.file }}"
+                      alt="{{ picture.modthumb.file }}"
+                      >
+                   </img>
+               </span>
+             </section>
+             <div id="header_o_{{ forloop.counter }}" class="tt_left tt_text">
+               <div id="header_{{ forloop.counter }}" class="tt_lefttextnooff">
+                 {{ picture.modthumb.title }}
+               </div>
+             </div>
+             <span class="tt_text tt_bottom">
+               <article id="art_keywords_{{ forloop.counter }}">No keywords</article>
+             </span>
+            <span class="tt_edit">
+                <form id="editprops">
+                    <fieldset>
+                        <input id="title" type="text" value="test">
+                    </fieldset>
+                </form>
+            </span>
+          </div>
+        {% endif %}
+      {% empty %}
+        No picture files in this picture
+      {% endfor %}
+    </div>
+  </div>
+
+{% endblock %}

@@ -3,12 +3,12 @@ import sys
 import glob
 import fnmatch
 import re
-from background_task import background
-from blog.models import PictureFile, Directory, Keywords
-from blog.exifdata import get_field
+# from background_task import background
+from homePIX.models import PictureFile, Directory, Keywords
+from homePIX.exifdata import get_field
 from django.db.models import Q
 
-@background( schedule=1 )
+# @background( schedule=1 )
 def bulk_saver( path ):
 
     pattern = '/*.[Jj][Pp][Gg]'
@@ -103,7 +103,7 @@ def bulk_saver( path ):
             except PictureFile.DoesNotExist:
 
                 try:
-                
+
                     newfile = PictureFile()
                     newfile.path = newdir
                     newfile.file = newfilename
@@ -114,7 +114,7 @@ def bulk_saver( path ):
                     print( "Secondary exception with filename: " + newfilename )
                     continue
 
-            description = get_field( newfilename, 'ImageDescription', newfilename ) 
+            description = get_field( newfilename, 'ImageDescription', newfilename )
 
             if newfile.title != description:
 
@@ -127,7 +127,7 @@ def bulk_saver( path ):
 
             try:
 
-                keys = get_field( newfilename, 'Keywords', "" ) 
+                keys = get_field( newfilename, 'Keywords', "" )
 
                 if keys:
 

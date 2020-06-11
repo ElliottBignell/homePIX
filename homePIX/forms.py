@@ -1,5 +1,5 @@
 from django import forms
-from blog.models import Comment, Directory, PictureFile, Keywords, Album, AlbumContent
+from homePIX.models import Comment, CSVEntry, Directory, PictureFile, Keywords, Album, AlbumContent
 
 class AlbumForm( forms.ModelForm ):
 
@@ -62,6 +62,28 @@ class CommentForm( forms.ModelForm ):
             'author': forms.TextInput( attrs={ 'class': 'textinputclass' } ),
             'text': forms.Textarea( attrs={ 'class': 'editable medium-editor-textarea' })
         }
+
+class CSVImportForm( forms.ModelForm ):
+
+    class Meta():
+        model = CSVEntry
+        fields = ( 'filename',  )
+
+        widgets = {
+            'filename' : forms.TextInput( attrs={ 'class': 'textinputclass' })
+        }
+
+
+class CSVImportIntegrateForm( forms.ModelForm ):
+
+    class Meta():
+        model = CSVEntry
+        fields = ( 'filename',  )
+
+        widgets = {
+            'filename' : forms.TextInput( attrs={ 'class': 'textinputclass' })
+        }
+
 
 class KeywordsForm( forms.ModelForm ):
 

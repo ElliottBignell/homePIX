@@ -14,9 +14,18 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TEMPLATE_DIR = os.path.join( BASE_DIR, 'blog/templates/blog' )
-MEDIA_ROOT = os.path.abspath( '/media/pi/Seagate1' )
-MEDIA_URL  = '/media/' 
+TEMPLATE_DIR = os.path.join( BASE_DIR, 'homePIX/templates' )
+MEDIA_ROOT = os.path.abspath( '/home/ElliottCB/pictures' )
+MEDIA_URL  = '/media/'
+REMOTE_URLs  = [
+    'https://api.smugmug.com/services/api/json/1.3.0/',
+    ]
+REMOTE_CMDs  = [
+    'smugmug.albums.get',
+    ]
+REMOTE_PARAMs  = [
+    'APIKey=S5fXMcQLW98ZddrcqVZFMsbJ3GfvfS3m&NickName=elliottbignell',
+    ]
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -27,10 +36,10 @@ SECRET_KEY = '$2z$r*$o-d^9x(8u^wiwv^o32b_k7rc=c1^-%5!1$iv$&#jzri'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [ 
+ALLOWED_HOSTS = [
     '127.0.0.1',
     '192.168.1.110',
-    'elliottcb.pythonanywhere.com' 
+    'elliottcb.pythonanywhere.com'
 ]
 
 
@@ -43,9 +52,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_bootstrap_breadcrumbs',
-    'background_task',
-    'blog',
+#   'django_bootstrap_breadcrumbs',
+#    'background_task',
+    'homePIX',
 ]
 
 MIDDLEWARE = [
@@ -130,3 +139,8 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join( BASE_DIR, 'static' )
 
 LOGIN_REDIRECT_URL = '/'
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECUR = True

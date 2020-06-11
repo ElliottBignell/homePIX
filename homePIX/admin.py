@@ -1,5 +1,5 @@
 from django.contrib import admin
-from blog.models import Directory, Comment, PictureFile, Keywords
+from homePIX.models import Directory, Comment, PictureFile, Keywords
 
 # Register your models here.
 admin.site.register( Comment )

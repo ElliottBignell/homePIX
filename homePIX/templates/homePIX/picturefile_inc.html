@@ -1,0 +1,53 @@
+{% extends "homePIX/base.html" %}
+{% block content %}
+{{ block.super }}
+{% endblock content %}
+
+{% block picturefile %}
+{{ block.super }}
+  {% for picture in object_list %}
+    {% if picture.modtype == 1 or picture.modtype == 4 %}
+      <div class="tt_base droppable draggable" id="div_8">
+        <!-- <a id="piclink_8" href="{{ picture.modpath }}/{{ picture.file }}"> -->
+        <a id="piclink_8" href="/pictures/{{ picture.modthumb.modid }}">
+          <section class="wrapper" id="file-number_8">
+              <span class="tt_subject">
+                <img id="picture_8"
+                     class="lazyload"
+                     src="{{ picture.modthumb.modtinyfile }}"
+                     data-src="{{ picture.modthumb.modfile }}"
+                     alt="{{ picture.modthumb.file }}"
+                     style="border:2px solid white;position:relative;top:100%;left:0%;z-index:0;height:200px; border-radius:12px;">
+                </img>
+            </span>
+          </section>
+          <div id="header_o_8" class="tt_left tt_text">
+            <a href="./make_thumbnail/{{request.GET.AlbumID}}/{{ picture.modthumb.modid }}/"><i class="material-icons">album</i></a>
+            <a href="./make_thumbnail/"><i class="material-icons">keyboard_arrow_left</i></a>
+            <a href="./make_thumbnail/"><i class="material-icons">keyboard_arrow_right</i></a>
+            <a href="./make_thumbnail/"><i class="material-icons">bedtime</i></a>
+            <a href="./make_thumbnail/"><i class="material-icons">photo_album</i></a>
+            <div style="position:absolute;top:5px;right:5px;"><i class="material-icons">photo</i></div>
+            <div style="position:absolute;left:5px;top:5px;right:150px;">
+              <div id="header_8" class="tt_lefttextnooff">
+                {{ picture.modthumb.modtitle }}
+              </div>
+            </div>
+          </div>
+          <span class="tt_text tt_bottom">
+            <article id="art_keywords_8">No keywords</article>
+          </span>
+        </a>
+        <span class="tt_edit">
+            <form id="editprops">
+                <fieldset>
+                    <input id="title" type="text" value="{{ picture.modthumb.modtitle }}">
+                </fieldset>
+            </form>
+        </span>
+      </div>
+    {% endif %}
+  {% empty %}
+    No picture files in this picture
+  {% endfor %}
+{% endblock picturefile %}
