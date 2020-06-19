@@ -18,7 +18,6 @@ from django.http import JsonResponse, HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 from django.utils.decorators import method_decorator
-from django.utils.formats import localize
 from logging import getLogger
 from .tasks import bulk_saver
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -32,7 +31,7 @@ from dateutil.relativedelta import relativedelta
 import json
 import csv
 import requests
-import datetime
+from datetime import datetime
 import pytz
 import re
 
@@ -79,22 +78,29 @@ class PhotoListView( ListView ):
     paginate_by = 100
     sortkey = "Default"
     direction = "asc"
-    startDate = datetime.datetime( 1966, 1, 28, 0, 0, 0, tzinfo=pytz.UTC )
-    endDate   = datetime.datetime.now() - relativedelta( years=1 )
+    startDate = datetime( 1966, 1, 28, 0, 0, 0, tzinfo=pytz.UTC )
+    endDate   = datetime.now() - relativedelta( years=1 )
+
+    q_expr = lambda search: Q( file__icontains=search )               \
+                          | Q( title__icontains=search )              \
+                          | Q( path__path__icontains=search )         \
+                          | Q( keywords__keywords__icontains=search )
+    q_filter = lambda objects, search, q_expr: objects.order_by( 'path' ).select_related( 'keywords' ).filter( q_expr( search ) )
 
     class Meta:
         abstract = True
 
     def getDateRange( self ):
 
-        startDate = datetime.datetime( 1966, 1, 28, 0, 0, 0, tzinfo=pytz.UTC )
-        endDate   = datetime.datetime.now()
+        startDate = datetime.strptime( "1966-01-28", "%Y-%m-%d" )
+        d = datetime.now()
+        endDate   = datetime(d.year, d.month, d.day)
 
         #try:
         date = self.request.GET.get( 'fromDate', None )
 
         if date:
-            startDate = datetime.datetime.strptime( date, "%Y-%m-%d" )
+            startDate = datetime.strptime( date, "%Y-%m-%d" )
         #except:
         #    pass
 
@@ -102,11 +108,9 @@ class PhotoListView( ListView ):
         date = self.request.GET.get( 'toDate', None )
 
         if date:
-            endDate = datetime.datetime.strptime( date, "%Y-%m-%d" )
+            endDate = datetime.strptime( date, "%Y-%m-%d" )
         #except:
         #    pass
-        print( startDate )
-        print( endDate )
 
         return startDate, endDate
 
@@ -123,7 +127,7 @@ class PhotoListView( ListView ):
 
         sort = self.request.GET.get( 'sort' )
 
-        if sort == None:
+        if sort == None or 0 == len( sort ):
             sort = "Default"
 
         self.sortkey = sort
@@ -139,8 +143,6 @@ class PhotoListView( ListView ):
 
         self.startDate, self.endDate = self.getDateRange()
 
-        print( "get_context_data: " + localize( self.startDate ) + " : " +  localize( self.endDate ) )
-
         context[ 'Items' ] = Items
         context[ 'ForItemCount' ] = paginator.num_pages
         context[ 'page' ] = int( page )
@@ -149,8 +151,7 @@ class PhotoListView( ListView ):
         context[ 'link_params' ] = self.getlink_params()
         context[ 'date_range' ] = [ self.startDate, self.endDate ]
         context[ 'order' ] = self.direction
-
-        print( self.startDate )
+        context[ 'albums' ] = Album.objects.all()
 
         return context
 
@@ -163,17 +164,28 @@ class PhotoListView( ListView ):
         except:
             search = None
 
-        if not search == None:
-            self.object_list =  self.search_queryset( search, ret )
-        else:
-            self.object_list =  ret( objects, { filter_key: self.getfilter( index ) } )
-
         try:
             self.direction = self.request.GET.get( 'direction', None )
         except:
             self.direction = None
 
-        return self.object_list
+        ret_set = None
+
+        if not search == None:
+            ret_set = self.search_queryset( objects, search, ret )
+        else:
+            ret_set = ret( objects, { filter_key: self.getfilter( index ) } )
+
+        if  ret_set:
+
+            startDate, endDate = self.getDateRange()
+
+            try:
+                ret_set = ret_set.filter( taken_on__range=[ startDate, endDate ] )
+            except:
+                pass
+
+        return ret_set
 
     def getfilter( self, index ):
         pass
@@ -181,7 +193,7 @@ class PhotoListView( ListView ):
     def getlink_params( self ):
         pass
 
-    def search_queryset( self, search, ret ):
+    def search_queryset( self, objects, search, ret ):
         pass
 
     def form_valid( self, form ):
@@ -199,17 +211,17 @@ class AlbumView( PhotoListView ):
                                               select_related( 'thumbnail' ).
                                               extra( select={'lower_name': 'lower(name)'} ).order_by('lower_name')
                                         )
-        return super().getqueryset( self.model.objects, 'name__regex', ret, 0 )
+        PhotoListView.object_list = super().getqueryset( self.model.objects, 'name__regex', ret, 0 )
+        return PhotoListView.object_list
 
-    def search_queryset( self, search, ret ):
-        return ret( objects, { 'path__icontains': search } )
+    def search_queryset( self, objects, search, ret ):
+        return ret( objects, { 'name__icontains': search } )
 
     def form_valid( self, form ):
         return redirect( 'albumcontent', pk = post.slug  )
 
     def getlink_params( self ):
-        return 'AlbumID=0&AlbumKey=0&'
-
+        return 'ID=0&Key=0&'
 
 class AlbumContentView( PhotoListView ):
 
@@ -221,6 +233,8 @@ class AlbumContentView( PhotoListView ):
 
     def get_queryset( self ):
 
+        PhotoListView.object_list = AlbumContent.objects.none()
+
         if 'pk' in self.kwargs:
 
             album = self.kwargs[ 'pk' ]
@@ -231,23 +245,210 @@ class AlbumContentView( PhotoListView ):
 
                 query = "select * from (( homePIX_albumcontent INNER JOIN homePIX_picturefile ON homePIX_picturefile.id=homePIX_albumcontent.entry_id) INNER JOIN homePIX_album ON homePIX_album.id=homePIX_albumcontent.album_id) WHERE album_id=" + str( queryset[ 0 ].id )
 
-                objs = AlbumContent.objects.raw( query )
+                PhotoListView.object_list = AlbumContent.objects.raw( query )
 
-                return objs
+        return PhotoListView.object_list
 
-        return AlbumContent.objects.none()
-
-    def search_queryset( self, search, ret ):
+    def search_queryset( self, objects, search, ret ):
         return ret( objects, { 'path__icontains': search } )
 
     def getlink_params( self ):
-        return 'AlbumID=0&AlbumKey=0&'
+        return 'ID=0&Key=0&'
 
-class FoldersView( PhotoListView ):
+class PhotoListViewBase( PhotoListView ):
+
+    model = PictureFile
+    context_object_name = 'users'
+    queryset = None
+    filter_standard = r'.*/(DCIM|[0-9]*ND300|DCIM/[0-9]*ND300)' # TODO: Stop-gap measure
+
+    sorts ={
+        "Default"      : "taken_on",
+        "Title"        : "title",
+        "Filename"     : "file",
+        "Date"         : "taken_on",
+        "Size"         : "taken_on",
+        "Aspect Ratio" : "taken_on"
+    }
+
+    class Meta:
+        abstract = True
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        context[ 'sort_options' ] = self.sorts
+
+        return context
+
+    def get_queryset( self ):
+
+        search = None
+
+        try:
+            search = self.request.GET.get( 'search', None )
+        except:
+            search = None
+
+        self.direction = self.request.GET.get( 'direction' )
+
+        if self.direction == None:
+            self.direction = "asc"
+
+        PhotoListView.sortkey = self.request.GET.get( 'sort' )
+
+        if PhotoListView.sortkey == None:
+            PhotoListView.sortkey = "Default"
+
+        startDate, endDate = self.getDateRange()
+
+        self.queryset = PictureFile.objects.select_related( 'path'
+                            ).exclude( path__path__iregex=self.filter_standard
+                            ).filter( taken_on__range=[ startDate, endDate ] )
+
+        if search:
+            self.queryset = self.search_queryset( self.queryset, search, None )
+
+        key = 'taken_on'
+
+        try:
+            key = self.sorts[ PhotoListView.sortkey ]
+        except:
+            pass
+
+        if self.direction == "desc":
+            key = '-' + key
+
+        if self.queryset:
+
+            for item in self.queryset:
+
+                item.thumb_size = 200
+
+            return self.queryset.order_by( key )
+
+        return PictureFile.objects.none()
+
+    def search_queryset( self, objects, search, ret ):
+        return PhotoListView.q_filter( objects, search, PhotoListView.q_expr )
+        # return objects.order_by( 'path' ).select_related( 'keywords' ).filter( PhotoListView.q_expr( search ) )
+
+class PictureListView( PhotoListViewBase ):
+
+    template_name = 'picturefile_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def getlink_params( self ):
+
+        ret = "";
+        keys = [ 'search', 'ID', 'Key', 'fromDate', 'toDate' ]
+
+        for key in keys:
+
+            if self.request.GET.get( key, None ):
+                ret += key + '=' + self.request.GET.get( key, None ) +'&'
+
+        return ret
+
+class PictureOrqaniseView( PhotoListViewBase ):
+
+    template_name = 'picturefile_organise.html'
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+
+        keyword_set = set()
+
+        for obj in Keywords.objects.all():
+
+            words = str( obj ).lower().split( ',' )
+
+            for word in words:
+
+                if word:
+                    keyword_set.add( word )
+
+        context[ 'sidebar' ] = sorted( keyword_set )
+
+        return context
+
+    def getlink_params( self ):
+        return ''
+
+class OrganisationView( PhotoListView):
+
+    model = ThumbnailBase
+    template_name = 'homePIX/picturefile_organisation.html'
+    subdir = ''
+    paginate_by = 1000
+
+    def getfilter( self, index ):
+
+        if 0 == index:
+
+            if 'pk' in self.kwargs:
+
+                subdir = self.kwargs[ 'pk' ]
+                return subdir + '/[^/]*$'
+            else:
+                return settings.MEDIA_ROOT + '/[^/]*$'
+        elif 1 == index:
+
+            if 'pk' in self.kwargs:
+
+                subdir = self.kwargs[ 'pk' ]
+                return settings.MEDIA_ROOT + '/' + subdir + '$'
+            else:
+                return settings.MEDIA_ROOT
+        elif 2 == index:
+            return 'https://api.smugmug.com/services/api/json/1.3.0/' + self.subdir
+        else:
+            return 'https://api.smugmug.com/services/api/json/1.3.0/' + self.subdir + '.+$'
+
+    def get_queryset( self ):
+
+        ret1 = lambda queryset, filter_dict: ( queryset.filter( **filter_dict ).
+                                               select_related( 'thumbnail' ).
+                                               extra( select={'lower_path': 'lower(path)'} ).order_by('lower_path')
+                                         )
+        ret2 = lambda queryset, filter_dict: ( queryset.filter( **filter_dict ).
+                                               select_related( 'path' ).
+                                               extra( select={'lower_path': 'lower(path)'} ).order_by('lower_path')
+                                         )
+        ret3 = lambda queryset, filter_dict: ( queryset.filter( **filter_dict ).
+                                               select_related( 'path' )
+                                         )
+
+        dir_objs     = super().getqueryset( Directory.objects,   'path__regex',       ret1, 0 )
+        rem_objs     = super().getqueryset( Directory.objects,   'path__regex',       ret1, 3 )
+        pic_objs     = super().getqueryset( PictureFile.objects, 'path__path__regex', ret2, 1 )
+        rem_pic_objs = super().getqueryset( PictureFile.objects, 'path__path__regex', ret3, 2 )
+
+        self.object_list = list( chain( dir_objs, rem_objs, pic_objs, rem_pic_objs ) )
+
+        return self.object_list
+
+    def search_queryset( self, objects, search, ret ):
+        return ret( objects, { 'path__icontains': search } )
+
+    def getlink_params( self ):
+        return ''
+
+
+class FoldersView( PhotoListViewBase ):
 
     model = ThumbnailBase
     template_name = 'homePIX/directory_list.html'
     subdir = ''
+    album_id  = 0
+    album_key = 'bkX94q'
+    dir_objs     = None
+    pic_objs     = None
+    rem_pic_objs = None
 
     def getfilter( self, index ):
 
@@ -306,29 +507,20 @@ class FoldersView( PhotoListView ):
 
     def get_queryset( self ):
 
-        album_id  = 156925099
-        album_key = 'bkX94q'
         query_cmd = home_settings.REMOTE_CMDs[ 0 ]
 
-        if self.request.GET.get( 'AlbumID', None ):
+        if self.request.GET.get( 'ID', None ):
 
-            album_id = self.request.GET[ 'AlbumID' ]
+            self.album_id = self.request.GET[ 'ID' ]
 
-            if self.request.GET.get( 'AlbumKey', None ):
+            if self.request.GET.get( 'Key', None ):
 
-                album_key = self.request.GET[ 'AlbumKey' ]
+                self.album_key = self.request.GET[ 'Key' ]
                 query_cmd = 'smugmug.images.get'
 
         ret1 = lambda queryset, filter_dict: ( queryset.filter( **filter_dict ).
                                                select_related( 'thumbnail' ).
                                                extra( select={'lower_path': 'lower(path)'} ).order_by('lower_path')
-                                         )
-        ret2 = lambda queryset, filter_dict: ( queryset.filter( **filter_dict ).
-                                               select_related( 'path' ).
-                                               extra( select={'lower_path': 'lower(path)'} ).order_by('lower_path')
-                                         )
-        ret3 = lambda queryset, filter_dict: ( queryset.filter( **filter_dict ).
-                                               select_related( 'path' )
                                          )
 
         dir = None
@@ -344,8 +536,6 @@ class FoldersView( PhotoListView ):
                 print('Failed to save.')
 
         def getImages( js ):
-
-            print( js )
 
             images = js[ 'Album' ][ 'Images' ]
             file   = js[ 'Image' ][ 'X3LargeURL' ]
@@ -370,7 +560,7 @@ class FoldersView( PhotoListView ):
         def processAllData( js ):
 
             nonlocal dir
-            nonlocal album_id
+            nonlocal query_cmd
 
             if query_cmd == home_settings.REMOTE_CMDs[ 0 ]:
 
@@ -383,37 +573,35 @@ class FoldersView( PhotoListView ):
 
                     if not dir_query:
 
-                        album_id  = album[ 'id'  ]
-                        album_key = album[ 'Key' ]
+                        self.album_id  = album[ 'id'  ]
+                        self.album_key = album[ 'Key' ]
 
                         dir = Directory()
                         dir.path = pathname
-                        dir.remote_id  = album_id
-                        dir.remote_key = album_key
+                        dir.remote_id  = self.album_id
+                        dir.remote_key = self.album_key
                         dir.save()
 
                         try:
-                            self.processQuery( 'smugmug.images.get', '&AlbumID=' + str( album_id ), '&AlbumKey=' + album_key, getImages )
+                            self.processQuery( 'smugmug.images.get', '&AlbumID=' + str( self.album_id ), '&AlbumKey=' + self.album_key, getImages )
                         except:
                             pass
 
             else:
-
-                print( "Doing pictures" )
 
                 try:
                     pictures = js[ 'Album' ][ 'Images' ]
                 except:
                     return PictureFile.objects.none()
 
-                objs = Directory.objects.filter( remote_id=album_id )
+                objs = Directory.objects.filter( remote_id=self.album_id )
 
                 if not objs is None and objs.count() > 0:
                     self.subdir = path.relpath( objs[ 0 ].path, home_settings.REMOTE_URLs[ 0 ] )
 
-                dir = Directory.objects.filter( remote_id=album_id )
+                dir = Directory.objects.filter( remote_id=self.album_id )
 
-                if not dir is None and dir.count() > 0:
+                if False and not dir is None and dir.count() > 0:
 
                     for picture in pictures:
 
@@ -431,28 +619,78 @@ class FoldersView( PhotoListView ):
                             pics = None
 
                             try:
-                                pics = PictureFile.objects.filter( file=file ).filter( path_id=dir[ 0 ].id )
+
+                                pics = PictureFile.objects.filter( file=file
+                                                         ).filter( path_id=dir[ 0 ].id
+                                                         )
                             except:
                                 continue
 
                             if not pics:
                                 self.createPictureFile( file, dir[ 0 ] )
 
+#        if self.request.user.is_anonymous():
+        self.processQuery( query_cmd, '&AlbumID=' + str( self.album_id ), '&AlbumKey=' + self.album_key, processAllData )
 
-        self.processQuery( query_cmd, '&AlbumID=' + str( album_id ), '&AlbumKey=' + album_key, processAllData )
+        try:
+            self.direction = self.request.GET.get( 'direction', None )
+        except:
+            self.direction = None
 
-        dir_objs     = super().getqueryset( Directory.objects,   'path__regex',       ret1, 0 )
-        rem_objs     = super().getqueryset( Directory.objects,   'path__regex',       ret1, 3 )
-        pic_objs     = super().getqueryset( PictureFile.objects, 'path__path__regex', ret2, 1 )
-        rem_pic_objs = super().getqueryset( PictureFile.objects, 'path__path__regex', ret3, 2 )
+        key = 'path'
 
-        return list( chain( dir_objs, rem_objs, pic_objs, rem_pic_objs ) )
+        try:
+            key = self.sorts[ PhotoListView.sortkey ]
+        except:
+            pass
 
-    def search_queryset( self, search, ret ):
-        return ret( objects, { 'path__icontains': search } )
+        if self.direction == "desc":
+            key = '-' + key
+
+        cache = PhotoListView.q_expr
+        PhotoListView.q_expr = lambda search: Q( path__icontains=search )
+
+        cache_filter = PhotoListView.q_filter
+        PhotoListView.q_filter = lambda objects, search, q_expr: objects.order_by( 'path' ).filter( q_expr( search ) )
+
+        self.dir_objs = PhotoListView.getqueryset( self, Directory.objects.order_by( key ), 'path__regex',  ret1, 2 )
+
+        PhotoListView.q_expr = cache
+        PhotoListView.q_filter = cache_filter
+
+        if self.album_id:
+
+            objs = Directory.objects.filter( remote_id=self.album_id )
+
+            if not objs is None and objs.count() > 0:
+                self.object_list = super().get_queryset().filter( path_id=objs[ 0 ].id )
+        else:
+            self.object_list = super().get_queryset()
+
+        if self.dir_objs:
+            self.object_list = list( chain( self.dir_objs, self.object_list ) )
+
+        return self.object_list
+
+    def search_directories( self, objects, search, ret ):
+
+        return objects.order_by( 'path' ).select_related( 'keywords' ).filter(
+                        Q( file__icontains=search )
+                      | Q( title__icontains=search )
+                      | Q( path__path__icontains=search )
+                      | Q( keywords__keywords__icontains=search )
+                    )
 
     def getlink_params( self ):
-        return 'FolderID=0&FolderKey=0&'
+
+        ret = "";
+        keys = [ 'search', 'ID', 'Key', 'fromDate', 'toDate' ]
+
+        for key in keys:
+            if self.request.GET.get( key, None ):
+                ret += key + ' =' + self.request.GET.get( key, None ) +'&'
+
+        return ret
 
 class KeywordsView( ListView ):
 
@@ -476,7 +714,7 @@ class PaperQuestionReorder( ListView ):
     # Ensure we have a CSRF cooke set
     @method_decorator(ensure_csrf_cookie)
     def get(self, request, pk):
-        return render(self.request, self.template_name, {'pk': pk, 'questions': Question.objects.filter(paperquestion__paper_id=pk).order_by('paperquestion__order'), 'paper': Paper.objects.get(id=pk)})
+        return render(self.request, self.template_name, {'pk': pk, 'quequery_fuistions': Question.objects.filter(paperquestion__paper_id=pk).order_by('paperquestion__order'), 'paper': Paper.objects.get(id=pk)})
 
     # Process POST AJAX Request
     def post(self, request, pk):
@@ -496,173 +734,6 @@ class PaperQuestionReorder( ListView ):
             return JsonResponse({"success": True}, status=200)
         else:
             return JsonResponse({"success": False}, status=400)
-
-class PhotoListViewBase( PhotoListView ):
-
-    model = PictureFile
-    context_object_name = 'users'
-    queryset = None
-    filter_standard = r'.*/(DCIM|[0-9]*ND300|DCIM/[0-9]*ND300)' # TODO: Stop-gap measure
-
-    sorts ={
-        "Default"      : "taken_on",
-        "Title"        : "title",
-        "Filename"     : "file",
-        "Date"         : "taken_on",
-        "Size"         : "taken_on",
-        "Aspect Ratio" : "taken_on"
-    }
-
-    class Meta:
-        abstract = True
-
-    def get_context_data(self, **kwargs):
-        return super().get_context_data(**kwargs)
-
-    def get_queryset( self ):
-
-        search = None
-
-        try:
-            search = self.request.GET.get( 'search', None )
-        except:
-            search = None
-
-        self.direction = self.request.GET.get( 'direction' )
-
-        if self.direction == None:
-            self.direction = "asc"
-
-        self.sortkey = self.request.GET.get( 'sort' )
-
-        if self.sortkey == None:
-            self.sortkey = "Default"
-
-        startDate, endDate = self.getDateRange()
-
-        print( "get_queryset: " + localize( startDate ) + " : " +  localize( endDate ) )
-
-        self.queryset = PictureFile.objects.select_related( 'path'
-                            ).exclude( path__path__iregex=self.filter_standard
-                            ).filter( taken_on__range=[ startDate, endDate ] )
-
-        if not search == None:
-           self.queryset = self.search_queryset( search, None )
-
-        for item in self.queryset:
-            item.thumb_size = 200
-
-        if self.direction == "desc":
-            return self.queryset.order_by( '-' + self.sorts[ self.sortkey ] )
-        else:
-            return self.queryset.order_by(       self.sorts[ self.sortkey ] )
-
-    def search_queryset( self, search, ret ):
-
-        return self.queryset.order_by( 'path' ).select_related( 'keywords' ).filter(
-                        Q( file__icontains=search )
-                      | Q( title__icontains=search )
-                      | Q( path__path__icontains=search )
-                      | Q( keywords__keywords__icontains=search )
-                    )
-
-        # return PictureFile.objects.order_by( 'title' )
-
-class PictureListView( PhotoListViewBase ):
-
-    template_name = 'picturefile_list.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-
-    def getlink_params( self ):
-        return ''
-
-class PictureOrqaniseView( PhotoListViewBase ):
-
-    template_name = 'picturefile_organise.html'
-
-    def get_context_data(self, **kwargs):
-
-        context = super().get_context_data(**kwargs)
-
-        keyword_set = set()
-
-        for obj in Keywords.objects.all():
-
-            words = str( obj ).lower().split( ',' )
-
-            for word in words:
-
-                if word:
-                    keyword_set.add( word )
-
-        context[ 'sidebar' ] = sorted( keyword_set )
-
-        return context
-
-    def getlink_params( self ):
-        return ''
-
-class OrganisationView( PhotoListView):
-
-    model = ThumbnailBase
-    template_name = 'homePIX/picturefile_organisation.html'
-    subdir = ''
-    paginate_by = 1000
-
-    def getfilter( self, index ):
-
-        if 0 == index:
-
-            if 'pk' in self.kwargs:
-
-                subdir = self.kwargs[ 'pk' ]
-                return subdir + '/[^/]*$'
-            else:
-                return settings.MEDIA_ROOT + '/[^/]*$'
-        elif 1 == index:
-
-            if 'pk' in self.kwargs:
-
-                subdir = self.kwargs[ 'pk' ]
-                return settings.MEDIA_ROOT + '/' + subdir + '$'
-            else:
-                return settings.MEDIA_ROOT
-        elif 2 == index:
-            print('https://api.smugmug.com/services/api/json/1.3.0/' + self.subdir )
-            return 'https://api.smugmug.com/services/api/json/1.3.0/' + self.subdir
-        else:
-            print('https://api.smugmug.com/services/api/json/1.3.0/' + self.subdir + '.+$')
-            return 'https://api.smugmug.com/services/api/json/1.3.0/' + self.subdir + '.+$'
-
-    def get_queryset( self ):
-
-        ret1 = lambda queryset, filter_dict: ( queryset.filter( **filter_dict ).
-                                               select_related( 'thumbnail' ).
-                                               extra( select={'lower_path': 'lower(path)'} ).order_by('lower_path')
-                                         )
-        ret2 = lambda queryset, filter_dict: ( queryset.filter( **filter_dict ).
-                                               select_related( 'path' ).
-                                               extra( select={'lower_path': 'lower(path)'} ).order_by('lower_path')
-                                         )
-        ret3 = lambda queryset, filter_dict: ( queryset.filter( **filter_dict ).
-                                               select_related( 'path' )
-                                         )
-
-        dir_objs     = super().getqueryset( Directory.objects,   'path__regex',       ret1, 0 )
-        rem_objs     = super().getqueryset( Directory.objects,   'path__regex',       ret1, 3 )
-        pic_objs     = super().getqueryset( PictureFile.objects, 'path__path__regex', ret2, 1 )
-        rem_pic_objs = super().getqueryset( PictureFile.objects, 'path__path__regex', ret3, 2 )
-
-        return list( chain( dir_objs, rem_objs, pic_objs, rem_pic_objs ) )
-
-    def search_queryset( self, search, ret ):
-        return ret( objects, { 'path__icontains': search } )
-
-    def getlink_params( self ):
-        return ''
 
 def compress_view( request ):
 
@@ -720,7 +791,10 @@ class PictureDetailView( DetailView ):
     model = PictureFile
 
     def get_context_data(self, **kwargs):
+
         context = super().get_context_data(**kwargs)
+        context[ 'albums' ] = Album.objects.all().select_related( 'thumbnail' ).order_by('name')
+
         return context
 
 class CreateDirectoryView( LoginRequiredMixin, CreateView ):
@@ -836,8 +910,6 @@ class CSVImportIntegrateView( LoginRequiredMixin, CreateView ):
     model = CSVEntry
 
     def run_linkage( self, filename ):
-
-        print( 'Linking import to pictures' )
 
         query = 'CREATE TABLE imports AS select * from homePIX_picturefile JOIN homePIX_csventry ON homePIX_picturefile.file LIKE ( \'%/\' || replace( homePIX_csventry.filename, \'.jpg\', \'-X3.jpg\' ) )'
         PictureFile.objects.raw( query )
@@ -980,10 +1052,43 @@ def add_picture_to_album( request, id ):
    return render( request, 'homePIX/albumcontent_list.html', { 'form': form} )
 
 @login_required
-def set_album_thumb( request, album_id, pic_id ):
+def add_id_to_album( request, album_id, pic_id ):
 
-    print( "Album: " + str( album_id ) )
-    print( "Picture: " + str( pic_id ) )
+    album = get_object_or_404(   Album,       id = int( album_id ) )
+    picture = get_object_or_404( PictureFile, id = int( pic_id ) )
+
+    entries = AlbumContent.objects.filter(
+                        Q( album_id=album_id )
+                      & Q( entry_id=pic_id )
+                      )
+
+    if entries is None or entries.count() <= 0:
+
+        entry = AlbumContent()
+        entry.album = album
+        entry.entry = picture
+        entry.save()
+
+        return redirect( '/albums/?ID=' + str( album_id ) )
+
+    return redirect( '/albums/' )
+
+@login_required
+def delete_id_from_album( request, album_id, pic_id ):
+
+    try:
+        entries = AlbumContent.objects.filter(
+                            Q( album_id=album_id )
+                          & Q( entry_id=pic_id )
+                          ).delete()
+        return redirect( '/albums/?ID=' + str( album_id ) )
+    except:
+        pass
+
+    return redirect( '/albums/' )
+
+@login_required
+def set_album_thumb( request, album_id, pic_id ):
 
     album = get_object_or_404(   Album,       id = int( album_id ) )
     picture = get_object_or_404( PictureFile, id = int( pic_id ) )
@@ -1041,3 +1146,4 @@ def comment_remove( request, pk ):
     comment.delete()
 
     return redirect( 'post_detail', pk = comment.post.pk )
+

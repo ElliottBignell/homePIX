@@ -1,0 +1,12 @@
+WITH RECURSIVE split(id, text, rest) AS (
+  SELECT id, '', tags || ',' FROM test_imports WHERE id
+   UNION ALL
+  SELECT id, 
+         lower( substr(rest, 0, instr(rest, ',')) ),
+         substr(rest, instr(rest, ',')+1)
+    FROM split
+   WHERE rest <> '')
+SELECT id, text 
+  FROM split 
+ WHERE text <> ''
+ ORDER BY id, text;

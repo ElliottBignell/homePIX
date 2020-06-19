@@ -57,7 +57,7 @@
     <nav class="navbar navbar-default techfont custom-navbar">
       <div class="container" style="width:96%;margin-right:2%;margin-left:2%;height:calc(100% - 100px)">
 
-        <div class="col-md-4">
+        <div class="col-md-2">
           <ul class="nav navbar-nav sf-menu sf-navbar">
             <li><a class='navbar-brand bigbrand' href="{% url 'picture_list' %}">homePIX</a></li>
             <li><a href="{% url 'paths'%}">       <i class="large material-icons">folder      </i></a>
@@ -91,21 +91,59 @@
           </ul>
         </div>
 
-        <div class="col-md-5" style="font-size:0.75em;">
-          <form action="{% url 'picture_list'%}" method="get" style="margin:12px;">
+        <div class="col-md-3" style="font-size:0.75em;">
+          <form action="{{ request.path }}" method="get" style="margin:12px;">
               From...
-            <input name="fromDate" type="date" placeholder="{{ date_range.0.date|date:'Y-m-d' }}" value="{{ date_range.0.date|date:'Y-m-d' }}" style="width:16em;">
+            <input name="fromDate" type="date" placeholder="{{ date_range.0.date|date:'Y-m-d' }}" value="{{ date_range.0.date|date:'Y-m-d' }}" style="width:10em;">
             ...to...
-            <input name="toDate"   type="date" placeholder="{{ date_range.1.date|date:'Y-m-d' }}" value="{{ date_range.1.date|date:'Y-m-d' }}" style="width:16em;">
+            <input name="toDate"   type="date" placeholder="{{ date_range.1.date|date:'Y-m-d' }}" value="{{ date_range.1.date|date:'Y-m-d' }}" style="width:10em;">
+            <button type="submit">
+              <span class="glyphicon glyphicon-calendar"></span>
+            </button>
+            <input name="ID"       type="text" placeholder="{{ request.GET.ID     }}" value="{{ request.GET.ID     }}" style="visibility:hidden;width:0em;">
+            <input name="Key"      type="text" placeholder="{{ request.GET.Key    }}" value="{{ request.GET.Key    }}" style="visibility:hidden;width:0em;">
+            <input name="search"   type="text" placeholder="{{ request.GET.search }}" value="{{ request.GET.search }}" style="visibility:hidden;width:0em;">
+            <input name="sort"     type="text" placeholder="{{ request.GET.sort   }}" value="{{ request.GET.sort   }}" style="visibility:hidden;width:0em;">
+          </form>
+        </div>
+
+        <div class="col-md-2" style="font-size:0.75em;">
+          <form action="{{ request.path }}" method="get" style="margin:12px;">
+            <select name="sort" id="sort" value="{{ request.GET.sort }}" style="width:10em;" placeholder="Sort by...">
+             {% for option in sort_options %}
+               {% if option ==  request.GET.sort %}
+               <option value="{{ option}}" selected>{{ option}}</option>
+               {% else %}
+                  <option value="{{ option}}" >{{ option}} </option>
+               {% endif %}
+             {% endfor %}
+            </select>
             <button type="submit">
               <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
             </button>
+            <input name="fromDate" type="date" value="{{ date_range.0.date|date:'Y-m-d' }}" style="visibility:hidden;width:0em;">
+            <input name="toDate"   type="date" value="{{ date_range.1.date|date:'Y-m-d' }}" style="visibility:hidden;width:0em;">
+            <input name="ID"       type="text" placeholder="{{ request.GET.ID     }}" value="{{ request.GET.ID     }}" style="visibility:hidden;width:0em;">
+            <input name="Key"      type="text" placeholder="{{ request.GET.Key    }}" value="{{ request.GET.Key    }}" style="visibility:hidden;width:0em;">
+            <input name="search"   type="text" placeholder="{{ request.GET.search }}" value="{{ request.GET.search }}" style="visibility:hidden;width:0em;">
+          </form>
+        </div>
+
+        <div class  ="col-md-2" style="font-size:0.75em;">
+          <form action="{{ request.path }}" method="get" style="margin:12px;">
+            <input name="search"   type="text" value="{{ request.GET.search }}"             style="width:10em;" placeholder="Search...">
+            <button type="submit">
+              <span class="glyphicon glyphicon-search"></span>
+            </button>
+            <input name="fromDate" type="date" value="{{ date_range.0.date|date:'Y-m-d' }}" style="visibility:hidden;width:0em;">
+            <input name="toDate"   type="date" value="{{ date_range.1.date|date:'Y-m-d' }}" style="visibility:hidden;width:0em;">
+            <input name="ID"       type="text" placeholder="{{ request.GET.ID     }}" value="{{ request.GET.ID     }}" style="visibility:hidden;width:0em;">
+            <input name="Key"      type="text" placeholder="{{ request.GET.Key    }}" value="{{ request.GET.Key    }}" style="visibility:hidden;width:0em;">
+            <input name="sort"     type="text" placeholder="{{ request.GET.sort   }}" value="{{ request.GET.sort   }}" style="visibility:hidden;width:0em;">
           </form>
         </div>
 
         <div class  ="col-md-3" style="font-size:0.75em;">
-          <form action="{% url 'picturefile_organise' %}" method="get">
-            <input name="search" type="text" placeholder="Search..." style="margin:12px;">
             <ul class="nav navbar-nav navbar-right">
               {% if user.is_authenticated %}
                 <li><a href="{% url 'picture_new'%}">   <i class="large material-icons">add_a_photo </i></a></li>
@@ -117,7 +155,6 @@
                 </li>
               {% endif %}
             </ul>
-          </form>
         </div>
       </div>
     </nav>
@@ -128,7 +165,7 @@
       <div style="position:absolute;top:0px;left:30px;width:25%;">
         <ul class="pagination" style="margin:0 0;">
           {% if page_obj.has_previous %}
-          <li><a href="?{{ link_params }}page={{ page_obj.previous_page_number }}&fromDate={{date_range.0|date:'Y-m-d'}}&toDate={{date_range.1|date:'Y-m-d'}}">&laquo;</a></li>
+          <li><a href="?{{ link_params }}page={{ page_obj.previous_page_number }}">&laquo;</a></li>
           {% else %}
             <li class="disabled"><span>&laquo;</span></li>
           {% endif %}
@@ -136,18 +173,18 @@
             {% if l == page %}
                 <li><span style="background-color:blue;color:white;font-weight:bold;">{{page}}</span></li>
             {% elif l == 1 %}
-            <li><a href="?{{ link_params }}page={{l}}&fromDate={{date_range.0|date:'Y-m-d'}}&toDate={{date_range.1|date:'Y-m-d'}}">{{l}}</a></li>
+            <li><a href="?{{ link_params }}page={{l}}">{{l}}</a></li>
             {% elif l == 2 %}
                 {% if page > 5 %}
                   <li><a href="">...</a></li>
                 {% else %}
-                <li><a href="?{{ link_params }}page={{l}}&fromDate={{date_range.0|date:'Y-m-d'}}&toDate={{date_range.1|date:'Y-m-d'}}">{{l}}</a></li>
+                <li><a href="?{{ link_params }}page={{l}}">{{l}}</a></li>
                 {% endif%}
             {% elif l <= Items.number|add:3 and l >= Items.number|add:-3 %}
                 {% if page == l %}
-                <li><a href="?{{ link_params }}page={{l}}&fromDate={{date_range.0|date:'Y-m-d'}}&toDate={{date_range.1|date:'Y-m-d'}}"><b>{{l}}</b></a></li>
+                <li><a href="?{{ link_params }}page={{l}}"><b>{{l}}</b></a></li>
                 {% else %}
-                <li><a href="?{{ link_params }}page={{l}}&fromDate={{date_range.0|date:'Y-m-d'}}&toDate={{date_range.1|date:'Y-m-d'}}">{{l}}</a></li>
+                <li><a href="?{{ link_params }}page={{l}}">{{l}}</a></li>
                 {% endif%}
             {% elif l == ForItemCount|add:-1 %}
                 {% if page < ForItemCount|add:-5 %}
@@ -156,7 +193,7 @@
                     <li>{{l}}:{{ ForItemCount|add:-5 }}:{{ page }}</li>
                 {% endif%}
             {% elif l == ForItemCount %}
-            <li><a href="?{{ link_params }}page={{ ForItemCount }}&fromDate={{date_range.0|date:'Y-m-d'}}&toDate={{date_range.1|date:'Y-m-d'}}">{{ ForItemCount }}</a></li>
+            <li><a href="?{{ link_params }}page={{ ForItemCount }}">{{ ForItemCount }}</a></li>
             {% endif %}
           {% endfor %}
           {% if page_obj.has_next %}
@@ -171,7 +208,7 @@
         <div class="container">
           <div class="vertical-center">
             <div style="position:absolute;left:0px;top:0px;width:4%;height:100%;">
-              <ul class="pagination" style="margin: 0 0;"><li class="disabled"><a href="?page={{l}}">{{page}}</a></li></ul>
+              <ul class="pagination" style="margin: 0 0;"><li id="page_no"><a href="?page={{l}}">{{page}}</a></li></ul>
             </div>
             <div style="position:absolute;left:5%;top:10px;width:76%;height:100%;">
               <div class="range-slider">

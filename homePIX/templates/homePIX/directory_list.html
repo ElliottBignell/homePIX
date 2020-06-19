@@ -5,6 +5,8 @@
   <div class="techfont" id="div_8" style="min-height:100px;">
     <div class="container">
       <div class="row">
+        <div class="col-md-3">
+        </div>
         <div class="col-md-6">
           {% if object_list %}
             <h1>{% with object_list|first as first_doc %}{{ first_doc.path.modname }}{% endwith %}</h1>
@@ -12,12 +14,7 @@
             <h1>Nothing here!</h1>
           {% endif %}
         </div>
-        <div class="col-md-6">
-          <span class="pull-right">
-            <form action="{% url 'picture_list' %}" method="get" class="float-right">
-              <input name="search" type="text" placeholder="Search...">
-            </form>
-          </span>
+        <div class="col-md-3">
         </div>
       </div>
     </div>

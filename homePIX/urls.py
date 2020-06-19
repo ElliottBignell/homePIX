@@ -8,7 +8,7 @@ from django.views.generic.base import RedirectView
 
 urlpatterns = [
     re_path( r'^$', views.PictureListView.as_view(), name = 'picture_list' ),
-    re_path( r'^pictures/(?P<pk>.+)$', views.PictureDetailView.as_view(), name = 'picturefile_detail' ),
+    re_path( r'^pictures/(?P<pk>\d+)/$', views.PictureDetailView.as_view(), name = 'picturefile_detail' ),
     re_path( r'^pictures/(?P<pk>.+\.[jJ][pP][gG])$', views.PictureDetailView.as_view(), name = 'picturefile_detail' ),
     re_path( r'^organise/', views.PictureOrqaniseView.as_view(), name = 'picturefile_organise' ),
     re_path( r'^folders/make_thumbnail/(?P<album_id>\d+)/(?P<pic_id>\d+)/$', views.set_folder_thumb, name = 'make_folder_thumbnail' ),
@@ -20,7 +20,9 @@ urlpatterns = [
     re_path( r'^albums/$', views.AlbumView.as_view(), name = 'album_list' ),
     re_path( r'^albums/make_thumbnail/(?P<album_id>\d+)/(?P<pic_id>\d+)/$', views.set_album_thumb, name = 'make_album_thumbnail' ),
     re_path( r'^albums/add/(?P<id>\d+)$', views.add_picture_to_album, name = 'add_picture_to_album' ),
-    re_path( r'^albums/(?P<pk>.+)?AlbumID=(?P<album_id>\d+)$', views.AlbumContentView.as_view(), name = 'albumcontent' ),
+    re_path( r'^albums/add/(?P<album_id>\d+)/(?P<pic_id>\d+)/$', views.add_id_to_album, name = 'add_id_to_album' ),
+    re_path( r'^albums/delete/(?P<album_id>\d+)/(?P<pic_id>\d+)/$', views.delete_id_from_album, name = 'delete_id_from_album' ),
+    re_path( r'^albums/(?P<pk>.+)?ID=(?P<album_id>\d+)$', views.AlbumContentView.as_view(), name = 'albumcontent' ),
     re_path( r'^albums/(?P<pk>.+)$', views.AlbumContentView.as_view(), name = 'albumcontent' ),
     re_path( r'^albums/<slug:slug>/$', views.AlbumContentView.as_view(), name = 'albumcontent' ),
     re_path( r'^folder/new/', views.CreateDirectoryView.as_view(), name = 'directory_new' ),

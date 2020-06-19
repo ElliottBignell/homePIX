@@ -1,7 +1,5 @@
 import os
 import re
-import datetime
-import traceback
 from django.db import models, transaction
 from django import forms
 from django.utils import timezone
@@ -170,7 +168,7 @@ class Directory( ThumbnailBase ):
 
     @property
     def modurl( self ):
-        return 'AlbumID=' + str( self.remote_id ) + '&AlbumKey=' + self.remote_key
+        return 'ID=' + str( self.remote_id ) + '&Key=' + self.remote_key
 
     @property
     def modtype( self ):
