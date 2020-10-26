@@ -1,2 +1,2 @@
-# DjangoBlogroll
-Exercises from the Udemy course, slated for later use in the RPi photo suite
+# homePIX
+Python-based photo-sharing site. Demo online at https://elliottcb.pythonanywhere.com/
