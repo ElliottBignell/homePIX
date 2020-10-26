@@ -17,12 +17,12 @@
 
     {% for albumcontent in object_list %}
       {% if albumcontent.modtype == 1 or albumcontent.modtype == 4 %}
-        <div class="tt_base droppable draggable" id="div_8">
-          <!-- <a id="piclink_8" href="{{ albumcontent.modpath }}/{{ albumcontent.file }}"> -->
-          <a id="piclink_8" href="/pictures/{{ albumcontent.modthumb.modid }}">
-            <section class="wrapper" id="file-number_8">
+        <div class="tt_base droppable draggable" id="div_{{ albumcontent.modthumb.modid }}">
+          <!-- <a id="piclink_{{ albumcontent.modthumb.modid }}" href="{{ albumcontent.modpath }}/{{ albumcontent.file }}"> -->
+          <a id="piclink_{{ albumcontent.modthumb.modid }}" href="item/{{ albumcontent.modthumb.modid }}/">
+            <section class="wrapper" id="file-number_{{ albumcontent.modthumb.modid }}">
                 <span class="tt_subject">
-                  <img id="picture_8"
+                  <img id="picture_{{ albumcontent.modthumb.modid }}"
                        class="lazyload"
                        src="{{ albumcontent.modthumb.file }}"
                        data-src="{{ albumcontent.modthumb.file }}"
@@ -31,7 +31,7 @@
                   </img>
               </span>
             </section>
-            <div id="header_o_8" class="tt_left tt_text">
+            <div id="header_o_{{ albumcontent.modthumb.modid }}" class="tt_left tt_text">
               <a href="./make_thumbnail/{{request.GET.ID}}/{{ albumcontent.modthumb.modid }}/"><i class="material-icons">album</i></a>
               <a href="./make_thumbnail/"><i class="material-icons">keyboard_arrow_left</i></a>
               <a href="./make_thumbnail/"><i class="material-icons">keyboard_arrow_right</i></a>
@@ -39,13 +39,13 @@
               <a href="./make_thumbnail/"><i class="material-icons">photo_album</i></a>
               <div style="position:absolute;top:5px;right:5px;"><i class="material-icons">photo</i></div>
               <div style="position:absolute;left:5px;top:5px;right:150px;">
-                <div id="header_8" class="tt_lefttextnooff">
+                <div id="header_{{ albumcontent.modthumb.modid }}" class="tt_lefttextnooff">
                   {{ albumcontent.modthumb.modtitle }}
                 </div>
               </div>
             </div>
             <span class="tt_text tt_bottom">
-              <article id="art_keywords_8">No keywords</article>
+              <article id="art_keywords_{{ albumcontent.modthumb.modid }}">No keywords</article>
             </span>
           </a>
           <span class="tt_edit">

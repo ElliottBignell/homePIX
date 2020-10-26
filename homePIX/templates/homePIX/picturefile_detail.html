@@ -1,9 +1,44 @@
 {% extends "homePIX/base.html" %}
+{% load static %}
 {% block content %}
+
+  <script src="{% static 'js/navigation.js' %}" type="text/javascript" async=""></script>
 
   <script>
 
     var dirty = false;
+    swipe_det = new Object();
+
+    swipe_det.sX = 0;
+    swipe_det.sY = 0;
+    swipe_det.eX = 0;
+    swipe_det.eY = 0;
+
+    var min_x = 30;  //min x swipe for horizontal swipe
+    var max_x = 30;  //max x difference for vertical swipe
+    var min_y = 50;  //min y swipe for vertical swipe
+    var max_y = 60;  //max y difference for horizontal swipe
+    var direc = "";
+
+    function goForth() {
+        window.location.href = $( '#back' ).attr('href') ;
+    }
+
+    function goBack() {
+        window.location.href = $( '#forth' ).attr('href');
+    }
+
+    function navigate(el,d) {
+
+        switch ( d ) {
+        case "r":
+            goForth();
+            break;
+        case "l":
+            goBack();
+            break;
+        }
+    }
 
     function init() {
 
@@ -32,6 +67,34 @@
                 }
               });
             }
+        });
+
+        var fullScreenButton = document.getElementById( 'fullscreen' );
+
+        fullScreenButton.addEventListener('click', function() {
+
+            $('#fullScreenPic').show();
+            $('#details').hide();
+            $('#panetop').hide();
+            $('#panenavigate').hide();
+            $('#panemain' ).addClass( "paneonly" );
+            $('#panemain' ).removeClass( "panemain" );
+            $('#picmain' ).addClass( "piconly" );
+            $('#picmain' ).removeClass( "picmain" );
+        });
+
+        var hideButton = document.getElementById( 'hidescreen' );
+
+        hideButton.addEventListener('click', function() {
+
+            $('#fullScreenPic').hide();
+            $('#details').show();
+            $('#panetop').show();
+            $('#panenavigate').show();
+            $('#panemain' ).addClass( "panemain" );
+            $('#panemain' ).removeClass( "paneonly" );
+            $('#picmain' ).addClass( "picmain" );
+            $('#picmain' ).removeClass( "piconly" );
         });
     }
 
@@ -64,6 +127,61 @@
             }
           });
         } );
+
+        $( '[id^=picture_]' ).on( 'touchstart mousedown', function(e) {
+
+            e.preventDefault();
+            swipe_det.eX = e.pageX;
+            swipe_det.eY = e.pageY;
+        });
+
+        $( '[id^=picture_]' ).on( 'touchmove mousemove', function(e) {
+
+            e.preventDefault();
+            swipe_det.sX = e.pageX;
+            swipe_det.sY = e.pageY;
+        });
+
+       $( '[id^=picture_]' ).on( 'touchend mouseup', function(e) {
+
+            if ((((swipe_det.eX - min_x > swipe_det.sX) ||
+                  (swipe_det.eX + min_x < swipe_det.sX) ) &&
+                 ((swipe_det.eY < swipe_det.sY + max_y) &&
+                  (swipe_det.sY > swipe_det.eY - max_y) &&
+                  (swipe_det.eX > 0))
+            )) {
+
+                //horizontal detection
+                if(swipe_det.eX > swipe_det.sX) {
+                    goBack();
+                }
+                else {
+                    goForth();
+                }
+            }
+            else if ((((swipe_det.eY - min_y > swipe_det.sY) ||
+                       (swipe_det.eY + min_y < swipe_det.sY)) &&
+                      ((swipe_det.eX < swipe_det.sX + max_x) &&
+                       (swipe_det.sX > swipe_det.eX - max_x) &&
+                       (swipe_det.eY > 0))
+            )) {
+
+                //vertical detection
+                if(swipe_det.eY > swipe_det.sY) {
+                    goForth();
+                }
+                else {
+                   goBack();
+                }
+            }
+
+            if (direc != "") {
+                //if(typeof func == 'function')
+                    navigate(el,direc);
+            }
+            direc = "";
+            swipe_det.sX = 0; swipe_det.sY = 0; swipe_det.eX = 0; swipe_det.eY = 0;
+       });
     } );
 
     function remove_keyword( keyword, pic_id ) {
@@ -89,14 +207,14 @@
   <link rel="stylesheet" href="/static/css/clearall.css">
   <link rel="stylesheet" href="/static/css/dropdown.css">
 
-  <div class="techfont" id="div_8" style="min-height:100px;">
-    <table id="maintab" style="padding:0px;border:0px;">
-      <tr colspan=4 style="height:3em;vertical-align:middle;">
+  <div class="techfont" id="details" style="position:absolute;width:90%;height:100%;">
+    <table id="maintab" style="padding:0px;border:0px;width:(100%-400px);height:100%;">
+      <tr colspan=4 style="height:2em;vertical-align:middle;">
         <td>
         </td>
         <td>
              <div id="titletext" contenteditable="true">
-               <h1>{{ object.title }}</h1>
+               <h1>{{ Item.title }}</h1>
              </div>
         </td>
         <td>
@@ -104,24 +222,33 @@
         <td>
        </td>
       </tr>
-      <tr colspan=4>
+      <tr id="div_{{ Item.modid }}" colspan=4 style="height:calc( 100%-370px );">
           <td style="width:25px;vertical-align:middle;">
-              <a href="../{{ request.GET.previous }}"><span class="glyphicon glyphicon-chevron-left"></span></a>
+              <a id="back" href="../{{ previous.modid }}/?search={{ request.GET.search }}&sort={{ request.GET.sort }}%20&startDate{{ request.GET.startDate }}=&endDate={{ request.GET.endDate }}"><span class="glyphicon glyphicon-chevron-left"></span></a>
           </td>
-          <td id="picframe" style="width:calc(100%-370px);">
-            <!--<div class="bounding-box" style="background-image:url("/{{ object.modpath }}/{{ object.file }}");">-->
-              <img id="picture_8"
+          <td id="picframe" style="height:calc(100%-370px);width:100%;">
+            <!--<div class="bounding-box" style="background-image:url("/{{ Item.modpath }}/{{ Item.file }}");">-->
+            <img id="picture_{{ Item.modid }}"
                    class="lazyload responsive"
-                   style="padding:0px;"
-                   src="{{ object.modfile }}"
-                   data-src="{{ object.modlargefile }}"
-                   alt="{{ object.file }}"
+                   style="position:absolute:padding:0px;width:100%;height:90%;"
+                   src="{{ Item.modfile }}"
+                   data-src="{{ Item.modlargefile }}"
+                   alt="{{ Item.file }}"
                    >
                 </img>
+                <div id="fullscreen" style="position:relative;top:0px;right:0px;">
+                    <ul class="nav navbar-nav fs-screen" style="position:absolute;top:50px;left:20px;">
+                        <li>
+                            <a onClick="">
+                                <i class="large material-icons" style="background-color:white;">fullscreen</i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             <!--</div>-->
           </td>
           <td style="width:25px;vertical-align:middle;">
-              <a href="../{{ request.GET.next }}"><span class="glyphicon glyphicon-chevron-right"></span></a>
+              <a id="forth" href="../{{ next.modid }}/?search={{ request.GET.search }}&sort={{ request.GET.sort }}%20&startDate{{ request.GET.startDate }}=&endDate={{ request.GET.endDate }}"><span class="glyphicon glyphicon-chevron-right"></span></a>
           </td>
           <td style="width:320px;">
               <div class="techfont" style="position:relative;top:0px;vertical-align:top;width:100%;height:100%;line-height:0.2em;padding:0px;">
@@ -129,54 +256,54 @@
                       ID:
                   </span>
                   <span id="filename" class="titlecontent">
-                      {{ object.id }}<br>
+                      {{ Item.id }}<br>
                   </span>
-                  {% if object.title %}
+                  {% if Item.title %}
                     <span class="titletext">
                         Description:
                     </span>
                     <span id="description" class="titlecontent">
-                        {{ object.title }}<br>
+                        {{ Item.title }}<br>
                     </span>
                   {% endif %}
-                  {% if object.location %}
+                  {% if Item.location %}
                   <span class="titletext">
                       Location:
                   </span>
                   <span id="description" class="titlecontent">
-                      {{ object.location }}<br>
+                      {{ Item.location }}<br>
                   </span>
                   {% endif %}
-                  {% if object.primaryCategory %}
+                  {% if Item.primaryCategory %}
                   <span class="titletext">
                       Category 1:
                   </span>
                   <span id="description" class="titlecontent">
-                      {{ object.primaryCategory }}<br>
+                      {{ Item.primaryCategory }}<br>
                   </span>
                   {% endif %}
-                  {% if object.secondaryCategory %}
+                  {% if Item.secondaryCategory %}
                   <span class="titletext">
                       Category 2:
                   </span>
                   <span id="description" class="titlecontent">
-                      {{ object.secondaryCategory }}<br>
+                      {{ Item.secondaryCategory }}<br>
                   </span>
                   {% endif %}
-                  {% if object.modfilename %}
+                  {% if Item.modfilename %}
                   <span class="titletext">
                       Filename:
                   </span>
                   <span id="filename" class="titlecontent">
-                      {{ object.modfilename }}<br>
+                      {{ Item.modfilename }}<br>
                   </span>
                   {% endif %}
-                  {% if object.taken_on %}
+                  {% if Item.taken_on %}
                   <span class="titletext">
                       Taken on:
                   </span>
                   <span id="datetime" class="titlecontent">
-                      {{ object.taken_on|date:"d M, Y" }}<br>
+                      {{ Item.taken_on|date:"d M, Y" }}<br>
                   </span>
                   {% endif %}
                   <span class="titletext">
@@ -217,7 +344,7 @@
                           Keywords:
                       </span>
                       <span id="keywords" class="titlecontent">
-                         {% for word in object.keywords.modlist %}
+                         {% for word in Item.keywords.modlist %}
                            <button type="button" data-react-toolbox="button">
                            {{ word }}
                            <i class="glyphicon glyphicon-remove"></i>
@@ -229,7 +356,7 @@
                       <form id="submit_keywords" action="" method="get" style="font-size:0.3em;padding-top:10px;">
                         {% csrf_token %}
                         <input name="vocabulary"  type="text"   id="vocabulary" placeholder="Add keywords...">
-                        <input name="pic_id"      type="hidden" id="pic_id"     value="{{ object.modid }}">
+                        <input name="pic_id"      type="hidden" id="pic_id"     value="{{ Item.modid }}">
                       </form>
                   </div>
                   <div id="panel2" style="display:none">
@@ -250,8 +377,8 @@
           </td>
       </tr>
     </table>
-    <div class="techfont" id="div_8" style="position:absolute;top:1.8em;left:calc(100% - 420px);width:400px;min-height:100px;">
-     <form action="/albums/add/{{ object.modid }}" method="get" class="float-right" style="font-size:0.5em;">
+    <div class="techfont" id="div_8" style="position:absolute;top:0.2em;left:calc(100% - 420px);width:400px;min-height:100px;">
+     <form action="/albums/add/{{ Item.modid }}" method="get" class="float-right" style="font-size:0.5em;">
        {% csrf_token %}
        <input name="add_to_album" type="text" value="" id="trace" placeholder="Add to album..." style="width:400px;"/>
        <div id="image-dropdown" >
@@ -262,6 +389,27 @@
        </div>
      </form>
     </div>
+  </div>
+
+  <div id="fullScreenPic"
+       style="position:absolute:padding:0px;left:0px;top:0px;width:100%;height:100%;z-index:9999;display:none;">
+
+      <img id="picture_fs_{{ Item.modid }}"
+           class="lazyload responsive picfull"
+           src="{{ Item.modfile }}"
+           data-src="{{ Item.modlargefile }}"
+           alt="{{ Item.file }}"
+           >
+        </img>
+        <div id="hidescreen" style="position:relative;top:0px;right:0px;">
+            <ul class="nav navbar-nav fs-screen" style="position:absolute;top:50px;left:20px;">
+                <li>
+                    <a onClick="">
+                        <i class="large material-icons" style="background-color:white;">fullscreen_exit</i>
+                    </a>
+                </li>
+            </ul>
+        </div>
   </div>
 
 {% endblock %}

@@ -27,7 +27,7 @@
 
 {% for album in object_list %}
   <div class="tt_base droppable draggable techfont gallery" id="div_{{ folder.modthumb.modpath }}_{{ folder.modthumb.file }}">
-    <a id="piclink_8" href="{{ album.name }}?ID={{ album.id }}">
+    <a id="piclink_8" href="{{ album.id }}/">
       <div class="desc">{{ album.name }}</div>
       <section class="wrapper" id="file-number_{{ folder.modthumb.modpath }}_{{ folder.modthumb.file }}">
         <span class="tt_subject">

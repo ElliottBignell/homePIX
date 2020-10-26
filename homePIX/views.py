@@ -223,38 +223,6 @@ class AlbumView( PhotoListView ):
     def getlink_params( self ):
         return 'ID=0&Key=0&'
 
-class AlbumContentView( PhotoListView ):
-
-    model = AlbumContent
-    form_class = AlbumContentForm
-
-    def getfilter( self, index ):
-        return -1;
-
-    def get_queryset( self ):
-
-        PhotoListView.object_list = AlbumContent.objects.none()
-
-        if 'pk' in self.kwargs:
-
-            album = self.kwargs[ 'pk' ]
-
-            queryset = Album.objects.filter( name = album )
-
-            if not queryset is None and queryset.count() > 0:
-
-                query = "select * from (( homePIX_albumcontent INNER JOIN homePIX_picturefile ON homePIX_picturefile.id=homePIX_albumcontent.entry_id) INNER JOIN homePIX_album ON homePIX_album.id=homePIX_albumcontent.album_id) WHERE album_id=" + str( queryset[ 0 ].id )
-
-                PhotoListView.object_list = AlbumContent.objects.raw( query )
-
-        return PhotoListView.object_list
-
-    def search_queryset( self, objects, search, ret ):
-        return ret( objects, { 'path__icontains': search } )
-
-    def getlink_params( self ):
-        return 'ID=0&Key=0&'
-
 class PhotoListViewBase( PhotoListView ):
 
     model = PictureFile
@@ -353,6 +321,36 @@ class PictureListView( PhotoListViewBase ):
 
         return ret
 
+class PictureDetailView( PhotoListViewBase ):
+
+    template_name = 'homePIX/picturefile_detail.html'
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+
+        id = 0
+
+        if 'pk' in self.kwargs:
+
+            id = int( self.kwargs[ 'pk' ] )
+
+            previous = self.object_list[ len( self.object_list ) - 1 ]
+
+            for index, file in enumerate( self.object_list ):
+
+                if file.id == id:
+
+                    context[ 'Item'     ] = file
+                    context[ 'next'     ] = self.object_list[ ( index + 1 ) % len( self.object_list ) ]
+                    context[ 'previous' ] = previous
+
+                    break
+
+                previous = file
+
+        return context
+
 class PictureOrqaniseView( PhotoListViewBase ):
 
     template_name = 'picturefile_organise.html'
@@ -409,35 +407,204 @@ class OrganisationView( PhotoListView):
         else:
             return 'https://api.smugmug.com/services/api/json/1.3.0/' + self.subdir + '.+$'
 
+    def pretty_request( self, request ):
+
+        headers = ''
+        for header, value in request.META.items():
+            if not header.startswith('HTTP'):
+                continue
+            header = '-'.join([h.capitalize() for h in header[5:].lower().split('_')])
+            headers += '{}: {}\n'.format(header, value)
+
+        return (
+            '{method} HTTP/1.1\n'
+            'Content-Length: {content_length}\n'
+            'Content-Type: {content_type}\n'
+            '{headers}\n\n'
+            '{body}'
+        ).format(
+            method=request.method,
+            content_length=request.META['CONTENT_LENGTH'],
+            content_type=request.META['CONTENT_TYPE'],
+            headers=headers,
+            body=request.body,
+        )
+
     def get_queryset( self ):
+
+        if self.request.GET.get( 'album', None ):
+
+            album = self.request.GET.get( 'album' )
+
+            PhotoListView.object_list = AlbumContent.objects.none()
+
+            queryset = Album.objects.filter( id = album )
+
+            if not queryset is None and queryset.count() > 0:
+
+                query = "select * from (( homePIX_albumcontent INNER JOIN homePIX_picturefile ON homePIX_picturefile.id=homePIX_albumcontent.entry_id) INNER JOIN homePIX_album ON homePIX_album.id=homePIX_albumcontent.album_id) WHERE album_id=" + album + ";"
+
+                PhotoListView.object_list = AlbumContent.objects.raw( query )
+
+            return PhotoListView.object_list
+
+        elif self.request.GET.get( 'directory', None ):
+
+            directory = self.request.GET.get( 'directory' )
+
+            PhotoListView.object_list = PictureFile.objects.none()
+
+            queryset = Directory.objects.filter( id = directory )
+
+            pics = None
+
+            if not queryset is None and queryset.count() > 0:
+
+                try:
+
+                    pics = PictureFile.objects.filter( path_id=queryset[ 0 ].id )
+                except:
+                    pass
+
+            return pics
+
+        else:
+
+            ret2 = lambda queryset, filter_dict: ( queryset.filter( **filter_dict ).
+                                                   select_related( 'path' ).
+                                                   extra( select={'lower_path': 'lower(path)'} ).
+                                                   order_by('sortkey')
+                                             )
+            ret3 = lambda queryset, filter_dict: ( queryset.filter( **filter_dict ).
+                                                   select_related( 'path' ).
+                                                   order_by('sortkey')
+                                             )
+
+            # self.directory_list = super().getqueryset( Directory.objects,   'path__regex',       ret1, 2 )
+            # rem_objs          = super().getqueryset( Directory.objects,   'path__regex',       ret1, 3 )
+            pic_objs            = super().getqueryset( PictureFile.objects, 'path__path__regex', ret2, 1 )
+            rem_pic_objs        = super().getqueryset( PictureFile.objects, 'path__path__regex', ret3, 2 )
+
+            self.object_list = list( chain( pic_objs, rem_pic_objs ) )
+
+            return self.object_list
+
+    def search_queryset( self, objects, search, ret ):
+        return ret( objects, { 'path__icontains': search } )
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
 
         ret1 = lambda queryset, filter_dict: ( queryset.filter( **filter_dict ).
                                                select_related( 'thumbnail' ).
                                                extra( select={'lower_path': 'lower(path)'} ).order_by('lower_path')
                                          )
-        ret2 = lambda queryset, filter_dict: ( queryset.filter( **filter_dict ).
-                                               select_related( 'path' ).
-                                               extra( select={'lower_path': 'lower(path)'} ).order_by('lower_path')
-                                         )
-        ret3 = lambda queryset, filter_dict: ( queryset.filter( **filter_dict ).
-                                               select_related( 'path' )
-                                         )
+        context[ 'directory_list' ] = super().getqueryset( Directory.objects,   'path__regex',       ret1, 2 )
+        context[     'album_list' ] = Album.objects.all()
+        context[       'universe' ] = PictureFile.objects.all()
 
-        dir_objs     = super().getqueryset( Directory.objects,   'path__regex',       ret1, 0 )
-        rem_objs     = super().getqueryset( Directory.objects,   'path__regex',       ret1, 3 )
-        pic_objs     = super().getqueryset( PictureFile.objects, 'path__path__regex', ret2, 1 )
-        rem_pic_objs = super().getqueryset( PictureFile.objects, 'path__path__regex', ret3, 2 )
+        return context
 
-        self.object_list = list( chain( dir_objs, rem_objs, pic_objs, rem_pic_objs ) )
+    def getlink_params( self ):
+        return ''
 
-        return self.object_list
+class AlbumContentView( PhotoListView ):
+
+    model = AlbumContent
+    form_class = AlbumContentForm
+
+    def getfilter( self, index ):
+        return -1;
+
+    def get_queryset( self ):
+
+        PhotoListView.object_list = AlbumContent.objects.none()
+
+        if 'pk' in self.kwargs:
+
+            album = self.kwargs[ 'pk' ]
+
+            queryset = Album.objects.filter( id = album )
+
+            if not queryset is None and queryset.count() > 0:
+
+                query = "select * from (( homePIX_albumcontent INNER JOIN homePIX_picturefile ON homePIX_picturefile.id=homePIX_albumcontent.entry_id) INNER JOIN homePIX_album ON homePIX_album.id=homePIX_albumcontent.album_id) WHERE album_id=" + str( queryset[ 0 ].id )
+
+                PhotoListView.object_list = AlbumContent.objects.raw( query )
+
+        return PhotoListView.object_list
 
     def search_queryset( self, objects, search, ret ):
         return ret( objects, { 'path__icontains': search } )
 
     def getlink_params( self ):
-        return ''
+        return 'ID=0&Key=0&'
 
+class AlbumContentDetailView( PhotoListViewBase ):
+
+    model = AlbumContent
+    form_class = AlbumContentForm
+    nav = {}
+
+    template_name = 'homePIX/picturefile_detail.html'
+
+    def get_context_data(self, **kwargs):
+
+        if self.nav:
+            return { **super().get_context_data(**kwargs), **self.nav  }
+        else:
+            return super().get_context_data(**kwargs)
+
+    def getfilter( self, index ):
+        return -1;
+
+    def get_queryset( self ):
+
+        PhotoListView.object_list = AlbumContent.objects.none()
+
+        if 'album_id' in self.kwargs:
+
+            album = self.kwargs[ 'album_id' ]
+
+            if 'pk' in self.kwargs:
+
+                id = int( self.kwargs[ 'pk' ] )
+
+                queryset = Album.objects.filter( id=album )
+
+                if not queryset is None and queryset.count() > 0:
+
+                    query = "select * from (( homePIX_albumcontent INNER JOIN homePIX_picturefile ON homePIX_picturefile.id=homePIX_albumcontent.entry_id) INNER JOIN homePIX_album ON homePIX_album.id=homePIX_albumcontent.album_id) WHERE album_id=" + str( album )
+
+                    PhotoListView.object_list = AlbumContent.objects.raw( query )
+
+                    previous = PhotoListView.object_list[ len( PhotoListView.object_list ) - 1 ]
+
+                    index = 0
+
+                    for file in PhotoListView.object_list:
+
+                        if file.entry_id == id:
+
+                            next_id = ( index + 1 ) % len( PhotoListView.object_list )
+
+                            self.nav[ 'Item'     ] = PictureFile.objects.get( id=file.entry_id )
+                            self.nav[ 'next'     ] = PictureFile.objects.get( id=PhotoListView.object_list[ next_id ].entry_id )
+                            self.nav[ 'previous' ] = PictureFile.objects.get( id=previous.entry_id )
+
+                            break
+
+                        previous = file
+                        index += 1
+
+        return PhotoListView.object_list
+
+    def search_queryset( self, objects, search, ret ):
+        return ret( objects, { 'path__icontains': search } )
+
+    def getlink_params( self ):
+        return 'ID=0&Key=0&'
 
 class FoldersView( PhotoListViewBase ):
 
@@ -509,14 +676,21 @@ class FoldersView( PhotoListViewBase ):
 
         query_cmd = home_settings.REMOTE_CMDs[ 0 ]
 
-        if self.request.GET.get( 'ID', None ):
-
+        if 'pk' in self.kwargs:
+            self.album_id = int( self.kwargs[ 'pk' ] )
+        elif self.request.GET.get( 'ID', None ):
             self.album_id = self.request.GET[ 'ID' ]
 
-            if self.request.GET.get( 'Key', None ):
+        if self.album_id > 0:
 
-                self.album_key = self.request.GET[ 'Key' ]
-                query_cmd = 'smugmug.images.get'
+            dir_query = Directory.objects.filter( id=self.album_id )
+
+            if dir_query:
+
+               self.album_id  = dir_query[ 0 ].remote_id
+               self.album_key = dir_query[ 0 ].remote_key
+
+        query_cmd = 'smugmug.images.get'
 
         ret1 = lambda queryset, filter_dict: ( queryset.filter( **filter_dict ).
                                                select_related( 'thumbnail' ).
@@ -784,17 +958,6 @@ class CompressView( DetailView ):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        return context
-
-class PictureDetailView( DetailView ):
-
-    model = PictureFile
-
-    def get_context_data(self, **kwargs):
-
-        context = super().get_context_data(**kwargs)
-        context[ 'albums' ] = Album.objects.all().select_related( 'thumbnail' ).order_by('name')
-
         return context
 
 class CreateDirectoryView( LoginRequiredMixin, CreateView ):
@@ -1074,6 +1237,68 @@ def add_id_to_album( request, album_id, pic_id ):
     return redirect( '/albums/' )
 
 @login_required
+def add_ids_to_album( request, album_id, pic_id ):
+
+    album = get_object_or_404(   Album,       id = int( album_id ) )
+
+    ids = pic_id.split( ',' )
+
+    for id in ids:
+
+        if len( id ) > 0:
+
+            picture = get_object_or_404( PictureFile, id = int( id ) )
+
+            entries = AlbumContent.objects.filter(
+                                Q( album_id=album.id )
+                              & Q( entry_id=id )
+                              )
+
+            if entries is None or entries.count() <= 0:
+
+                entry = AlbumContent()
+                entry.album = album
+                entry.entry = picture
+                entry.save()
+
+    return HttpResponse(json.dumps(
+        {
+            'name': album.name,
+            'id':   album.id,
+            'count':album.modcount
+        }
+        ),
+        content_type="application/json"
+        )
+
+@login_required
+def del_ids_from_album( request, album_id, pic_id ):
+
+    album = get_object_or_404( Album, id = int( album_id ) )
+
+    ids = pic_id.split( ',' )
+
+    for id in ids:
+
+        if len( id ) > 0:
+
+            AlbumContent.objects.filter(
+                    Q( album_id=album_id )
+                  & Q( entry_id=id )
+              ).delete()
+
+    return HttpResponse(json.dumps(
+        {
+            'name'   :album.name,
+            'id'     :album.id,
+            'count'  :album.modcount,
+            'deleted':pic_id,
+        }
+        ),
+        content_type="application/json"
+        )
+
+@login_required
 def delete_id_from_album( request, album_id, pic_id ):
 
     try:
@@ -1086,6 +1311,42 @@ def delete_id_from_album( request, album_id, pic_id ):
         pass
 
     return redirect( '/albums/' )
+
+@login_required
+def organisation_bubble_ids( request, pic_ids ):
+
+    ids = pic_ids.split( ',' )
+
+    query = 'SELECT id, sortkey FROM homePIX_picturefile ORDER BY sortkey LIMIT 1;'
+    top_pics = PictureFile.objects.raw( query )
+    top_pic = top_pics[ 0 ]
+
+    sort_key = int( top_pic.sortkey );
+
+    for id in ids:
+        if len( id ) > 0:
+
+            query = 'SELECT id, sortkey FROM homePIX_picturefile WHERE id=' + id + ';'
+            print( query )
+
+            pics = PictureFile.objects.raw( query )
+            pic  = pics[ 0 ]
+            print("Oldkey= "  + str( pic.sortkey ) )
+
+            sort_key -= 1
+
+            pic.sortkey = sort_key
+            pic.save()
+
+            print("Newsort= " + str( pic.sortkey ) )
+
+    return HttpResponse(json.dumps(
+        {
+            'name'   :'universe'
+        }
+        ),
+        content_type="application/json"
+        )
 
 @login_required
 def set_album_thumb( request, album_id, pic_id ):
@@ -1101,7 +1362,7 @@ def set_album_thumb( request, album_id, pic_id ):
 @login_required
 def set_folder_thumb( request, album_id, pic_id ):
 
-    folder = get_object_or_404(  Directory,   remote_id = int( album_id ) )
+    folder = get_object_or_404(  Directory,   id = int( album_id ) )
     picture = get_object_or_404( PictureFile, id = int( pic_id ) )
 
     folder.thumbnail = picture
@@ -1146,4 +1407,3 @@ def comment_remove( request, pk ):
     comment.delete()
 
     return redirect( 'post_detail', pk = comment.post.pk )
-

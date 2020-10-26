@@ -1,6 +1,10 @@
 {% extends "homePIX/base.html" %}
 {% block content %}
 
+{% csrf_token %}
+
+{% load positions %}
+
   <div class="centerstage">
     <div class="techfont" id="div_" style="min-height:100px;">
       <div class="row">
@@ -26,68 +30,127 @@
 
   <div class="pane">
     <div class="split left draggable droppable">
-      {% for folder in object_list %}
-        {% if folder.modtype == 2 %}
-          {% if folder.modcount > 0 %}
-            <div class="tt_base draggable droppable techfont organise_gallery" id="album_{{ forloop.counter }}">
-                <a id="albumlink_{{ forloop.counter }}" href="?{{ folder.modurl }}">
-                  <div class="desc"><i class="material-icons small-icon">folder</i>{{ folder.modname }}</div>
-                  <section class="wrapper" id="albumsect_{{ forloop.counter }}">
-                      <span class="tt_subject">
-                          <img id="picture_{{ forloop.counter }}"
-                               class="lazyload"
-                               src="{{ folder.modthumb.file }}"
-                               data-src="{{ folder.modthumb.file }}"
-                               alt="{{ folder.count }} shots in {{ folder.modpath }}"
-                               style="border:2px solid white;position:relative;top:100%;left:0%;z-index:0;height:100px;">
-                          </img>
-                      </span>
-                  </section>
-              </a>
+      <a id="universelink_{{ forloop.counter }}" href="?universe">
+        <div class="tt_base draggable droppable techfont organise_gallery" id="universe_{{ forloop.counter }}">
+          <div class="desc" style="position:absolute;top:5px;height:100px;left:5px;width:60%;">
+            <section class="wrapper" id="universesect_{{ forloop.counter }}">
+              <span class="tt_subject">
+                <img id="picture_{{ forloop.counter }}"
+                     class="lazyload"
+                     src="{{ universe.modthumb.file }}"
+                     data-src="{{ universe.modthumb.file }}"
+                     alt="{{ universe.count }} shots in whole collection"
+                     style="border:2px solid white;z-index:0;position:relative;top:0px;left:0px;height:100px;">
+                </img>
+              </span>
+            </section>
+            <div class="desc" style="position:absolute;top:5px;height:100%;left:150px;width:90%;text-align:right;">
+              <div style="position:absolute;top:5px;height:calc(100%-25px);width:100%;font-size:2em;">
+                  {{ universe.modname }}
+              </div>
+              <div style="position:absolute;top:50%;height:25px;width:100%;">
+                  <span id="universecount_{{ forloop.counter }}" style="text-align:right;">{{ universe.count }} Pictures</span>
+              </div>
             </div>
-            <br>
-          {% endif %}
+          </div>
+          <div class="desc" style="position:absolute;top:5px;height:90%;left:91%;width:5%;text-align:right;">
+            <i class="material-icons small-icon" style="position:absolute;top:5px;right:5px;width:20px;">universe</i>
+          </div>
+        </div>
+      </a>
+      {% for album in album_list %}
+         {% if album.modcount > 0 %}
+           <a id="albumlink_{{ forloop.counter }}" href="?album={{ album.modid }}">
+             <div class="tt_base draggable droppable techfont organise_gallery" id="album_{{ forloop.counter }}">
+               <div class="desc" style="position:absolute;top:5px;height:100px;left:5px;width:60%;">
+                 <section class="wrapper" id="albumsect_{{ forloop.counter }}">
+                   <span class="tt_subject">
+                     <img id="picture_{{ forloop.counter }}"
+                          class="lazyload"
+                          src="{{ album.modthumb.file }}"
+                          data-src="{{ album.modthumb.file }}"
+                          alt="{{ album.count }} shots in {{ album.modpath }}"
+                          style="border:2px solid white;z-index:0;position:relative;top:0px;left:0px;height:100px;">
+                     </img>
+                   </span>
+                 </section>
+                 <div class="desc" style="position:absolute;top:5px;height:100%;left:150px;width:90%;text-align:right;">
+                   <div style="position:absolute;top:5px;height:calc(100%-25px);width:100%;font-size:2em;">
+                       {{ album.modname }}
+                   </div>
+                   <div style="position:absolute;top:50%;height:25px;width:100%;">
+                       <span id="albumcount_{{ forloop.counter }}" style="text-align:right;">{{ album.modcount }} Pictures</span>
+                   </div>
+                 </div>
+               </div>
+               <div class="desc" style="position:absolute;top:5px;height:90%;left:91%;width:5%;text-align:right;">
+                 <i class="material-icons small-icon" style="position:absolute;top:5px;right:5px;width:20px;">album</i>
+               </div>
+             </div>
+           </a>
+           <a href="javascript:add_ids_to_album( {{ forloop.counter }}, get_selected_ids() );">
+             <i class="material-icons medium-icon" style="position:absolute;left:calc( 100% - 50px );top:{% album_top 1 20 20 %};width:20px;">add_to_photos</i>
+           </a>
         {% endif %}
       {% empty %}
         No folders loaded
       {% endfor %}
+
+      {% for directory in directory_list %}
+         {% if directory.modcount > 0 %}
+           <a id="albumlink_{{ forloop.counter }}" href="?directory={{ directory.modid }}">
+             <div class="tt_base draggable droppable techfont organise_gallery" id="album_{{ forloop.counter }}">
+               <div class="desc" style="position:absolute;top:5px;height:100px;left:5px;width:60%;">
+                 <section class="wrapper" id="albumsect_{{ forloop.counter }}">
+                   <span class="tt_subject">
+                     <img id="picture_{{ forloop.counter }}"
+                          class="lazyload"
+                          src="{{ directory.modthumb.file }}"
+                          data-src="{{ directory.modthumb.file }}"
+                          alt="{{ directory.count }} shots in {{ directory.modpath }}"
+                          style="border:2px solid white;z-index:0;position:relative;top:0px;left:0px;height:100px;">
+                     </img>
+                   </span>
+                 </section>
+                 <div class="desc" style="position:absolute;top:5px;height:100%;left:150px;width:90%;text-align:right;">
+                   <div style="position:absolute;top:5px;height:calc(100%-25px);width:100%;font-size:2em;">
+                       {{ directory.modname }}
+                   </div>
+                   <div style="position:absolute;top:50%;height:25px;width:100%;">
+                       <span id="albumcount_{{ forloop.counter }}" style="text-align:right;">{{ directory.modcount }} Pictures</span>
+                   </div>
+                 </div>
+               </div>
+               <div class="desc" style="position:absolute;top:5px;height:90%;left:91%;width:5%;text-align:right;">
+                 <i class="material-icons small-icon" style="position:absolute;top:5px;right:5px;width:20px;">folder</i>
+               </div>
+             </div>
+           </a>
+        {% endif %}
+      {% empty %}
+        No folders loaded
+      {% endfor %}
+
     </div>
   </div>
 
   <div class="pane">
-    <div id="content_organise" class="split right draggable droppable">
+    <div id="content_organise" class="split right draggable droppable" style="user-select: none;">
       {% for picture in object_list %}
-        {% if picture.modtype == 1 %}
-          <div class="tt_base draggable droppable" id="selectable_{{ forloop.counter }}_{{ picture.modid }}">
-            <!-- <a id="piclink_{{ forloop.counter }}" href="{{ picture.modpath }}/{{ picture.file }}"> -->
-             <section class="wrapper" id="file-number_{{ forloop.counter }}" style="padding:6px;">
-               <span class="tt_subject">
-                 <img id="picture_{{ forloop.counter }}_{{ picture.modid }}"
-                      class="lazyload tt_unselected"
-                      src="{{ picture.modthumb.file }}"
-                      data-src="{{ picture.modthumb.file }}"
-                      alt="{{ picture.modthumb.file }}"
-                      >
-                   </img>
-               </span>
-             </section>
-             <div id="header_o_{{ forloop.counter }}" class="tt_left tt_text">
-               <div id="header_{{ forloop.counter }}" class="tt_lefttextnooff">
-                 {{ picture.modthumb.title }}
-               </div>
-             </div>
-             <span class="tt_text tt_bottom">
-               <article id="art_keywords_{{ forloop.counter }}">No keywords</article>
+        <div class="tt_base draggable droppable keynav" draggable="true" id="selectable_{{ forloop.counter }}_{{ picture.modthumb.modid }}">
+          <!-- <a id="piclink_{{ forloop.counter }}" href="{{ picture.modpath }}/{{ picture.file }}"> -->
+           <section class="wrapper keynav" id="file-number_{{ forloop.counter }}" style="padding:6px;">
+             <span class="tt_subject">
+               <img id="picture_{{ forloop.counter }}_{{ picture.modthumb.modid }}"
+                    class="lazyload tt_unselected keynav"
+                    src="{{ picture.modthumb.file }}"
+                    data-src="{{ picture.modthumb.file }}"
+                    alt="{{ picture.modthumb.file }}"
+                    >
+                 </img>
              </span>
-            <span class="tt_edit">
-                <form id="editprops">
-                    <fieldset>
-                        <input id="title" type="text" value="test">
-                    </fieldset>
-                </form>
-            </span>
-          </div>
-        {% endif %}
+           </section>
+        </div>
       {% empty %}
         No picture files in this picture
       {% endfor %}

@@ -24,7 +24,7 @@
     {% if folder.modtype == 2 %}
       {% if folder.modcount > 0 %}
         <div class="tt_base droppable draggable techfont gallery" id="div_{{ folder.modthumb.modpath }}_{{ folder.modthumb.file }}">
-            <a id="piclink_8" href="?{{ folder.modurl }}">
+            <a id="piclink_8" href="{{ folder.modid }}/">
               <div class="desc">{{ folder.modname }}</div>
               <div style="position:absolute;top:0px;right:0px;color:black;"><i class="material-icons">folder</i></div>
               <section class="wrapper" id="file-number_{{ folder.modthumb.modpath }}_{{ folder.modthumb.file }}">

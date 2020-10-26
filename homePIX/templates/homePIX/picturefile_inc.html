@@ -14,7 +14,7 @@
         {% if picture.modtype == 1 or picture.modtype == 4 %}
           <div class="tt_base droppable draggable" id="div_8">
             <a id="piclink_{{ picture.modthumb.modid }}"
-               href="/pictures/{{ picture.modthumb.modid }}/?next={{ next_picture.modthumb.modid }}&previous={{ previous_picture.modthumb.modid }}&search=request.GET.search&sort=request.GET.sort&startDate=request.GET.startDate&endDate=request.GET.endDate">
+               href="./item/{{ picture.modthumb.modid }}/?next={{ next_picture.modthumb.modid }}&previous={{ previous_picture.modthumb.modid }}&search={{ request.GET.search }}&sort= {{request.GET.sort }}&startDate={{ request.GET.startDate }}&endDate={{ request.GET.endDate }}">
               <section class="wrapper" id="file-number_8">
                   <span class="tt_subject">
                     <img id="picture_8"
@@ -56,7 +56,7 @@
     {% endwith %}
     {% endwith %}
   {% empty %}
-        No picture files in this picture
+        No picture file
   {% endfor %}
 
 {% endblock picturefile %}

@@ -1,3 +1,5 @@
+const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
 var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
 var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
 var index = 1;
@@ -9,10 +11,12 @@ var isShiftPressed = false;
 var isCtrlPressed  = false;
 var currentIndex   = -1;
 
-document.addEventListener( "touchstart", handleTouchStart, false);
-document.addEventListener( "touchmove",  handleTouchMove,  false);
-//document.addEventListener( "keydown",    doKeyDown,        false )
+//document.addEventListener( "touchstart", handleTouchStart, false);
+//document.addEventListener( "touchmove",  handleTouchMove,  false);
+//document.addEventListener( "keydown",    doKeyDown,        false );
 //document.addEventListener( "keyup",      doKeyUp,          false );
+
+jQuery.event.props.push('dataTransfer');
 
 $(document).ready(function() {
 
@@ -21,19 +25,48 @@ $(document).ready(function() {
     helper: "clone"
   });
 
-  $('div[id^=selectable_]').draggable({
-
-    dragstart: function(event, ui) {
-        event.dataTransfer.setData("text", event.target.id);
-    }
+  $('div[id^=selectable_]').droppable({
+    cursor: 'move',
+    helper: "clone"
   });
+});
+
+//$( 'body' ).delegate( 'div[id^=selectable_]', '*', 'keydown', function() {
+ //   alert("delegated");
+//});
+
+$.ajaxSetup({
+     beforeSend: function(xhr, settings) {
+         function getCookie(name) {
+             var cookieValue = null;
+             if (document.cookie && document.cookie != '') {
+                 var cookies = document.cookie.split(';');
+                 for (var i = 0; i < cookies.length; i++) {
+                     var cookie = jQuery.trim(cookies[i]);
+                     // Does this cookie string begin with the name we want?
+                     if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                         break;
+                     }
+                 }
+             }
+             return cookieValue;
+         }
+         if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+             // Only send the token to relative URLs i.e. locally.
+             xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+         }
+     }
 });
 
 $( "div[id^=selectable_]" ).click(function () {
 
     $( ".tt_focussed" ).removeClass( "tt_focussed" );
 
-    if ( !isShiftPressed ) {
+    var img = $(this).find( "img[id^=picture_]" )
+    img.addClass( "tt_focussed" );
+
+    if ( !isCtrlPressed ) {
 
         $( ".tt_selected" ).addClass( "tt_unselected" );
         $( ".tt_unselected" ).removeClass( "tt_selected" );
@@ -41,9 +74,27 @@ $( "div[id^=selectable_]" ).click(function () {
 
     currentIndex = parseInt( this.id.match(/\d+/) );
 
-    $(this).find( "img[id^=picture_]" ).removeClass( "tt_unselected" );
-    $(this).find( "img[id^=picture_]" ).addClass( "tt_selected" );
-    $(this).find( "img[id^=picture_]" ).addClass( "tt_focussed" );
+    img.removeClass( "tt_unselected" );
+    img.addClass( "tt_selected" );
+});
+
+$( '.keynav' ).keydown( function( e ) {
+
+    alert( "key" );
+    var code = (e.keyCode ? e.keyCode : e.which);
+    var evtobj = window.event? event : e;
+
+    switch ( code ) {
+
+    case 9: //Tab
+
+        alert( target.html );
+        event.preventDefault();               
+        break;
+
+    default:
+        //alert( e.which );
+    }
 });
 
 $( 'body' ).keydown( function( e ) {
@@ -79,8 +130,7 @@ $( 'body' ).keydown( function( e ) {
 
             //if ( e.target == document.body ) {
 
-                $( '#picture_' + index ).goTo();
-                imgnav.select( index, e );
+                select();
                 e.preventDefault();
             //}
 
@@ -126,6 +176,20 @@ $( 'body' ).keydown( function( e ) {
         case 114: // F3
             e.preventDefault();
             $( "#find" ).focus();
+            break;
+
+        case 46: //Return
+
+            var ids    = get_selected_ids();
+            var url    = window.location.href
+            var params   = url.split( '?' )[ 1 ]
+            var albums = params.split( '=' );
+            var album  = albums[ albums.length - 1 ];
+
+            delete_ids_from_album( album, ids );
+
+            event.preventDefault();
+
             break;
 
         default:
@@ -174,12 +238,62 @@ function retreat( evtobj )
 
 function moveTo( index )
 {
-    var newIndex = "#selectable_" + ( index ).toString();
+    var oldIndex = "[id^=selectable_" + ( currentIndex ).toString() + "_]";
 
-    if ( $( newIndex ).length ) { // Element exists
+    if ( $( oldIndex ).length ) { // Element exists
 
-        currentIndex += 1;
-        $( newIndex ).trigger( "click" );
+        var oldPic = $( oldIndex ).find( "img[id^=picture_]" )
+
+        oldPic.removeClass( "tt_focussed"   );
+
+        var newIndex = "[id^=selectable_" + ( index ).toString() + "_]";
+
+        if ( $( newIndex ).length ) { // Element exists
+
+            currentIndex = index;
+
+            var newPic = $( newIndex ).find( "img[id^=picture_]" )
+
+            if ( isShiftPressed ) {
+
+                if ( newPic.hasClass( "tt_selected" ) ) {
+
+                    oldPic.removeClass( "tt_selected"   );
+                    oldPic.addClass(    "tt_unselected" );
+                }
+                else {
+
+                    oldPic.removeClass( "tt_unselected" );
+                    oldPic.addClass(    "tt_selected"   );
+                }
+
+                newPic.addClass(    "tt_selected"   );
+                newPic.removeClass( "tt_unselected" );
+            }
+
+            newPic.addClass( "tt_focussed" );
+        }
+    }
+}
+
+function select()
+{
+    var index = "[id^=selectable_" + ( currentIndex ).toString() + "_]";
+
+    if ( $( index ).length ) { // Element exists
+
+        var pic = $( index ).find( "img[id^=picture_]" )
+
+        if ( pic.hasClass( "tt_selected" ) ) {
+
+            pic.removeClass( "tt_selected"   );
+            pic.addClass(    "tt_unselected" );
+        }
+        else {
+
+            pic.removeClass( "tt_unselected"   );
+            pic.addClass(    "tt_selected" );
+        }
     }
 }
 
@@ -192,51 +306,57 @@ $( "div[id^=selectable_]" ).draggable({
 });
 
 $('div[id^=selectable_]').on('dragstart', function( event ) {
-
-    var data = '';
-    
-    $('.tt_selected').each(function(index) {
-
-        var parse = $(this).attr( 'id' ).split( '_' );
-        data += parse[ 2 ] + '\t';
-    });
-
-    event.originalEvent.dataTransfer.setData( "text", data );
+    event.originalEvent.dataTransfer.setData( 'text', get_selected_ids() );
 });
 
 $('div[id^=selectable_]').on('drop dragdrop', function( event ) {
 
-    var data = event.originalEvent.dataTransfer.getData("text");
-    alert( 'Drop: ' + data);
+    var data = event.originalEvent.dataTransfer.getData('text');
     event.preventDefault();
 });
 
-$('div[id^=album_]').on('dragenter', function( event ) {
+$('div[id^=album_], div[id^=universe_]').on('dragenter', function( event ) {
 
     $(this).removeClass( "organise_gallery" );
     $(this).addClass( "drop_gallery" );
     event.preventDefault();
 });
 
-$('div[id^=album_]').on('dragleave', function( event ) {
+$('div[id^=album_], div[id^=universe_]').on('dragleave', function( event ) {
 
     $(this).removeClass( "drop_gallery" );
     $(this).addClass( "organise_gallery" );
     event.preventDefault();
 });
 
-$('div[id^=album_]').on('dragover', function( event ) {
+$('div[id^=album_], div[id^=universe_]').on('dragover', function( event ) {
+
+    $(this).removeClass( "organise_gallery" );
+    $(this).addClass( "drop_gallery" );
+    event.preventDefault();
+});
+
+$('div[id^=universe_]').on('drop dragdrop', function( event ) {
+
+    var ids = event.originalEvent.dataTransfer.getData("text");
+    var album = $(this).attr( 'id' ).split( '_' )[ 1 ];
+
+    add_ids_to_universe( ids );
+
     event.preventDefault();
 });
 
 $('div[id^=album_]').on('drop dragdrop', function( event ) {
 
-    var data = event.originalEvent.dataTransfer.getData("text");
-    alert( 'Drop: ' + data);
+    var ids = event.originalEvent.dataTransfer.getData("text");
+    var album = $(this).attr( 'id' ).split( '_' )[ 1 ];
+
+    add_ids_to_album( album, ids );
+
     event.preventDefault();
 });
 
-$( '#paneright' ).on('click', '.selectable', function( event ) {
+$( '#content_organise' ).on( 'click', function( event ) {
 
     event.target.classList.remove( 'selectable' );
     event.target.classList.add( 'selected' );
@@ -282,6 +402,86 @@ $( '#paneleft' ).on('click', '.keyword', function( event ) {
     if ( '' == src.innerText )
         src.innerText = 'No keywords loaded';
 });
+
+function get_selected_ids() {
+
+    var myRegexp = /picture_([0-9]*)_([0-9]*)/;
+    var data = $('.tt_selected').get();
+    var items = [];
+
+    $.each( data, function( index, value ) {
+
+        var id = value.id
+        var match = myRegexp.exec( id );
+
+        items = items.concat( [ match[ 2 ] ] )
+    });
+
+    items.sort();
+    items = jQuery.unique( items );
+
+    var ret = items.join( ',' );
+
+    return ret;
+}
+
+function add_ids_to_universe( ids ) {
+
+    $.ajax({
+        url: '../organisation/bubble/' + ids + '/',
+        type: "GET",
+        data: { 
+            csrfmiddlewaretoken: csrftoken,
+            ids: ids
+        },
+        cache:false,
+        dataType: "json",
+        success: function(data) {
+          window.location.replace( '../organisation/' );
+        }
+    });
+}
+
+function add_ids_to_album( album, ids ) {
+
+    $.ajax({
+        url: '../albums/add_multiple/' + album + '/' + ids + '/',
+        type: "GET",
+        data: { 
+            csrfmiddlewaretoken: csrftoken,
+            ids: ids
+        },
+        cache:false,
+        dataType: "json",
+        success: function(data) {
+          $( '#albumcount_' + album ).html( data[ 'count' ] + ' pictures' );
+        }
+    });
+}
+
+function delete_ids_from_album( album, ids ) {
+
+    $.ajax({
+        url:  '../albums/del_multiple/' + album + '/' + ids + '/',
+        type: "GET",
+        data: { 
+            csrfmiddlewaretoken: csrftoken,
+            ids: ids
+        },
+        cache:false,
+        dataType: "json",
+        success: function(data) {
+
+            $( '#albumcount_' + album ).html( data[ 'count' ] + ' pictures' );
+
+            ids = data[ 'deleted' ].split( ',' )
+
+            ids.forEach( function( item, index ) {
+                $( 'div[id^=selectable_]' ).filter( 'div[id$=_' + item + ']' ).hide();
+            });
+        }
+    });
+}
 
 function reload_keyword_buttons( results, pic_id ) {
 
@@ -358,7 +558,6 @@ $( '#paneleft' ).on('click', '.glyph', function( event ) {
             data: {
               'vocabulary': vocabulary
             },
-            dataType: 'json',
             success: function (results) {
               $( '#art_keywords_' + id ).text( results.keywords.join( ',' ) );
             }
@@ -945,4 +1144,3 @@ function myfunction(el,d)
         break;
     }
 }
-

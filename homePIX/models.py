@@ -285,12 +285,10 @@ class Album( ThumbnailBase ):
 
     @property
     def modpath( self ):
-        return 'albums/' + name
+        return 'albums/' + self.name
 
     @property
     def modthumb( self ):
-
-        print( "Getting modthumb: " + str(self.thumbnail_id))
 
         objs = PictureFile.objects.filter( id = self.thumbnail_id )
 
@@ -305,6 +303,10 @@ class Album( ThumbnailBase ):
     @property
     def modid( self ):
         return self.id
+
+    @property
+    def modname( self ):
+        return self.name
 
     @property
     def modcount( self ):
@@ -332,7 +334,7 @@ class AlbumContent( ListModel ):
         return reverse( 'albumcontent' )
 
     def __str__( self ):
-        return str( self.album ) + ":" + str( self.entry )
+        return str( self.album.id ) + ":" + str( self.entry.id )
 
     @property
     def modthumb( self ):
