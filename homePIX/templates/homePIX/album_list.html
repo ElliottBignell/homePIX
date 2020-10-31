@@ -27,21 +27,21 @@
 
 {% for album in object_list %}
   <div class="tt_base droppable draggable techfont gallery" id="div_{{ folder.modthumb.modpath }}_{{ folder.modthumb.file }}">
+    <div class="desc">{{ album.name }}</div>
     <a id="piclink_8" href="{{ album.id }}/">
-      <div class="desc">{{ album.name }}</div>
       <section class="wrapper" id="file-number_{{ folder.modthumb.modpath }}_{{ folder.modthumb.file }}">
         <span class="tt_subject">
           <img id="picture_8"
-               class="lazyload"
+               class="lazyload gallery_picture"
                src="{{ album.modthumb.file }}"
                data-src="{{ album.modthumb.file }}"
                alt="{{ album.count }} shots in {{ folder.modpath }}"
-               style="border:2px solid white;position:relative;top:100%;left:0%;z-index:0;height:200px;">
+               >
           </img>
         </span>
       </section>
-      <div class="count">Contains {{ album.modcount }} shots</div>
     </a>
+    <div class="count">Contains {{ album.modcount }} shots</div>
   </div>
 {% empty %}
  No albums loaded

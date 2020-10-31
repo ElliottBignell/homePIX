@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}"  integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 
     <!-- Optional theme -->
-    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap-theme.min.css'%}" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap-theme.min.css'%}" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous"> -->
 
     <!-- Medium-Style Editor -->
     <script src="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/js/medium-editor.min.js"></script>
@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="{% static 'css/blog.css' %}">
     <link rel="stylesheet" href="{% static 'css/directories.css' %}">
     <link rel="stylesheet" href="{% static 'css/flyout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
 
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -45,7 +46,13 @@
   <body class='loader' style="margin:0;height:100%;overflow:hidden">
 
   <div class="col-sm-12" id="panetop">
-    <nav class="navbar navbar-default techfont custom-navbar">
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom techfont fixed-top">
       <div class="container" style="width:96%;margin-right:2%;margin-left:2%;height:calc(100% - 100px)">
 
         <!-- Collapsible content -->
@@ -53,32 +60,32 @@
 
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0 sf-menu">
               <li>
-                <a class="navbar-brand bigbrand" href="#">homePIX</a>
+                <a class="bigbrand" href="#">homePIX</a>
               </li>
 
               <li><a href="{% url 'paths'%}">       <i class="large material-icons">folder      </i></a>
-                <ul style="position:absolute;left:0px;">
+                <ul class="drop-down-menu">
                   <li>
                     <a href="{% url 'paths'%}">Folders</a>
                   </li>
                 </ul>
               </li>
               <li><a href="{% url 'album_list'%}">  <i class="large material-icons">photo_album </i></a>
-                <ul style="position:absolute;left:0px;">
+                <ul class="drop-down-menu">
                   <li>
                     <a href="{% url 'album_list'%}">Albums</a>
                   </li>
                 </ul>
               </li>
               <li><a href="{% url 'organisation'%}"><i class="large material-icons">view_quilt  </i></a>
-                <ul style="position:absolute;left:0px;">
+                <ul class="drop-down-menu">
                   <li>
                     <a href="{% url 'organisation'%}">Organise</a>
                   </li>
                 </ul>
               </li>
               <li><a href="{% url 'about'%}">       <i class="large material-icons">info        </i></a>
-                <ul style="position:absolute;left:0px;">
+                <ul class="drop-down-menu">
                   <li>
                     <a href="{% url 'about'%}">About</a>
                   </li>
@@ -86,7 +93,7 @@
               </li>
 
               <li>
-            <form action="{{ request.path }}" method="get" style="margin:12px;">
+            <form action="{{ request.path }}" method="get" style="margin:12px;color:#cdd422;position:relative;top:-0.34em;">
                 From...
               <input name="fromDate" type="date" placeholder="{{ date_range.0.date|date:'Y-m-d' }}" value="{{ date_range.0.date|date:'Y-m-d' }}" style="width:10em;">
               ...to...
@@ -101,7 +108,7 @@
             </form>
               </li>
               <li>
-            <form action="{{ request.path }}" method="get" style="margin:12px;">
+            <form action="{{ request.path }}" method="get" style="margin:12px;color:#cdd422;position:relative;top:-0.3.6em;">
               <select name="sort" id="sort" value="{{ request.GET.sort }}" style="width:10em;" placeholder="Sort by...">
                {% for option in sort_options %}
                  {% if option ==  request.GET.sort %}
@@ -139,8 +146,7 @@
                     <li><a href="{% url 'directory_new'%}"> <i class="large material-icons">create_new_folder </i></a></li>
                     <li><a href="{% url 'logout'%}">        <i class="large material-icons">exit_to_app </i></a></li>
                   {% else %}
-                    <li>
-                      <a class='nav navbar-right' href="{% url 'login' %}" ><span class="glyphicon glyphicon-user"></span></a>
+                    <li><a href="{% url 'about'%}">       <i class="large material-icons">person        </i></a>
                     </li>
                   {% endif %}
                 </ul>
@@ -150,7 +156,7 @@
       <div style="position:absolute;top:0px;left:30px;width:25%;">
         <ul class="pagination" style="margin:0 0;">
           {% if page_obj.has_previous %}
-          <li><a style="color:#777;" href="?{{ link_params }}page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+          <li><a style="color:#cdd422;" href="?{{ link_params }}page={{ page_obj.previous_page_number }}">&laquo;</a></li>
           {% else %}
             <li class="disabled"><span>&laquo;</span></li>
           {% endif %}
@@ -158,31 +164,31 @@
             {% if l == page %}
                 <li><span style="background-color:blue;color:white;font-weight:bold;">{{page}}</span></li>
             {% elif l == 1 %}
-            <li><a style="color:#777;" href="?{{ link_params }}page={{l}}">{{l}}</a></li>
+            <li><a style="color:#cdd422;" href="?{{ link_params }}page={{l}}">{{l}}</a></li>
             {% elif l == 2 %}
                 {% if page > 5 %}
-                  <li><a style="color:#777;" href="">...</a></li>
+                  <li><a style="color:#cdd422;" href="">...</a></li>
                 {% else %}
-                <li><a style="color:#777;" href="?{{ link_params }}page={{l}}">{{l}}</a></li>
+                <li><a style="color:#cdd422;" href="?{{ link_params }}page={{l}}">{{l}}</a></li>
                 {% endif%}
             {% elif l <= Items.number|add:3 and l >= Items.number|add:-3 %}
                 {% if page == l %}
-                <li><a style="color:#777;" href="?{{ link_params }}page={{l}}"><b>{{l}}</b></a></li>
+                <li><a style="color:#cdd422;" href="?{{ link_params }}page={{l}}"><b>{{l}}</b></a></li>
                 {% else %}
-                <li><a style="color:#777;" href="?{{ link_params }}page={{l}}">{{l}}</a></li>
+                <li><a style="color:#cdd422;" href="?{{ link_params }}page={{l}}">{{l}}</a></li>
                 {% endif%}
             {% elif l == ForItemCount|add:-1 %}
                 {% if page < ForItemCount|add:-5 %}
-                    <li><a style="color:#777;" href="">...</a></li>
+                    <li><a style="color:#cdd422;" href="">...</a></li>
                 {% else %}
                     <li>{{l}}:{{ ForItemCount|add:-5 }}:{{ page }}</li>
                 {% endif%}
             {% elif l == ForItemCount %}
-            <li><a style="color:#777;" href="?{{ link_params }}page={{ ForItemCount }}">{{ ForItemCount }}</a></li>
+            <li><a style="color:#cdd422;" href="?{{ link_params }}page={{ ForItemCount }}">{{ ForItemCount }}</a></li>
             {% endif %}
           {% endfor %}
           {% if page_obj.has_next %}
-          <li><a style="color:#777;" href="?{{ link_params }}page={{ page_obj.next_page_number }}">&raquo;</a></li>
+          <li><a style="color:#cdd422;" href="?{{ link_params }}page={{ page_obj.next_page_number }}">&raquo;</a></li>
           {% else %}
             <li class="disabled"><span>&raquo;</span></li>
           {% endif %}
@@ -193,7 +199,7 @@
         <div class="container">
           <div class="vertical-center">
             <div style="position:absolute;left:0px;top:0px;width:14%;height:100%;">
-              <ul class="pagination" style="margin: 0 0;"><li id="page_no"><a style="color:#777;" href="?page={{l}}">Go to: {{page}}</a></li></ul>
+              <ul class="pagination" style="margin: 0 0;"><li id="page_no"><a style="color:#cdd422;" href="?page={{l}}">Go to: {{page}}</a></li></ul>
             </div>
             <div style="position:absolute;left:8%;top:10px;width:76%;height:100%;">
               <div class="range-slider">

@@ -1,0 +1,21 @@
+version: "3.0"
+   
+services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  web:
+    build: .
+    command: python manage.py localhost:8020
+    command: python manage.py runserver 0.0.0.0 8020
+    command: python manage.py runsslserver --certificate /etc/ssl/certs/server.crt --key /etc/ssl/private/server.key
+    volumes:
+      - .:/code
+    ports:
+      - "8020:8020"
+    depends_on:
+      - db
+    network_mode: "host"

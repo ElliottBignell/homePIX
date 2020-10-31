@@ -25,6 +25,7 @@ from django.conf import settings
 from django.db.models import Q
 from pprint import pprint
 from itertools import chain
+import os
 from os import path
 from dateutil.relativedelta import relativedelta
 
@@ -40,7 +41,7 @@ from homePIX import settings as home_settings
 # import traceback
 
 logger = getLogger(__name__)
-no_file = open( settings.MEDIA_ROOT + '/../homePIX/static/no_file.jpg', 'rb' ).read()
+no_file = open( 'static/no_file.jpg', 'rb' ).read()
 
 @csrf_exempt
 def tasks(request):
