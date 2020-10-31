@@ -17,11 +17,17 @@ $link-color: #431c5d;
 /* or, use an existing variable */
 
 $theme-colors: (
-
   primary: #431c5d
-
 );
 
+$theme-colors: (
+  "homepix-dark": #431c5d,
+  "homepix-text": #e6e9f0
+ );
+
+@function theme-color($key: "homepix-dark") {
+  @return map-get($theme-colors, $key);
+}
 /* -------end customization-------- */  
 
 
@@ -29,11 +35,4 @@ $theme-colors: (
 // finally, import Bootstrap to set the changes!
 
 // Required
- @import "../node_modules/bootstrap/scss/bootstrap";
- 
- // Optional
- @import "../node_modules/bootstrap/scss/reboot";
- @import "../node_modules/bootstrap/scss/type";
- @import "../node_modules/bootstrap/scss/images";
- @import "../node_modules/bootstrap/scss/code";
- @import "../node_modules/bootstrap/scss/grid";
+ @import "../scss/bootstrap";
