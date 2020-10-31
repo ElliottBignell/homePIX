@@ -111,20 +111,16 @@
 	width: 100%;
 }
 .sf-menu ul {
-	box-shadow: 2px 2px 6px rgba(0,0,0,.2);
 	min-width: 12em; /* allow long menu items to determine submenu width */
 	*width: 12em; /* no auto sub width for IE7, see white-space comment below */
 }
 .sf-menu a {
-	border-left: 1px solid #fff;
-	border-top: 1px solid #dFeEFF; /* fallback colour must use full shorthand */
-	border-top: 1px solid rgba(255,255,255,.5);
 	padding: .75em 1em;
 	text-decoration: none;
 	zoom: 1; /* IE7 */
 }
 .sf-menu a {
-	color: black;
+	color: #cdd422;
 }
 .sf-menu a:hover {
   color: white;
