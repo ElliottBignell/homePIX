@@ -41,7 +41,8 @@ from homePIX import settings as home_settings
 # import traceback
 
 logger = getLogger(__name__)
-no_file = open( 'static/no_file.jpg', 'rb' ).read()
+debug_cwd = os.getcwd();
+no_file = open( debug_cwd + '/homePIX/static/no_file.jpg', 'rb' ).read()
 
 @csrf_exempt
 def tasks(request):
