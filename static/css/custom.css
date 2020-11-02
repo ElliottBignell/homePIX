@@ -33,7 +33,7 @@
   --light: #f8f9fa;
   --dark: #343a40;
   --homepix-dark: #431c5d;
-  --homepix-text: #cdd422;
+  --homepix-text: #e6e9f0;
   --homepix-bg: #bccbde;
   --homepix-bglight: #c2dde6;
   --homepix-br-lightest: #e6e9f0;
@@ -3816,8 +3816,8 @@ input[type="button"].btn-block {
   padding: 0.5rem 0.75rem;
   margin-left: -1px;
   line-height: 1.25;
-  color: #431c5d;
-  background-color: #fff;
+  color: #bccbde;
+  background-color: #431c5d;
   border: 1px solid #dee2e6; }
   .page-link:hover {
     z-index: 2;
