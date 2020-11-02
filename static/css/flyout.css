@@ -107,6 +107,7 @@
 /*** DEMO SKIN ***/
 .sf-menu {
 	float: left;
+	margin-0em;
 	margin-bottom: 1em;
 	width: 100%;
 }
@@ -115,7 +116,7 @@
 	*width: 12em; /* no auto sub width for IE7, see white-space comment below */
 }
 .sf-menu a {
-	padding: .75em 1em;
+	padding: 1em 1em;
 	text-decoration: none;
 	zoom: 1; /* IE7 */
 }

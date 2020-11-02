@@ -63,42 +63,58 @@
                 <a class="bigbrand" href="#">homePIX</a>
               </li>
 
-              <li><a href="{% url 'paths'%}">       <i class="large material-icons">folder      </i></a>
+              <li><a href="{% url 'paths'%}" class="bigbrand">
+                <i class="large material-icons">folder      </i></a>
                 <ul class="drop-down-menu">
                   <li>
                     <a href="{% url 'paths'%}">Folders</a>
                   </li>
                 </ul>
               </li>
-              <li><a href="{% url 'album_list'%}">  <i class="large material-icons">photo_album </i></a>
+              <li><a href="{% url 'album_list'%}" class="bigbrand">
+                <i class="large material-icons">photo_album </i></a>
                 <ul class="drop-down-menu">
                   <li>
                     <a href="{% url 'album_list'%}">Albums</a>
                   </li>
                 </ul>
               </li>
-              <li><a href="{% url 'organisation'%}"><i class="large material-icons">view_quilt  </i></a>
+              <li><a href="{% url 'organisation'%}" class="bigbrand">
+                <i class="large material-icons">view_quilt  </i></a>
                 <ul class="drop-down-menu">
                   <li>
                     <a href="{% url 'organisation'%}">Organise</a>
                   </li>
                 </ul>
               </li>
-              <li><a href="{% url 'about'%}">       <i class="large material-icons">info        </i></a>
+              <li><a href="{% url 'about'%}" class="bigbrand">
+                <i class="large material-icons">info        </i></a>
                 <ul class="drop-down-menu">
                   <li>
-                    <a href="{% url 'about'%}">About</a>
+                    <a href="{% url 'about'%}" class="bigbrand">About</a>
                   </li>
                 </ul>
               </li>
 
               <li>
-            <form action="{{ request.path }}" method="get" style="margin:12px;color:#cdd422;position:relative;top:-0.34em;">
-                From...
-              <input name="fromDate" type="date" placeholder="{{ date_range.0.date|date:'Y-m-d' }}" value="{{ date_range.0.date|date:'Y-m-d' }}" style="width:10em;">
-              ...to...
-              <input name="toDate"   type="date" placeholder="{{ date_range.1.date|date:'Y-m-d' }}" value="{{ date_range.1.date|date:'Y-m-d' }}" style="width:10em;">
-              <button type="submit">
+            <form action="{{ request.path }}" method="get" style="left-margin:12px;margin:0px;position:relative;top:-0.34em;height:5em;width:47em;">
+              <span class="bigbrand" style="color:var( --homepix-text );position:absolute;top:0.5em;right:27.5em;">From...</span>
+              <input name="fromDate" type="date" placeholder="{{ date_range.0.date|date:'Y-m-d' }}"
+                    value="{{ date_range.0.date|date:'Y-m-d' }}"
+                    class="form-control date-when-start-end"
+                    style="position:absolute;left:5em;top:0.5em;background:var( --homepix-dark );this.style.color='var( --homepix-bglight );"
+                    onmousemove="this.style.backgroundColor='var( --homepix-alarm )'; this.style.color='var( --homepix-dark );';"
+                    onmouseout=" this.style.backgroundColor='var( --homepix-dark  )'; this.style.color='var( --homepix-bg   );';"
+                    >
+              <span class="bigbrand" style="color:var( --homepix-text );position:absolute;top:0.5em;right:14em;">...to...</span>
+              <input name="toDate"   type="date" placeholder="{{ date_range.1.date|date:'Y-m-d' }}"
+                    value="{{ date_range.1.date|date:'Y-m-d' }}"
+                    class="form-control date-when-start-end"
+                    style="position:absolute;left:20em;top:0.5em;background:var( --homepix-dark );this.style.color='var( --homepix-bglight );"
+                    onmousemove="this.style.backgroundColor='var( --homepix-alarm )'; this.style.color='var( --homepix-dark );';"
+                    onmouseout=" this.style.backgroundColor='var( --homepix-dark  )'; this.style.color='var( --homepix-bg   );';"
+                    >
+              <button type="submit" style="position:absolute;top:0.7em;left:42em;">
                 <i class="medium material-icons">date_range </i>
               </button>
               <input name="ID"       type="text" placeholder="{{ request.GET.ID     }}" value="{{ request.GET.ID     }}" style="visibility:hidden;width:0em;">
@@ -106,10 +122,10 @@
               <input name="search"   type="text" placeholder="{{ request.GET.search }}" value="{{ request.GET.search }}" style="visibility:hidden;width:0em;">
               <input name="sort"     type="text" placeholder="{{ request.GET.sort   }}" value="{{ request.GET.sort   }}" style="visibility:hidden;width:0em;">
             </form>
-              </li>
-              <li>
-            <form action="{{ request.path }}" method="get" style="margin:12px;color:#cdd422;position:relative;top:-0.3.6em;">
-              <select name="sort" id="sort" value="{{ request.GET.sort }}" style="width:10em;" placeholder="Sort by...">
+          </li>
+          <li>
+            <form action="{{ request.path }}" method="get" style="left-margin:12px;right-margin:12px;position:relative;width:19em;top:-0.34em;">
+              <select name="sort" id="sort" value="{{ request.GET.sort }}" style="position:absolute;width:10em;top:0.4em;" placeholder="Sort by..." class="form-control">
                {% for option in sort_options %}
                  {% if option ==  request.GET.sort %}
                  <option value="{{ option}}" selected>{{ option}}</option>
@@ -118,7 +134,7 @@
                  {% endif %}
                {% endfor %}
               </select>
-              <button type="submit">
+              <button type="submit" style="position:absolute;top:0.7em;left:14em;">
                 <i class="medium material-icons">sort </i>
               </button>
               <input name="fromDate" type="date" value="{{ date_range.0.date|date:'Y-m-d' }}" style="visibility:hidden;width:0em;">
@@ -127,11 +143,16 @@
               <input name="Key"      type="text" placeholder="{{ request.GET.Key    }}" value="{{ request.GET.Key    }}" style="visibility:hidden;width:0em;">
               <input name="search"   type="text" placeholder="{{ request.GET.search }}" value="{{ request.GET.search }}" style="visibility:hidden;width:0em;">
             </form>
-              </li>
-              <li>
-            <form action="{{ request.path }}" method="get" style="margin:12px;">
-              <input name="search"   type="text" value="{{ request.GET.search }}"             style="width:10em;" placeholder="Search...">
-              <button type="submit">
+          </li>
+          <li>
+            <form action="{{ request.path }}" method="get" style="top-margin:0px;left-margin:12px;right-margin:12px;position:relative;width:19em;top:-0.34em;">
+              <input name="search"   type="text" value="{{ request.GET.search }}" placeholder="Search..."
+                    class="form-control"
+                    style="position:absolute;top:0.5em;background:var( --homepix-dark );this.style.color='var( --homepix-bglight );"
+                    onmousemove="this.style.backgroundColor='var( --homepix-alarm )'; this.style.color='var( --homepix-dark );';"
+                    onmouseout=" this.style.backgroundColor='var( --homepix-dark  )'; this.style.color='var( --homepix-bg   );';"
+                    >
+              <button type="submit" style="position:absolute;top:0.7em;left:15em;">
                 <i class="medium material-icons">search </i>
               </button>
               <input name="fromDate" type="date" value="{{ date_range.0.date|date:'Y-m-d' }}" style="visibility:hidden;width:0em;">
@@ -140,23 +161,23 @@
               <input name="Key"      type="text" placeholder="{{ request.GET.Key    }}" value="{{ request.GET.Key    }}" style="visibility:hidden;width:0em;">
               <input name="sort"     type="text" placeholder="{{ request.GET.sort   }}" value="{{ request.GET.sort   }}" style="visibility:hidden;width:0em;">
             </form>
-              </li>
-                  {% if user.is_authenticated %}
-                    <li><a href="{% url 'picture_new'%}">   <i class="large material-icons">add_a_photo </i></a></li>
-                    <li><a href="{% url 'directory_new'%}"> <i class="large material-icons">create_new_folder </i></a></li>
-                    <li><a href="{% url 'logout'%}">        <i class="large material-icons">exit_to_app </i></a></li>
-                  {% else %}
-                    <li><a href="{% url 'about'%}">       <i class="large material-icons">person        </i></a>
-                    </li>
-                  {% endif %}
-                </ul>
-        </div>
+          </li>
+          {% if user.is_authenticated %}
+            <li><a href="{% url 'picture_new'%}">   <i class="large material-icons">add_a_photo </i></a></li>
+            <li><a href="{% url 'directory_new'%}"> <i class="large material-icons">create_new_folder </i></a></li>
+            <li><a href="{% url 'logout'%}">        <i class="large material-icons">exit_to_app </i></a></li>
+          {% else %}
+            <li><a href="{% url 'about'%}" class="bigbrand">       <i class="large material-icons">person        </i></a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
   {% if is_paginated %}
-    <div id="panenavigate" style="position:absolute;left:70px;top:60px;width:100%;">
-      <div style="position:absolute;top:0px;left:30px;width:25%;">
+    <div id="panenavigate" style="position:absolute;left:5em;top:4em;width:100%;">
+      <div style="position:absolute;top:0px;left:4em;width:20em;">
         <ul class="pagination" style="margin:0 0;">
           {% if page_obj.has_previous %}
-          <li><a style="color:#cdd422;" href="?{{ link_params }}page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+          <li><a style="color:var( --homepix-dark );" href="?{{ link_params }}page={{ page_obj.previous_page_number }}">&laquo;</a></li>
           {% else %}
             <li class="disabled"><span>&laquo;</span></li>
           {% endif %}
@@ -164,52 +185,60 @@
             {% if l == page %}
                 <li><span style="background-color:blue;color:white;font-weight:bold;">{{page}}</span></li>
             {% elif l == 1 %}
-            <li><a style="color:#cdd422;" href="?{{ link_params }}page={{l}}">{{l}}</a></li>
+            <li><a style="color:var( --homepix-dark );" href="?{{ link_params }}page={{l}}">{{l}}</a></li>
             {% elif l == 2 %}
                 {% if page > 5 %}
-                  <li><a style="color:#cdd422;" href="">...</a></li>
+                  <li><a style="color:var( --homepix-dark );" href="">...</a></li>
                 {% else %}
-                <li><a style="color:#cdd422;" href="?{{ link_params }}page={{l}}">{{l}}</a></li>
+                <li><a style="color:var( --homepix-dark );" href="?{{ link_params }}page={{l}}">{{l}}</a></li>
                 {% endif%}
             {% elif l <= Items.number|add:3 and l >= Items.number|add:-3 %}
                 {% if page == l %}
-                <li><a style="color:#cdd422;" href="?{{ link_params }}page={{l}}"><b>{{l}}</b></a></li>
+                <li><a style="color:var( --homepix-dark );" href="?{{ link_params }}page={{l}}"><b>{{l}}</b></a></li>
                 {% else %}
-                <li><a style="color:#cdd422;" href="?{{ link_params }}page={{l}}">{{l}}</a></li>
+                <li><a style="color:var( --homepix-dark );" href="?{{ link_params }}page={{l}}">{{l}}</a></li>
                 {% endif%}
             {% elif l == ForItemCount|add:-1 %}
                 {% if page < ForItemCount|add:-5 %}
-                    <li><a style="color:#cdd422;" href="">...</a></li>
+                    <li><a style="color:var( --homepix-dark );" href="">...</a></li>
                 {% else %}
                     <li>{{l}}:{{ ForItemCount|add:-5 }}:{{ page }}</li>
                 {% endif%}
             {% elif l == ForItemCount %}
-            <li><a style="color:#cdd422;" href="?{{ link_params }}page={{ ForItemCount }}">{{ ForItemCount }}</a></li>
+            <li><a style="color:var( --homepix-dark );" href="?{{ link_params }}page={{ ForItemCount }}">{{ ForItemCount }}</a></li>
             {% endif %}
           {% endfor %}
           {% if page_obj.has_next %}
-          <li><a style="color:#cdd422;" href="?{{ link_params }}page={{ page_obj.next_page_number }}">&raquo;</a></li>
+          <li><a style="color:var( --homepix-dark );" href="?{{ link_params }}page={{ page_obj.next_page_number }}">&raquo;</a></li>
           {% else %}
             <li class="disabled"><span>&raquo;</span></li>
           {% endif %}
-        </ul>
-      </div>
 
-      <div style="position:absolute;left:30%;width:70%;top:0px;height:30px;">
-        <div class="container">
-          <div class="vertical-center">
-            <div style="position:absolute;left:0px;top:0px;width:14%;height:100%;">
-              <ul class="pagination" style="margin: 0 0;"><li id="page_no"><a style="color:#cdd422;" href="?page={{l}}">Go to: {{page}}</a></li></ul>
-            </div>
-            <div style="position:absolute;left:8%;top:10px;width:76%;height:100%;">
-              <div class="range-slider">
-                <input
-                  class="custom-range"
-                  type="range" value="{{ page }}" min="1" max="{{ ForItemCount }}"
-                  id="slider" >
+        <li>
+          <div class="container">
+            <div class="vertical-center">
+              <div style="width:8em;height:100%;">
+                <ul class="pagination" style="margin: 0 0;"><li id="page_no"><a style="color:var( --homepix-dark );" href="?page={{l}}">Go to: {{page}}</a></li></ul>
+              </div>
             </div>
           </div>
+        </li>
+        <li>
+          <div class="container">
+            <div class="vertical-center">
+              <div style="position:absolute;top:10px;width:72em;">
+                <div class="range-slider">
+                  <input
+                    class="custom-range form-control-slider"
+                    type="range" value="{{ page }}" min="1" max="{{ ForItemCount }}"
+                    id="slider" >
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
       </div>
+        </ul>
     </div>
     </div>
     </div>
