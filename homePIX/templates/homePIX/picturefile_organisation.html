@@ -1,8 +1,6 @@
 {% extends "homePIX/base.html" %}
 {% block content %}
 
-{% csrf_token %}
-
 {% load positions %}
 
   <div class="centerstage">
@@ -15,11 +13,13 @@
         <div class="col-md-6">
           <span class="pull-right">
             <form action="{% url 'picture_list' %}" method="get" class="float-right">
+              {% csrf_token %}
               <input name="sort"   type="text" placeholder="Sort by...">
             </form>
           </span>
           <span class="pull-right">
             <form action="{% url 'picturefile_organise' %}" method="get" class="float-right">
+              {% csrf_token %}
               <input name="organise"   type="text" placeholder="Organise">
             </form>
           </span>
@@ -37,8 +37,8 @@
               <span class="tt_subject">
                 <img id="picture_{{ forloop.counter }}"
                      class="lazyload"
-                     src="{{ universe.modthumb.file }}"
-                     data-src="{{ universe.modthumb.file }}"
+                     src="{{ universe.0.modthumb.modtinyfile }}"
+                     data-src="{{ universe.0.modthumb.modsmallfile }}"
                      alt="{{ universe.count }} shots in whole collection"
                      style="border:2px solid white;z-index:0;position:relative;top:0px;left:0px;height:100px;">
                 </img>
@@ -61,7 +61,7 @@
       {% for album in album_list %}
          {% if album.modcount > 0 %}
            <a id="albumlink_{{ forloop.counter }}" href="?album={{ album.modid }}">
-             <div class="tt_base draggable droppable techfont organise_gallery" id="album_{{ forloop.counter }}">
+             <div class="tt_base draggable droppable techfont organise_gallery justified" id="album_{{ forloop.counter }}">
                <div class="desc" style="position:absolute;top:5px;height:100px;left:5px;width:60%;">
                  <section class="wrapper" id="albumsect_{{ forloop.counter }}">
                    <span class="tt_subject">
@@ -142,7 +142,8 @@
            <section class="wrapper keynav" id="file-number_{{ forloop.counter }}" style="padding:6px;">
              <span class="tt_subject">
                <img id="picture_{{ forloop.counter }}_{{ picture.modthumb.modid }}"
-                    class="lazyload tt_unselected keynav"
+                    class="lazyload tt_unselected keynav selectable"
+                    draggable="true"
                     src="{{ picture.modthumb.file }}"
                     data-src="{{ picture.modthumb.file }}"
                     alt="{{ picture.modthumb.file }}"

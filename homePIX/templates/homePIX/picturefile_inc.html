@@ -6,41 +6,72 @@
 
 {% block picturefile %}
 {{ block.super }}
+
+
+{% if object_list %}
+  <div id="div_collection" style="padding-left:5em;padding-right:5em;margin-left:5em;margin-right:5em;">
+    <div class="row">
+      <div class="col-md-3">
+      </div>
+      <div class="col-md-6">
+        <h1>{% with object_list|first as first_doc %}{{ first_doc.path.modname }}{% endwith %}</h1>
+      </div>
+    </div>
+{% else %}
+  <div class="techfont" id="div_header" style="min-height:100px;">
+    <h1>Nothing here!</h1>
+  </div>
+{% endif %}
+
   {% for picture in object_list %}
 
     {% with next_picture=object_list|next:forloop.counter0 %}
     {% with previous_picture=object_list|previous:forloop.counter0 %}
 
         {% if picture.modtype == 1 or picture.modtype == 4 %}
-          <div class="tt_base droppable draggable" id="div_8">
+          <div class="tt_base droppable draggable justified" id="div_{{ picture.modthumb.modid }}">
             <a id="piclink_{{ picture.modthumb.modid }}"
                href="./item/{{ picture.modthumb.modid }}/?next={{ next_picture.modthumb.modid }}&previous={{ previous_picture.modthumb.modid }}&search={{ request.GET.search }}&sort= {{request.GET.sort }}&startDate={{ request.GET.startDate }}&endDate={{ request.GET.endDate }}">
-              <section class="wrapper" id="file-number_8">
+              <section class="wrapper" id="file-number_{{ picture.modthumb.modid }}">
                   <span class="tt_subject">
-                    <img id="picture_8"
-                         class="lazyload"
-                         src="{{ picture.modthumb.modtinyfile }}"
+                    <img id="picture_{{ picture.modthumb.modid }}"
+                         class="lazyload plain_picture"
+                         src="{{ picture.modthumb.modsmallfile }}"
                          data-src="{{ picture.modthumb.modfile }}"
                          alt="{{ picture.modthumb.file }}"
-                         style="border:2px solid white;position:relative;top:100%;left:0%;z-index:0;height:200px; border-radius:12px;">
+                         style="height:16em;"
+                         >
+                         <script>
+
+                            $( '#picture_{{ picture.modthumb.modid }}' ).on('load', (event) => {
+
+                                var pic_obj = $( '#picture_{{ picture.modthumb.modid }}' );
+
+                                $( '#div_{{ picture.modthumb.modid }}' ).attr(
+                                            'aspectRatio',
+                                            Math.round( 100.0 * pic_obj.width() / pic_obj.height() ) / 100.0
+                                            );
+                                setTimeout( resizeGroups, 2000 );
+                            });
+                        </script>
                     </img>
                 </span>
               </section>
-              <div id="header_o_8" class="tt_left tt_text">
+              <div id="header_o_{{ picture.modthumb.modid }}" class="tt_left tt_text">
                 <a href="./make_thumbnail/{{request.GET.ID}}/{{ picture.modthumb.modid }}/"><i class="material-icons">album</i></a>
                 <a href="./make_thumbnail/"><i class="material-icons">keyboard_arrow_left</i></a>
                 <a href="./make_thumbnail/"><i class="material-icons">keyboard_arrow_right</i></a>
                 <a href="./make_thumbnail/"><i class="material-icons">bedtime</i></a>
                 <a href="./make_thumbnail/"><i class="material-icons">photo_album</i></a>
-                <div style="position:absolute;top:5px;right:5px;"><i class="material-icons">photo</i></div>
-                <div style="position:absolute;left:5px;top:5px;right:150px;">
-                  <div id="header_8" class="tt_lefttextnooff">
+                <div class="caption"><i class="material-icons">photo</i></div>
+                <div class="caption title">
+                  <div id="header_{{ picture.modthumb.modid }}" class="tt_lefttextnooff">w
                     {{ picture.modthumb.modtitle }}
                   </div>
                 </div>
               </div>
               <span class="tt_text tt_bottom">
-                <article id="art_keywords_8">No keywords</article>
+                <article id="art_keywords_{{ picture.modthumb.modid }}">No keywords</article>
               </span>
             </a>
             <span class="tt_edit">
@@ -58,5 +89,7 @@
   {% empty %}
         No picture file
   {% endfor %}
+
+  </div>
 
 {% endblock picturefile %}

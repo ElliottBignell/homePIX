@@ -35,7 +35,7 @@
 }
 
 .btn-comment{
-  position: absolute;
+ position: absolute;
   right: 0px;
 }
 
@@ -48,16 +48,26 @@
   height:80px;
 }
 
+.bigmenu{
+  font-size: 1.5em;
+  font-weight: 600;
+  border: 0px;
+  position: absolute;
+  top: 0em;
+  height:80px;
+}
+
 .glyphicon, .glyphicon-user
 {
-  color: var( --homepix-text );
+  color: var( --homepix-bg );
 }
 
 .drop-down-menu
 {
-  position:absolute;
+  position:relative;
+  top:-30em;
   left:0px;
-  background-color:#431c5d;
+  background-color:var( --homepix-dark );
 }
 
 .textareaclass{
@@ -89,17 +99,34 @@
   }
 }
 
+div.panemain {
+  position: absolute;
+  left: 0;
+  right: 100%;
+  top: 15em;
+  height: calc( 100% - 20em );
+  width:100%;
+  margin-right:5%;
+  margin-left:5%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+div.justified {
+  min-height:16em;
+}
+
 div.gallery {
-  color: var( --homepix-dark );
-  background-color: var( --homepix-bglight );
+  color: var( --homepix-bg  );
+  background-color: var( --homepix-dark);
   border: 1px solid #ccc;
-  min-height:200px;
+  min-height:16em;
   font-size: 1.5em;
   margin:2px;
 }
 
 div.gallery:hover {
-  color: var( --homepix-bglight );
+  color: var( --homepix-bg );
   background-color: var( --homepix-alarm );
   border: 1px solid #ccc;
   min-height:200px;
@@ -125,6 +152,30 @@ div.drop_gallery {
   width:90%;
   font-size: 1.0em;
   color: black;
+}
+
+img.plain_picture {
+  border:0.5em solid var( --homepix-bg-lightest );
+  position:relative;
+  top:100%;
+  left:0%;
+  z-index:0;
+  height:16em;
+  border-radius:1em;
+}
+
+img.plain_picture:hover {
+  border:0.5em solid var( --homepix-bg-alarm );
+}
+
+div.caption {
+  position:absolute;
+  top:1.25em;
+  right:1.25em;
+}
+
+div.title {
+  right:37.5em;
 }
 
 input.form-control {
@@ -275,7 +326,6 @@ div.count {
 .responsive {
   padding: 0 6px;
   float: left;
-  border:2px solid #cdd422;
   z-index:0;
   max-width:95%;
   height:auto;
@@ -321,8 +371,6 @@ div.count {
   height:1000px;
 }
 
-@media (min-width: 768px){
-
   #paneleft {
     position: absolute;
     top: 75px;
@@ -357,13 +405,6 @@ div.count {
     bottom: 155px;
     max-height: 75px;
   }
-.panemain {
-    position: absolute;
-    left: 0;
-    right: 100%;
-    top: 155px;
-    height: calc( 100% - 155px );
-}
 
 .paneonly {
     position: absolute;
@@ -439,7 +480,6 @@ h4{
 }
 
 .selectable {
-    border:3px solid #cdd422;
     border-radius:8px;
     overflow:hidden;
 }
@@ -485,7 +525,7 @@ h4{
 }
 
 .navbar-custom {
-    background-color: #431c5d;
+    background-color: var( --homepix-dark );
 }
 /* change the brand and text color */
 .navbar-custom .navbar-brand,
@@ -500,4 +540,28 @@ h4{
 .navbar-custom .nav-item.active .nav-link,
 .navbar-custom .nav-item:hover .nav-link {
     color: #e05915;
+}
+
+#fullscreen ~ #fullScreenPic {
+
+  transform: scaleX(0) scaleY(0);
+  transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
+  transition-duration: 75ms;
+  opacity: 0;
+  top: 3.25rem;
+}
+
+#fullscreen ~ #fullScreenPic:focus-within,
+#fullscreen:focus ~ #fullScreenPic  {
+
+  transform: scaleX(1) scaleY(1);
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  transition-duration: 100ms;
+  opacity: 1;
+}
+
+#button-full-screen:focus-within ~ #details {
+
+  visibility: hidden;
+  display:none;
 }

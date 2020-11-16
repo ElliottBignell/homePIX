@@ -69,6 +69,7 @@
             }
         });
 
+/*
         var fullScreenButton = document.getElementById( 'fullscreen' );
 
         fullScreenButton.addEventListener('click', function() {
@@ -96,6 +97,7 @@
             $('#picmain' ).addClass( "picmain" );
             $('#picmain' ).removeClass( "piconly" );
         });
+*/
     }
 
     $( window ).load( function() {
@@ -207,209 +209,196 @@
   <link rel="stylesheet" href="/static/css/clearall.css">
   <link rel="stylesheet" href="/static/css/dropdown.css">
 
-  <div class="techfont" id="details" style="position:absolute;width:90%;height:100%;">
-    <table id="maintab" style="padding:0px;border:0px;width:(100%-400px);height:100%;">
-      <tr colspan=4 style="height:2em;vertical-align:middle;">
-        <td>
-        </td>
-        <td>
-             <div id="titletext" contenteditable="true">
-               <h1>{{ Item.title }}</h1>
-             </div>
-        </td>
-        <td>
-        </td>
-        <td>
-       </td>
-      </tr>
-      <tr id="div_{{ Item.modid }}" colspan=4 style="height:calc( 100%-370px );">
-          <td style="width:25px;vertical-align:middle;">
-              <a id="back" href="../{{ previous.modid }}/?search={{ request.GET.search }}&sort={{ request.GET.sort }}%20&startDate{{ request.GET.startDate }}=&endDate={{ request.GET.endDate }}"><span class="glyphicon glyphicon-chevron-left"></span></a>
-          </td>
-          <td id="picframe" style="height:calc(100%-370px);width:100%;">
-            <!--<div class="bounding-box" style="background-image:url("/{{ Item.modpath }}/{{ Item.file }}");">-->
-            <img id="picture_{{ Item.modid }}"
-                   class="lazyload responsive"
-                   style="position:absolute:padding:0px;width:100%;height:90%;"
-                   src="{{ Item.modfile }}"
-                   data-src="{{ Item.modlargefile }}"
-                   alt="{{ Item.file }}"
-                   >
-                </img>
-                <div id="fullscreen" style="position:relative;top:0px;right:0px;">
-                    <ul class="nav navbar-nav fs-screen" style="position:absolute;top:50px;left:20px;">
-                        <li>
-                            <a onClick="">
-                                <i class="large material-icons" style="background-color:white;">fullscreen</i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            <!--</div>-->
-          </td>
-          <td style="width:25px;vertical-align:middle;">
-              <a id="forth" href="../{{ next.modid }}/?search={{ request.GET.search }}&sort={{ request.GET.sort }}%20&startDate{{ request.GET.startDate }}=&endDate={{ request.GET.endDate }}"><span class="glyphicon glyphicon-chevron-right"></span></a>
-          </td>
-          <td style="width:320px;">
-              <div class="techfont" style="position:relative;top:0px;vertical-align:top;width:100%;height:100%;line-height:0.2em;padding:0px;">
-                  <span class="titletext">
-                      ID:
-                  </span>
-                  <span id="filename" class="titlecontent">
-                      {{ Item.id }}<br>
-                  </span>
-                  {% if Item.title %}
-                    <span class="titletext">
-                        Description:
-                    </span>
-                    <span id="description" class="titlecontent">
-                        {{ Item.title }}<br>
-                    </span>
-                  {% endif %}
-                  {% if Item.location %}
-                  <span class="titletext">
-                      Location:
-                  </span>
-                  <span id="description" class="titlecontent">
-                      {{ Item.location }}<br>
-                  </span>
-                  {% endif %}
-                  {% if Item.primaryCategory %}
-                  <span class="titletext">
-                      Category 1:
-                  </span>
-                  <span id="description" class="titlecontent">
-                      {{ Item.primaryCategory }}<br>
-                  </span>
-                  {% endif %}
-                  {% if Item.secondaryCategory %}
-                  <span class="titletext">
-                      Category 2:
-                  </span>
-                  <span id="description" class="titlecontent">
-                      {{ Item.secondaryCategory }}<br>
-                  </span>
-                  {% endif %}
-                  {% if Item.modfilename %}
-                  <span class="titletext">
-                      Filename:
-                  </span>
-                  <span id="filename" class="titlecontent">
-                      {{ Item.modfilename }}<br>
-                  </span>
-                  {% endif %}
-                  {% if Item.taken_on %}
-                  <span class="titletext">
-                      Taken on:
-                  </span>
-                  <span id="datetime" class="titlecontent">
-                      {{ Item.taken_on|date:"d M, Y" }}<br>
-                  </span>
-                  {% endif %}
-                  <span class="titletext">
-                      Dimensions:
-                  </span>
-                  <span id="dimensions" class="titlecontent"> x <br> </span>
-                  {% if false %}
-                      <span id="megapixels" class="titlecontent"> ? <br></span>
+  <div class="techfont" style="position:absolute;width:100%;height:90%;">
+    <div id="details">
+        <table id="maintab" style="padding:0px;border:0px;width:100%;height:100%;">
+          <tr colspan=4 style="height:2em;vertical-align:middle;">
+            <td>
+            </td>
+            <td>
+                 <div id="titletext" contenteditable="true">
+                   <h1>{{ Item.title }}</h1>
+                 </div>
+            </td>
+            <td>
+            </td>
+            <td>
+           </td>
+          </tr>
+          <tr id="div_{{ Item.modid }}" colspan=4 style="height:100%;">
+              <td style="width:1em;vertical-align:middle;">
+                  <a id="back" href="../{{ previous.modid }}/?search={{ request.GET.search }}&sort={{ request.GET.sort }}%20&startDate{{ request.GET.startDate }}=&endDate={{ request.GET.endDate }}"><span class="glyphicon glyphicon-chevron-left"></span></a>
+              </td>
+              <td id="picframe" style="height:100%;width:calc(100%-9em);">
+                <!--<div class="bounding-box" style="background-image:url("/{{ Item.modpath }}/{{ Item.file }}");">-->
+                <img id="picture_{{ Item.modid }}"
+                       class="lazyload responsive"
+                       style="position:absolute:padding:0px;width:100%;height:90%;"
+                       src="{{ Item.modfile }}"
+                       data-src="{{ Item.modlargefile }}"
+                       alt="{{ Item.file }}"
+                       >
+                    </img>
+                <!--</div>-->
+              </td>
+              <td style="width:1em;vertical-align:middle;">
+                  <a id="forth" href="../{{ next.modid }}/?search={{ request.GET.search }}&sort={{ request.GET.sort }}%20&startDate{{ request.GET.startDate }}=&endDate={{ request.GET.endDate }}"><span class="glyphicon glyphicon-chevron-right"></span></a>
+              </td>
+              <td style="width:7em;">
+                  <div class="techfont" style="position:absolute;top:1em;vertical-align:top;width:5.5em;line-height:0.2em;padding:0px;">
                       <span class="titletext">
-                          AspectRatio:
+                          ID:
                       </span>
-                      <span id="aspect" class="titlecontent"> ? <br> </span>
+                      <span id="filename" class="titlecontent">
+                          {{ Item.id }}<br>
+                      </span>
+                      {% if Item.title %}
+                        <span class="titletext">
+                            Description:
+                        </span>
+                        <span id="description" class="titlecontent">
+                            {{ Item.title }}<br>
+                        </span>
+                      {% endif %}
+                      {% if Item.location %}
                       <span class="titletext">
-                          Camera:
+                          Location:
                       </span>
-                      <span id="camera" class="titlecontent"> ? <br></span>
+                      <span id="description" class="titlecontent">
+                          {{ Item.location }}<br>
+                      </span>
+                      {% endif %}
+                      {% if Item.primaryCategory %}
                       <span class="titletext">
-                          Exposure:
+                          Category 1:
                       </span>
-                      <span id="fnumber" class="titlecontent"> ? </span>
-                      <span id="exposure" class="titlecontent"> ? </span>
-                      <span id="exposureprogram" class="titlecontent"> ? </span>
-                      <span id="iso" class="titlecontent"> ? </span>
-                      <span id="flash" class="titlecontent"> ? <br></span>
+                      <span id="description" class="titlecontent">
+                          {{ Item.primaryCategory }}<br>
+                      </span>
+                      {% endif %}
+                      {% if Item.secondaryCategory %}
                       <span class="titletext">
-                          Lens:
+                          Category 2:
                       </span>
-                      <span id="lensid" class="titlecontent"> ? <br></span>
-                      <span id="lens" class="titlecontent"> ? <br></span>
-                      <span id="focusmode" class="titlecontent"> ? <br></span>
-                      <span id="focusdistance" class="titlecontent"> ? <br></span>
-                      <span id="focallength" class="titlecontent"> ? </span>
-                      <span id="focallen35mm" class="titlecontent"> ? <br></span>
-                  {% endif %}
+                      <span id="description" class="titlecontent">
+                          {{ Item.secondaryCategory }}<br>
+                      </span>
+                      {% endif %}
+                      {% if Item.modfilename %}
+                      <span class="titletext">
+                          Filename:
+                      </span>
+                      <span id="filename" class="titlecontent">
+                          {{ Item.modfilestemmed }}<br>
+                      </span>
+                      {% endif %}
+                      {% if Item.taken_on %}
+                      <span class="titletext">
+                          Taken on:
+                      </span>
+                      <span id="datetime" class="titlecontent">
+                          {{ Item.taken_on|date:"d M, Y" }}<br>
+                      </span>
+                      {% endif %}
+                      <span class="titletext">
+                          Dimensions:
+                      </span>
 
-                  <div id="panel1" style="display:inline">
-                      <span class="titletext">
-                          Keywords:
-                      </span>
-                      <span id="keywords" class="titlecontent">
-                         {% for word in Item.keywords.modlist %}
-                           <button type="button" data-react-toolbox="button">
-                           {{ word }}
-                           <i class="glyphicon glyphicon-remove"></i>
-                           </button>
-                         {% empty %}
-                           No keywords loaded
-                         {% endfor %}
-                      </span>
-                      <form id="submit_keywords" action="" method="get" style="font-size:0.3em;padding-top:10px;">
-                        {% csrf_token %}
-                        <input name="vocabulary"  type="text"   id="vocabulary" placeholder="Add keywords...">
-                        <input name="pic_id"      type="hidden" id="pic_id"     value="{{ Item.modid }}">
-                      </form>
-                  </div>
-                  <div id="panel2" style="display:none">
-                      <a href=javascript:panel2() class="unembellish">
+                      <div style="height:1em;">
+                      </div>
+
+                      <span id="dimensions" class="titlecontent"> x <br> </span>
+                      {% if false %}
+                          <span id="megapixels" class="titlecontent"> ? <br></span>
                           <span class="titletext">
-                              Location:
+                              AspectRatio:
                           </span>
-                      </a>
-                      <span id="map">
-                          <img src=""/>
-                      /<span>
+                          <span id="aspect" class="titlecontent"> ? <br> </span>
+                          <span class="titletext">
+                              Camera:
+                          </span>
+                          <span id="camera" class="titlecontent"> ? <br></span>
+                          <span class="titletext">
+                              Exposure:
+                          </span>
+                          <span id="fnumber" class="titlecontent"> ? </span>
+                          <span id="exposure" class="titlecontent"> ? </span>
+                          <span id="exposureprogram" class="titlecontent"> ? </span>
+                          <span id="iso" class="titlecontent"> ? </span>
+                          <span id="flash" class="titlecontent"> ? <br></span>
+                          <span class="titletext">
+                              Lens:
+                          </span>
+                          <span id="lensid" class="titlecontent"> ? <br></span>
+                          <span id="lens" class="titlecontent"> ? <br></span>
+                          <span id="focusmode" class="titlecontent"> ? <br></span>
+                          <span id="focusdistance" class="titlecontent"> ? <br></span>
+                          <span id="focallength" class="titlecontent"> ? </span>
+                          <span id="focallen35mm" class="titlecontent"> ? <br></span>
+                      {% endif %}
+
+                      <div style="height:0.5em;width:5em;">
+                      </div>
+
+                      <div style="height:2em;width:7em;">
+                         <form action="/albums/add/{{ Item.modid }}" method="get" class="float-right" style="font-size:0.5em;">
+                           {% csrf_token %}
+                           <input name="add_to_album" type="text" value="" id="trace" placeholder="Add to album..." style="width:400px;"/>
+                           <div id="image-dropdown" >
+                                 {% for album in albums %}
+                                   <input type="radio" id="line{{ album.name }}" name="line-style" value="{{ album.name }}" /><label for="line{{ album.name }}" style="background:url('{{ album.thumbnail.modfile }}') 50% 50%;"></label>
+                                 {% empty %}
+                                 {% endfor%}
+                           </div>
+                         </form>
+                      </div>
+
+                      <div style="height:0.5em;width:7em;">
+                      </div>
                   </div>
-                  <span class="titletext">
-                      <br>Copyright
-                  </span>
-                  <span id="copyright" class="titlecontent"> ? <br></span>
-              </div>
-          </td>
-      </tr>
-    </table>
-    <div class="techfont" id="div_8" style="position:absolute;top:0.2em;left:calc(100% - 420px);width:400px;min-height:100px;">
-     <form action="/albums/add/{{ Item.modid }}" method="get" class="float-right" style="font-size:0.5em;">
-       {% csrf_token %}
-       <input name="add_to_album" type="text" value="" id="trace" placeholder="Add to album..." style="width:400px;"/>
-       <div id="image-dropdown" >
-             {% for album in albums %}
-               <input type="radio" id="line{{ album.name }}" name="line-style" value="{{ album.name }}" /><label for="line{{ album.name }}" style="background:url('{{ album.thumbnail.modfile }}') 50% 50%;"></label>
-             {% empty %}
-             {% endfor%}
-       </div>
-     </form>
-    </div>
-  </div>
 
-  <div id="fullScreenPic"
-       style="position:absolute:padding:0px;left:0px;top:0px;width:100%;height:100%;z-index:9999;display:none;">
-
-      <img id="picture_fs_{{ Item.modid }}"
-           class="lazyload responsive picfull"
-           src="{{ Item.modfile }}"
-           data-src="{{ Item.modlargefile }}"
-           alt="{{ Item.file }}"
-           >
-        </img>
-        <div id="hidescreen" style="position:relative;top:0px;right:0px;">
-            <ul class="nav navbar-nav fs-screen" style="position:absolute;top:50px;left:20px;">
-                <li>
-                    <a onClick="">
-                        <i class="large material-icons" style="background-color:white;">fullscreen_exit</i>
-                    </a>
-                </li>
-            </ul>
+                  <div class="techfont" style="position:absolute;bottom:0px;vertical-align:bottom;height:5em;width:5em;line-height:0.2em;padding:0px;">
+                      <div id="panel1" style="display:inline">
+                          <span class="titletext">
+                              Keywords:
+                          </span>
+                          <span id="keywords" class="titlecontent">
+                             {% for word in Item.keywords.modlist %}
+                               <button type="button" data-react-toolbox="button">
+                               {{ word }}
+                               <i class="glyphicon glyphicon-remove"></i>
+                               </button>
+                             {% empty %}
+                               No keywords loaded
+                             {% endfor %}
+                          </span>
+                          <form id="submit_keywords" action="" method="get" style="font-size:0.3em;padding-top:10px;">
+                            {% csrf_token %}
+                            <input name="vocabulary"  type="text"   id="vocabulary" placeholder="Add keywords...">
+                            <input name="pic_id"      type="hidden" id="pic_id"     value="{{ Item.modid }}">
+                          </form>
+                      </div>
+                      <div id="panel2" style="display:none">
+                          <a href=javascript:panel2() class="unembellish">
+                              <span class="titletext">
+                                  Location:
+                              </span>
+                          </a>
+                          <span id="map">
+                              <img src=""/>
+                          /<span>
+                      </div>
+                      <span class="titletext">
+                          <br>Copyright
+                      </span>
+                      <span id="copyright" class="titlecontent"> ? <br></span>
+                  </div>
+              </td>
+          </tr>
+        </table>
+        <div class="techfont" id="div_8" style="position:absolute;top:0.2em;left:calc(100% - 420px);width:400px;min-height:100px;">
         </div>
+    </div>
   </div>
 
 {% endblock %}

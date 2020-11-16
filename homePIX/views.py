@@ -16,7 +16,7 @@ from django.views.generic import (
 from django.urls import reverse_lazy
 from django.http import JsonResponse, HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
+from django.views.decorators.csrf import csrf_protect, csrf_exempt, ensure_csrf_cookie
 from django.utils.decorators import method_decorator
 from logging import getLogger
 from .tasks import bulk_saver
@@ -73,6 +73,12 @@ def background_view( TemplateView ):
 
 class AboutView( TemplateView ):
     template_name = 'homePIX/about.html'
+
+class WelcomeView( TemplateView ):
+    template_name = 'homePIX/welcome.html'
+
+class WebGLView( TemplateView ):
+    template_name = 'homePIX/webgl.html'
 
 class PhotoListView( ListView ):
 
@@ -409,6 +415,7 @@ class OrganisationView( PhotoListView):
         else:
             return 'https://api.smugmug.com/services/api/json/1.3.0/' + self.subdir + '.+$'
 
+    @csrf_protect
     def pretty_request( self, request ):
 
         headers = ''

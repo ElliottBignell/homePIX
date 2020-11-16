@@ -226,11 +226,19 @@ class PictureFile( ThumbnailBase ):
         return 'pics/' + os.path.relpath( self.path.path, settings.MEDIA_ROOT )
 
     @property
+    def modfilestemmed( self ):
+        return re.sub( r'(.*)/X3/(.*)-X3(\.[jJ][pP][gG])', r'\2-L\3', self.file )
+
+    @property
     def modfilename( self ):
-        return re.sub( r'(.*)/X3/(.*)-X3(\.[jJ][pP][gG])', r'\2\3', self.file )
+        return re.sub( r'(.*)/X3/(.*)-X3(\.[jJ][pP][gG])', r'\1/S/\2-L\3', self.file )
 
     @property
     def modfile( self ):
+        return re.sub( r'(.*)/X3/(.*)-X3(\.[jJ][pP][gG])', r'\1/M/\2-M\3', self.file )
+
+    @property
+    def modsmallfile( self ):
         return re.sub( r'(.*)/X3/(.*)-X3(\.[jJ][pP][gG])', r'\1/S/\2-S\3', self.file )
 
     @property
@@ -239,7 +247,7 @@ class PictureFile( ThumbnailBase ):
 
     @property
     def modlargefile( self ):
-        return self.file
+        return re.sub( r'(.*)/X3/(.*)-X3(\.[jJ][pP][gG])', r'\1/X3/\2-X3\3', self.file )
 
     @property
     def modpreview( self ):
@@ -267,6 +275,10 @@ class PictureFile( ThumbnailBase ):
     @property
     def modrandomkey( self ):
         return self.mod_random_key
+
+    @property
+    def moddimensions( self ):
+        return { width:100, height:200 }
 
     def __str__( self ):
         return self.path.path + '/' + self.title + '/' + str(self.id)

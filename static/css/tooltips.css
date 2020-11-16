@@ -8,6 +8,8 @@
     position: relative;
     overflow:hidden;
     display: inline-block;
+    margin:0.3em;
+    background-color: var( --homepix-bg-lightest );
     /* border-bottom: 1px dotted black; */ /* If you want dots under the hoverable text */
 }
 
@@ -18,8 +20,8 @@
     top: 2px;
     width: calc( 100% - 4px);
     padding: 5px 2px;
-    background-color: #cdd422;
-    color: #cdd422;
+    background-color: var( --homepix-text );
+    color: var( --homepix-text );
     text-align: right;
     vertical-align: top;
     margin:auto;
@@ -155,7 +157,7 @@
 .tt_base .tt_header h1 {
     border-width: 0px;
     border-style: solid;
-    color:#431c5d;
+    color:var( --homepix-dark );
 }
 
 /* Tooltip header */

@@ -21,6 +21,8 @@ urlpatterns = [
     re_path( r'^organisation/?album=(?P<album_id>\d+)$',                     views.OrganisationView.as_view(),    name = 'organisation_album' ),
     re_path( r'^organisation/?directory=(?P<dir_id>\d+)$',                   views.OrganisationView.as_view(),    name = 'organisation_album' ),
     re_path( r'^about/',                                                     views.AboutView.as_view(),           name = 'about' ),
+    re_path( r'^welcome/',                                                   views.WelcomeView.as_view(),         name = 'welcome' ),
+    re_path( r'^webgl/',                                                     views.WebGLView.as_view(),           name = 'webgl' ),
     re_path( r'^tasks/',                                                     views.tasks,                         name = 'tasks' ),
     re_path( r'^albums/$',                                                   views.AlbumView.as_view(),           name = 'album_list' ),
     re_path( r'^albums/make_thumbnail/(?P<album_id>\d+)/(?P<pic_id>\d+)/$',  views.set_album_thumb,               name = 'make_album_thumbnail' ),

@@ -16,18 +16,28 @@ var currentIndex   = -1;
 //document.addEventListener( "keydown",    doKeyDown,        false );
 //document.addEventListener( "keyup",      doKeyUp,          false );
 
-jQuery.event.props.push('dataTransfer');
+// jQuery.event.props.push('dataTransfer');
 
 $(document).ready(function() {
 
   $('div[id^=selectable_]').draggable({
     cursor: 'move',
-    helper: "clone"
+    helper: "clone",
+    containment: 'document',
+    opacity: 0.70,
+    appendTo:"body"
   });
 
-  $('div[id^=selectable_]').droppable({
-    cursor: 'move',
-    helper: "clone"
+  $('div[id^=album]').droppable(); 
+
+  $('div[id^=album]').bind('dragleave', function(){
+      console.log("dragentere");
+      $(this).removeClass('dragleave');
+  });
+
+  $('div[id^=album]').bind('drop', function(){
+      console.log("dragentere");
+      $(this).removeClass('drop');
   });
 });
 
@@ -306,7 +316,23 @@ $( "div[id^=selectable_]" ).draggable({
 });
 
 $('div[id^=selectable_]').on('dragstart', function( event ) {
-    event.originalEvent.dataTransfer.setData( 'text', get_selected_ids() );
+
+    console.log( event );
+    if ( event.originalEvent && event.originalEvent.dataTransfer ) {
+
+        $( this ).css( 'z-order', 0 );
+        event.originalEvent.dataTransfer.setData( 'text', get_selected_ids() );
+    }
+});
+
+$('img[id^=picture_]').on('dragstart', function( event ) {
+
+    console.log( event );
+    if ( event.dataTransfer ) {
+
+        $( this ).css( 'z-order', 0 );
+        event.originalEvent.dataTransfer.setData( 'text', get_selected_ids() );
+    }
 });
 
 $('div[id^=selectable_]').on('drop dragdrop', function( event ) {
@@ -315,8 +341,9 @@ $('div[id^=selectable_]').on('drop dragdrop', function( event ) {
     event.preventDefault();
 });
 
-$('div[id^=album_], div[id^=universe_]').on('dragenter', function( event ) {
+$('div[id^=album_], div[id^=universe_]').on('dragover', function( event ) {
 
+    console.log("Second drag ovber");
     $(this).removeClass( "organise_gallery" );
     $(this).addClass( "drop_gallery" );
     event.preventDefault();
@@ -329,8 +356,9 @@ $('div[id^=album_], div[id^=universe_]').on('dragleave', function( event ) {
     event.preventDefault();
 });
 
-$('div[id^=album_], div[id^=universe_]').on('dragover', function( event ) {
+$('div[id^=album_], div[id^=universe_]').on('dragenter', function( event ) {
 
+    Console.log("Drag ove");
     $(this).removeClass( "organise_gallery" );
     $(this).addClass( "drop_gallery" );
     event.preventDefault();
@@ -348,10 +376,13 @@ $('div[id^=universe_]').on('drop dragdrop', function( event ) {
 
 $('div[id^=album_]').on('drop dragdrop', function( event ) {
 
+    alert( event.originalEvent.dataTransfer );
     var ids = event.originalEvent.dataTransfer.getData("text");
     var album = $(this).attr( 'id' ).split( '_' )[ 1 ];
 
     add_ids_to_album( album, ids );
+
+    console.log( "Dropped" );
 
     event.preventDefault();
 });

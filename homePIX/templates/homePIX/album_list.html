@@ -2,7 +2,7 @@
 {% block content %}
 
   <div class="centerstage">
-    <div class="techfont" id="div_" style="min-height:100px;">
+    <div class="techfont" id="div_centrestage" style="min-height:60px;">
       <div class="row">
         <div class="col-md-6">
           <h1>Albums</h1>
@@ -26,12 +26,12 @@
  -->
 
 {% for album in object_list %}
-  <div class="tt_base droppable draggable techfont gallery" id="div_{{ folder.modthumb.modpath }}_{{ folder.modthumb.file }}">
+  <div class="tt_base droppable draggable techfont gallery justified" id="div_{{ album.id }}_{{ folder.modthumb.modpath }}_{{ folder.modthumb.file }}">
     <div class="desc">{{ album.name }}</div>
-    <a id="piclink_8" href="{{ album.id }}/">
+    <a id="piclink_{{ album.id }}" href="{{ album.id }}/">
       <section class="wrapper" id="file-number_{{ folder.modthumb.modpath }}_{{ folder.modthumb.file }}">
         <span class="tt_subject">
-          <img id="picture_8"
+          <img id="picture_{{ album.id }}"
                class="lazyload gallery_picture"
                src="{{ album.modthumb.file }}"
                data-src="{{ album.modthumb.file }}"
