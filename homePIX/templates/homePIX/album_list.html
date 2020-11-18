@@ -9,8 +9,9 @@
         </div>
         <div class="col-md-6">
           <span class="pull-right">
-            <form action="{% url 'album_list' %}" method="get">
-              <input name="pk" type="text" placeholder="Add new...">
+            <form action="{% url 'new_album' %}" method="get">
+              {% csrf_token %}
+              <input id="name" name="name" type="text" placeholder="Add new...">
             </form>
             <br>Click on a picture to  open the album
           </span>

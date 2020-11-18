@@ -7,7 +7,8 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.views.generic.base import RedirectView
 
 urlpatterns = [
-    re_path( r'^$',                                                          views.PictureListView.as_view(),     name = 'picture_list' ),
+    re_path( r'^$',                                                          views.WelcomeView.as_view(),         name = 'welcome' ),
+    re_path( r'^collection/',                                                views.PictureListView.as_view(),     name = 'picture_list' ),
     re_path( r'^item/(?P<pk>\d+)/?.*$',                                      views.PictureDetailView.as_view(),   name = 'picturefile_detail' ),
     re_path( r'^pictures/item/(?P<pk>\d+)/?.*$',                             views.PictureDetailView.as_view(),   name = 'picturefile_detail' ),
     re_path( r'^pictures/(?P<pk>.+\.[jJ][pP][gG])$',                         views.PictureDetailView.as_view(),   name = 'picturefile_detail' ),
@@ -25,6 +26,7 @@ urlpatterns = [
     re_path( r'^webgl/',                                                     views.WebGLView.as_view(),           name = 'webgl' ),
     re_path( r'^tasks/',                                                     views.tasks,                         name = 'tasks' ),
     re_path( r'^albums/$',                                                   views.AlbumView.as_view(),           name = 'album_list' ),
+    re_path( r'^albums_new/.*$',                       views.new_album,                     name = 'new_album' ),
     re_path( r'^albums/make_thumbnail/(?P<album_id>\d+)/(?P<pic_id>\d+)/$',  views.set_album_thumb,               name = 'make_album_thumbnail' ),
     re_path( r'^albums/add/(?P<id>\d+)$',                                    views.add_picture_to_album,          name = 'add_picture_to_album' ),
     re_path( r'^albums/add/(?P<album_id>\d+)/(?P<pic_id>\d+)/$',             views.add_id_to_album,               name = 'add_id_to_album' ),

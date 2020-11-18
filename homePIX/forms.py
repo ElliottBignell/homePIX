@@ -27,6 +27,16 @@ class AlbumContentForm( forms.ModelForm ):
 class AlbumAddForm( forms.ModelForm ):
     add_to_album = forms.CharField( required = True )
 
+class AlbumNewForm( forms.ModelForm ):
+
+    class Meta():
+        model = Album
+        fields = ( 'name', )
+
+        widgets = {
+            'name' : forms.TextInput( attrs={ 'class': 'textinputclass' })
+        }
+
 class DirectoryForm( forms.ModelForm ):
 
     class Meta():

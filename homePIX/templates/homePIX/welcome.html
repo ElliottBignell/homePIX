@@ -1,0 +1,189 @@
+{% extends "homePIX/base.html" %}
+{% load static %}
+{% block content %}
+
+  <style>
+    .mySlides
+    {
+        position:relative;
+        left:0em;
+        width:100%;
+        top:0em;
+        height:inherit;
+        object-fit:contain;
+        object-position:center center;
+    }
+    .mySlides {
+        display:none;
+  display: flex; // make us of Flexbox
+  align-items: center; // does vertically center the desired content
+  justify-content: center; // horizontally centers single line items
+  text-align: center; // optional, but helps horizontally center text that breaks into multiple lines
+}
+  </style>
+
+  <link rel="stylesheet" href="/static/css/clearall.css">
+  <link rel="stylesheet" href="/static/css/dropdown.css">
+
+  <div class="centerstage" style="height:100%;">
+    <div class="techfont" id="div_centrestage" style="min-height:4em;">
+      <div class="row">
+        <div class="col-md-6">
+          <h1>Welcome to homePIX</h1>
+          <h2>Implementation for pictures by Elliott Bignell</h2>
+        </div>
+      </div>
+    </div>
+
+    <div id="details" style="position:relative;top:0em;bottom:0em;left:0em;right:0em;">
+        <table id="maintab" style="position:relative;top:0em;left:0em;width:100%;bottom:0em;padding:0px;border:0px;">
+          <tr colspan=4 style="height:2em;vertical-align:middle;">
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+           </td>
+          </tr>
+          <tr colspan=4 style="height:calc(100%-4em);">
+              <td style="width:1em;vertical-align:middle;">
+                <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
+              </td>
+              <td style="width:calc(100%-9em);">
+                <div style="height:30vw;">
+                  {% for picture in object_list %}
+                    {% if picture.modtype == 1 or picture.modtype == 4 %}
+                      <img id="picture_{{ picture.modthumb.modid }}"
+                           class="mySlides lazyload"
+                           src="{{ picture.modthumb.file }}"
+                           data-src="{{ picture.modthumb.file }}"
+                           alt="{{ picture.modthumb.file }}">
+                      </img>
+                    {% else  %}
+                        Other type
+                    {% endif %}
+                  {% empty %}
+                    No picture files in this collection
+                  {% endfor %}
+                </div>
+              </td>
+              <td style="width:1em;vertical-align:middle;">
+                <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
+              </td>
+              <td style="width:7em;">
+
+              </td>
+          </tr>
+          <tr colspan=4 style="height:2em;vertical-align:middle;">
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+           </td>
+          </tr>
+        </table>
+    </div>
+  </div>
+
+  <div id="details">
+      <div class="w3-content w3-display-container">
+
+
+      </div>
+    </div>
+
+<!--
+      <ul>
+          <li><a href="javascript:theme( [ '#431c5d', '#c2dde6', '#e6e9f0', '#e05915' ] );">Theme 1</a></li>
+          <li><a href="javascript:theme( [ '#151617', '#090a0a', '#151516', '#151616' ] );">Theme 2</a></li>
+          <li><a href="javascript:theme( [ '#fa292a', '#b89f5d', '#5a7670', '#000000' ] );">Theme 3</a></li>
+          <li><a href="javascript:theme( [ '#34421e', '#f1f1ef', '#ffffff', '#c19434' ] );">Theme 4</a></li>
+          <li><a href="javascript:theme( [ '#173e43', '#3fb0ac', '#fae596', '#dddfd4' ] );">Theme 5</a></li>
+          <li><a href="javascript:theme( [ '#fa255e', '#c39ea0', '#f8e5e5', '#000000' ] );">Theme 6</a></li>
+          <li><a href="javascript:theme( [ '#c60021', '#e3e3e3', '#f6f6f8', '#000000' ] );">Theme 7</a></li>
+          <li><a href="javascript:theme( [ '#9fa8a3', '#c5d5cb', '#e3e0cf', '#000000' ] );">Theme 8</a></li>
+      </ul>
+-->
+
+    </div>
+
+    <script>
+
+        var slideIndex = 1;
+
+        /*
+        function theme( cols )
+        {
+            document.querySelector("html").style.setProperty(
+                '--homepix-dark',
+                cols[ 0 ]
+                );
+            document.querySelector("html").style.setProperty(
+                '--homepix-bg',
+                cols[ 1 ]
+                );
+            document.querySelector("html").style.setProperty(
+                '--homepix-br-lightest',
+                cols[ 2 ]
+                );
+            document.querySelector("html").style.setProperty(
+                '--homepix-bg-alarm',
+                cols[ 3 ]
+                );
+        }
+
+        showDivs(slideIndex);
+
+        function showDivs(n) {
+          var i;
+          var x = document.getElementsByClassName("mySlides");
+          if (n > x.length) {slideIndex = 1}
+          if (n < 1) {slideIndex = x.length} ;
+          for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+          }
+          x[slideIndex-1].style.display = "block";
+        }
+        */
+
+        carousel();
+
+        function plusDivs(n) {
+          showDivs(slideIndex += n);
+        }
+
+        function carousel() {
+
+            var i;
+            var x = document.getElementsByClassName("mySlides");
+
+            console.log( "Elements: " + x + " " + x.length );
+
+            for (i = 0; i < x.length; i++) {
+
+                console.log( "Element: " + x[ i ] );
+                x[i].style.display = "none";
+            }
+
+            slideIndex++;
+
+            if (slideIndex > x.length) {
+                slideIndex = 1;
+            }
+
+            console.log( "Index: " + slideIndex );
+            console.log( "Object: " + x[ slideIndex - 1 ] );
+
+            x[ slideIndex - 1 ].style.display = "block";
+
+            setTimeout(carousel, 2000); // Change image every 2 seconds
+        }
+
+    </script>
+
+{% endblock %}

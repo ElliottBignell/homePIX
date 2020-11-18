@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 from django.http import HttpResponseNotFound
 from django.contrib.auth.decorators import login_required
 from homePIX.models import ThumbnailBase, Comment, CSVEntry, Directory, PictureFile, Keywords, Album, AlbumContent
-from homePIX.forms import CSVImportForm, CSVImportIntegrateForm, DirectoryForm, PictureForm, CommentForm, AlbumContentForm
+from homePIX.forms import CSVImportForm, CSVImportIntegrateForm, DirectoryForm, PictureForm, CommentForm, AlbumContentForm, AlbumAddForm
 
 from django.views.generic import (
                             TemplateView,
@@ -74,9 +74,6 @@ def background_view( TemplateView ):
 class AboutView( TemplateView ):
     template_name = 'homePIX/about.html'
 
-class WelcomeView( TemplateView ):
-    template_name = 'homePIX/welcome.html'
-
 class WebGLView( TemplateView ):
     template_name = 'homePIX/webgl.html'
 
@@ -130,7 +127,7 @@ class PhotoListView( ListView ):
 
         page = self.request.GET.get( 'page' )
 
-        if page == None:
+        if page == None or page == '':
             page = 1
 
         sort = self.request.GET.get( 'sort' )
@@ -153,7 +150,7 @@ class PhotoListView( ListView ):
 
         context[ 'Items' ] = Items
         context[ 'ForItemCount' ] = paginator.num_pages
-        context[ 'page' ] = int( page )
+        context[ 'page' ] = page
         context[ 'sort' ] = self.sortkey
         context[ 'sort_options' ] = [ "Default", "Title", "Filename", "Date", "Size", "Aspect Ratio" ]
         context[ 'link_params' ] = self.getlink_params()
@@ -549,6 +546,60 @@ class AlbumContentView( PhotoListView ):
 
     def getlink_params( self ):
         return 'ID=0&Key=0&'
+
+class WelcomeView( PhotoListView ):
+
+    model = AlbumContent
+
+    template_name = 'homePIX/welcome.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def getfilter( self, index ):
+        return -1;
+
+    def get_queryset( self ):
+
+        PhotoListView.object_list = AlbumContent.objects.none()
+
+        album = '4'
+
+        queryset = Album.objects.filter( id=album )
+
+        print( 1 )
+
+        if not queryset is None and queryset.count() > 0:
+
+            print( 2 )
+
+            query = "select * from (( homePIX_albumcontent INNER JOIN homePIX_picturefile ON homePIX_picturefile.id=homePIX_albumcontent.entry_id) INNER JOIN homePIX_album ON homePIX_album.id=homePIX_albumcontent.album_id) WHERE album_id=" + str( album )
+
+            PhotoListView.object_list = AlbumContent.objects.raw( query )
+
+            previous = PhotoListView.object_list[ len( PhotoListView.object_list ) - 1 ]
+
+            index = 0
+
+            for file in PhotoListView.object_list:
+
+                print( 3 )
+
+                if file.entry_id == id:
+
+                    next_id = ( index + 1 ) % len( PhotoListView.object_list )
+
+                    self.nav[ 'Item'     ] = PictureFile.objects.get( id=file.entry_id )
+                    self.nav[ 'next'     ] = PictureFile.objects.get( id=PhotoListView.object_list[ next_id ].entry_id )
+                    self.nav[ 'previous' ] = PictureFile.objects.get( id=previous.entry_id )
+
+                    break
+
+                previous = file
+                index += 1
+
+        return PhotoListView.object_list
 
 class AlbumContentDetailView( PhotoListViewBase ):
 
@@ -1365,6 +1416,21 @@ def set_album_thumb( request, album_id, pic_id ):
 
     album.thumbnail = picture
     album.save()
+
+    return redirect( '/albums/' )
+
+@login_required
+def new_album( request ):
+
+    if request.method == 'GET':
+
+        now = datetime.now()
+
+        name = request.GET.get( 'name', now.strftime("%d/%m/%Y %H:%M:%S") )
+
+        album = Album()
+        album.name = name
+        album.save()
 
     return redirect( '/albums/' )
 
