@@ -247,6 +247,17 @@ class PhotoListViewBase( PhotoListView ):
     class Meta:
         abstract = True
 
+    def get_client_ip( self ):
+
+        x_forwarded_for = self.request.META.get('HTTP_X_FORWARDED_FOR')
+
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[0]
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+
+        return ip
+
     def get_context_data(self, **kwargs):
 
         context = super().get_context_data(**kwargs)
@@ -568,11 +579,7 @@ class WelcomeView( PhotoListView ):
 
         queryset = Album.objects.filter( id=album )
 
-        print( 1 )
-
         if not queryset is None and queryset.count() > 0:
-
-            print( 2 )
 
             query = "select * from (( homePIX_albumcontent INNER JOIN homePIX_picturefile ON homePIX_picturefile.id=homePIX_albumcontent.entry_id) INNER JOIN homePIX_album ON homePIX_album.id=homePIX_albumcontent.album_id) WHERE album_id=" + str( album )
 
@@ -583,8 +590,6 @@ class WelcomeView( PhotoListView ):
             index = 0
 
             for file in PhotoListView.object_list:
-
-                print( 3 )
 
                 if file.entry_id == id:
 
@@ -600,6 +605,16 @@ class WelcomeView( PhotoListView ):
                 index += 1
 
         return PhotoListView.object_list
+
+    def render_to_response(self, context):
+
+        fromDate = self.request.GET.get( 'fromDate', None )
+        toDate   = self.request.GET.get( 'toDate',   None )
+
+        if fromDate:
+            return redirect('collection/?fromDate=' + fromDate + '&toDate=' + toDate )
+
+        return super().render_to_response(context)
 
 class AlbumContentDetailView( PhotoListViewBase ):
 
@@ -641,11 +656,20 @@ class AlbumContentDetailView( PhotoListViewBase ):
 
                     previous = PhotoListView.object_list[ len( PhotoListView.object_list ) - 1 ]
 
+                    visitor_ip = super().get_client_ip()
+
                     index = 0
 
                     for file in PhotoListView.object_list:
 
                         if file.entry_id == id:
+
+                            if visitor_ip != '85.2.137.247':
+
+                                current_pic = PictureFile.objects.get( id=file.entry_id )
+
+                                current_pic.hits += 1
+                                current_pic.save()
 
                             next_id = ( index + 1 ) % len( PhotoListView.object_list )
 
@@ -1446,9 +1470,9 @@ def set_folder_thumb( request, album_id, pic_id ):
     return redirect( '/folders/' )
 
 @login_required
-def add_comment_to_post( request, pk):
+def add_comment_to_post( request, album_id, pic_id ):
 
-   post = get_object_or_404( PictureForm, pk = pk )
+   post = get_object_or_404( PictureFile, pk = pic_id )
 
    if request.method == 'POST':
 
@@ -1456,11 +1480,11 @@ def add_comment_to_post( request, pk):
 
         if form.is_valid():
 
-            album = form.save( commit = False )
-            album.post = post
-            album.save()
+            item = form.save( commit = False )
+            item.post = post
+            item.save()
 
-            return redirect( 'albumcontent', pk = 'Fred' )
+            return redirect( '../', pk = post.id )
    else:
        form = CommentForm()
 

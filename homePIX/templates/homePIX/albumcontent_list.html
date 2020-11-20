@@ -1,8 +1,7 @@
-{% extends "homePIX/picturefile_inc.html" %}
+{% extends "homePIX/base.html" %}
 {% block content %}
-{{ block.super }}
 
-  <div class="techfont" id="div_8" style="min-height:100px;">
+  <div class="techfont" style="min-height:100px;">
       <h1>Content</h1>
 
       <form action="{% url 'album_list' %}" method="get">

@@ -268,6 +268,12 @@
                           {{ Item.location }}<br>
                       </span>
                       {% endif %}
+                      <span class="titletext">
+                          Hits:
+                      </span>
+                      <span id="description" class="titlecontent">
+                          {{ Item.hits }}<br>
+                      </span>
                       {% if Item.primaryCategory %}
                       <span class="titletext">
                           Category 1:
@@ -301,7 +307,11 @@
                       </span>
                       {% endif %}
                       <span class="titletext">
-                          Dimensions:
+                          Dimensions:<br>
+                      </span>
+
+                      <span class="titletext">
+                          <br><a href="comment/">Add comment</a>
                       </span>
 
                       <div style="height:1em;">

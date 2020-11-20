@@ -49,7 +49,8 @@ class Keywords( ListModel ):
 
 class ThumbnailBase( ListModel ):
 
-    id = models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)
+    id   = models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)
+    hits = models.PositiveIntegerField( default = 0 )
 
     pic_size = [ 200, 200 ]
 
@@ -88,9 +89,9 @@ class ThumbnailBase( ListModel ):
 
 class Directory( ThumbnailBase ):
 
-    path  = models.TextField( unique = True )
-    count = models.PositiveIntegerField( default = 0 )
-    thumbnail = models.ForeignKey( 'PictureFile', on_delete = models.CASCADE, null = True, blank = True )
+    path       = models.TextField( unique = True )
+    count      = models.PositiveIntegerField( default = 0 )
+    thumbnail  = models.ForeignKey( 'PictureFile', on_delete = models.CASCADE, null = True, blank = True )
     remote_key = models.CharField( max_length = 20, default='fjWM4F' )
     remote_id  = models.PositiveIntegerField( default = 157544933 )
 
