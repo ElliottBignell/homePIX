@@ -98,6 +98,20 @@
                   </li>
                 </ul>
               </li>
+              <li style="background-color:var( {{ request.get_full_path|current_content:'calendar_view_day' }} ); height:4em;">
+                <a href="{% url 'calendar'%}" class="bigbrand">
+                  <i class="large material-icons"
+                     style="color:var( {{ request.get_full_path|current_background:'calendar_view_day' }} );"
+                     >
+                          calendar_view_day
+                  </i>
+                </a>
+                <ul class="drop-down-menu" style="top:3em;">
+                  <li>
+                    <a href="{% url 'calendar'%}" class="bigmenu">Calendar</a>
+                  </li>
+                </ul>
+              </li>
               <li style="background-color:var( {{ request.get_full_path|current_content:'about' }} ); height:4em;">
                 <a href="{% url 'about'%}" class="bigbrand">
                   <i class="large material-icons" style="color:var( {{ request.get_full_path|current_background:'about' }} );">
@@ -182,7 +196,7 @@
             <li><a href="{% url 'directory_new'%}"> <i class="large material-icons">create_new_folder </i></a></li>
             <li><a href="{% url 'logout'%}">        <i class="large material-icons">exit_to_app </i></a></li>
           {% else %}
-            <li><a href="{% url 'about'%}" class="bigbrand">       <i class="large material-icons">person        </i></a>
+            <li><a href="{% url 'login'%}" class="bigbrand">       <i class="large material-icons">person        </i></a>
             </li>
           {% endif %}
         </ul>

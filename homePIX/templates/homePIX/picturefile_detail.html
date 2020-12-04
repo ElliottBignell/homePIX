@@ -212,24 +212,11 @@
   <div class="techfont" style="position:absolute;width:100%;height:90%;">
     <div id="details">
         <table id="maintab" style="padding:0px;border:0px;width:100%;height:100%;">
-          <tr colspan=4 style="height:2em;vertical-align:middle;">
-            <td>
-            </td>
-            <td>
-                 <div id="titletext" contenteditable="true">
-                   <h1>{{ Item.title }}</h1>
-                 </div>
-            </td>
-            <td>
-            </td>
-            <td>
-           </td>
-          </tr>
           <tr id="div_{{ Item.modid }}" colspan=4 style="height:100%;">
               <td style="width:1em;vertical-align:middle;">
                   <a id="back" href="../{{ previous.modid }}/?search={{ request.GET.search }}&sort={{ request.GET.sort }}%20&startDate{{ request.GET.startDate }}=&endDate={{ request.GET.endDate }}"><span class="glyphicon glyphicon-chevron-left"></span></a>
               </td>
-              <td id="picframe" style="height:100%;width:calc(100%-9em);">
+              <td id="picframe" style="height:100%;width:calc(100%-9em);vertical-align:top;">
                 <!--<div class="bounding-box" style="background-image:url("/{{ Item.modpath }}/{{ Item.file }}");">-->
                 <img id="picture_{{ Item.modid }}"
                        class="lazyload responsive"
@@ -239,7 +226,57 @@
                        alt="{{ Item.file }}"
                        >
                     </img>
-                <!--</div>-->
+                <div id="titletext"
+                     style="position:absolute;left:2.3em;top:110%;width:100%;"
+                     contenteditable="true"
+                     >
+                    <h1 style="font-size:1em;">{{ Item.title }}</h1>
+                    <form id="comment-form"
+                          method="POST">
+                        {% csrf_token %}
+                        <table class="table"
+                               style="position:absolute;top:calc(120%+2em);left:0em;right:2em;font-size:40%;"
+                               >
+                            <tr>
+                                <td style="width:7em;"><label for="id_username">Username</label></td>
+                                <td><input id="id_username" name="username"
+                                           type="text" class="form-control"></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><label for="id_password">Your comment</label></td>
+                                <td><textarea id="id_comment" name="comment"
+                                           form="comment-form" class="form-control"
+                                           placeholder="Your opinion matters!"
+                                           >
+                                    </textarea>
+                                </td>
+                                <td>
+                                    <input type="submit" value="Submit"
+                                           class="btn btn-primary pull-right" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                </td>
+                                <td>
+                                    <script src='https://www.google.com/recaptcha/api.js'></script>
+                                    <div class="g-recaptcha" data-sitekey="6Lf0O-cZAAAAABGe-nlRbdrHR12HhorTn8QjMkw7"></div>
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
+                        </table>
+                        {% if form.errors %}
+                            <p class=" label label-danger">
+                                Error in commenting.
+                                Please try again.
+                            </p>
+                        {% endif %}
+
+                        <input type="hidden" name="next" value="{{ next }}" />
+                    </form>
+                </div>
               </td>
               <td style="width:1em;vertical-align:middle;">
                   <a id="forth" href="../{{ next.modid }}/?search={{ request.GET.search }}&sort={{ request.GET.sort }}%20&startDate{{ request.GET.startDate }}=&endDate={{ request.GET.endDate }}"><span class="glyphicon glyphicon-chevron-right"></span></a>

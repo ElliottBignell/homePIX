@@ -1,0 +1,165 @@
+{% extends "homePIX/base.html" %}
+{% load filters %}
+{% block content %}
+{{ block.super }}
+{% endblock content %}
+
+{% block picturefile %}
+{{ block.super }}
+
+{% if calendar %}
+
+  <div id="div_collection" style="padding-left:5em;padding-right:5em;margin-left:5em;margin-right:5em;">
+    <table>
+      {% for year_group_no, year_group in calendar.items %}
+      <tr>
+      {% for year, material in year_group.items %}
+        <td>
+          <div class="calendar_year">
+            <table id="quarterly_{{ year }}">
+              <tr>
+                <td style="colspan:4;">
+                  <h1 class="techfont" style="color:var( --homepix-bg ); font-size:18px;">{{ year }}</h1>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <table id="quarterly_{{ year }}" class="calendar_year_table">
+                    {% for quarter in material %}
+                    <tr style="height:48px;">
+                    {% for idx, month in quarter.items %}
+                      <td id="month_{{ year }}_{{ idx }}" style="width:56px;height:56px;padding-left:0.1em;padding-right:0.1em;padding-top:0.1em;padding-bottom:0.1em;">
+                          <div class="calendar_tile calendar_tile_medium">
+                            {% with month_name=month.0.0.4|month_abbr %}
+                            <a href="#quarterly_{{ year }}_{{ month_name }}">
+                              {% if month.0.0.0 > 0 %}
+                                <img id="picture_{{ month.0.0.0 }}"
+                                     class="lazyload calendar_thumbnail calendar_tile_medium"
+                                     src="{{ month.0.0.5 }}"
+                                     data-src="{{ month.0.0.5 }}"
+                                     alt="{{ month.0.0.3|date:'d' }}">
+                                </img>
+                                <div class="calendar_month">
+                                  <div class="scrim scrim_medium">
+                                    {{ month_name }}
+                                  </div
+                                </div>
+                              {% else %}
+                                {{ month_name }}
+                              {% endif %}
+                            </a>
+                            {% endwith %}
+                          </div>
+                      </td>
+                    {% endfor %}
+                    </tr>
+                    {% endfor %}
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </td>
+      {% endfor %}
+      </tr>
+      {% endfor %}
+
+  <div id="div_collection" style="padding-left:5em;padding-right:5em;margin-left:5em;margin-right:5em;">
+      {% for year_group_no, year_group in calendar.items %}
+      {% for year, material in year_group.items %}
+        <table id="quarterly_{{ year }}" class="calendar_year_table" style="width:100%;bg-color:red;">
+          <tr>
+            <td style="colspan:4;">
+              <h1 class="techfont" style="color:var( --homepix-dark ); font-size:24px;">{{ year }}</h1>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <table id="quarterly_{{ year }}_{{ month }}">
+                {% for quarter in material %}
+                  <tr style="height:48px;">
+                  {% for index, month in quarter.items %}
+                    <td id="month_{{ year }}_{{ idx }}_{{day}}" style="width:25%;padding-left:0.1em;padding-right:0.1em;padding-top:0.1em;padding-bottom:0.1em;">
+                      {% with month_name=month.0.0.4|month_abbr %}
+                        <table id="quarterly_{{ year }}_{{ month_name }}" class="calendar_day_table">
+                          <tr>
+                            <td style="width:0.3em;"></td>
+                            <td style="colspan:7;">
+                              <div class="techfont" style="position:relative;top:0.2em;left:0.2em;color:var( --homepix-bg ); font-size:20px;">
+                                {{ month_name }}
+                              </div>
+                            </td>
+                            <td style="width:0.3em;"></td>
+                          </tr>
+                          <tr>
+                            <td>.</td>
+                            {% for day in days %}
+                              <td class="techfont" style="height:2em;color:var( --homepix-bg ); font-size:12px;">
+                                <a href="collection/?fromDate={{ year }}-{{month.0.0.4}}-{{day}}&toDate={{ year }}-{{month.0.0.4}}-{{day}}&ID=&Key=&search=&sort="></a>
+                                  {{ day }}
+                                </a>
+                              </td>
+                            {% endfor %}
+                            <td>.</td>
+                          </tr>
+                          <tr>
+                            <td></td>
+                            <td style="colspan:7;">
+                              <h1 class="techfont" style="color:var( --homepix-bg ); font-size:18px;">{{ monthname }}</h1>
+                            </td>
+                            <td></td>
+                          </tr>
+                          {% for week in month %}
+                          <tr>
+                            <td></td>
+                          {% for day in week %}
+                          <td style="width:1.6em;height:1.6em;">
+                            <div class="calendar_tile calendar_tile_small"
+                                 style="width:1.6em;height:1.6em;padding-left:0.1em;padding-right:0.1em;padding-top:0.1em;padding-bottom:0.1em;">
+                              {% with month_number=month.0.0.4|month_number %}
+                                <a href="../collection/?fromDate={{ year }}-{{ month_number }}-{{ day.3|date:'d' }}&toDate={{ year }}-{{ month_number }}-{{ day.3|date:'d' }}&ID=&Key=&search=&sort=">
+                              {% endwith%}
+                              {% if day.0 > 0 %}
+                                <img id="picture_{{ day.0 }}"
+                                           class="lazyload calendar_thumbnail calendar_tile_small"
+                                           src="{{ day.5 }}"
+                                           data-src="{{ day.5 }}"
+                                           alt="{{ day.3|date:'d' }}">
+                                </img>
+                                <div class="calendar_day_pic">
+                                  <div class="scrim scrim_small" style="font-size:1em;font-weight:bolder;left:0px;">
+                                    {{ day.3|date:'d' }}
+                                  </div
+                                </div>
+                              {% else %}
+                                <div class="calendar_day" style="color:var( --homepix-dark );background-color:var( --homepix-bg );">
+                                  {{ day.3|date:'d' }}
+                                </div>
+                              {% endif %}
+                            </a>
+                          {% endfor %}
+                            <td></td>
+                          </tr>
+                          {% endfor %}
+                        </table>
+                      {% endwith %}
+                      </div>
+                    </td>
+                  {% endfor %}
+                  </tr>
+                {% endfor %}
+              </table>
+            </td>
+          </tr>
+        </table>
+      {% endfor %}
+      {% endfor %}
+  </div>
+
+{% else %}
+  <div class="techfont" id="div_header" style="min-height:100px;">
+    <h1>Nothing here!</h1>
+  </div>
+{% endif %}
+
+{% endblock picturefile %}
