@@ -1,4 +1,5 @@
 from django import template
+import calendar
 
 register = template.Library()
 
@@ -24,3 +25,19 @@ def previous(some_list, current_index):
 
 register.filter( 'previous', previous )
 register.filter( 'next', next )
+
+@register.filter
+def index(indexable, i):
+    return indexable[i]
+
+@register.filter
+def month_name(month_number):
+    return calendar.month_name[month_number]
+
+@register.filter
+def month_abbr(month_number):
+    return calendar.month_abbr[month_number]
+
+@register.filter
+def month_number(month_nr):
+    return "{:0>2d}".format( month_nr )

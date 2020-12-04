@@ -1,14 +1,14 @@
 from django.conf import settings
 from homePIX import views
-from django.urls import re_path
+from django.urls import re_path, include
 from django.conf.urls.static import static
-from django.contrib.auth import views as dca_views
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.views.generic.base import RedirectView
 
 urlpatterns = [
     re_path( r'^$',                                                          views.WelcomeView.as_view(),         name = 'welcome' ),
     re_path( r'^collection/',                                                views.PictureListView.as_view(),     name = 'picture_list' ),
+    re_path( r'^calendar/$',                                                 views.CalendarView.as_view(),        name = 'calendar' ),
     re_path( r'^item/(?P<pk>\d+)/?.*$',                                      views.PictureDetailView.as_view(),   name = 'picturefile_detail' ),
     re_path( r'^pictures/item/(?P<pk>\d+)/?.*$',                             views.PictureDetailView.as_view(),   name = 'picturefile_detail' ),
     re_path( r'^pictures/(?P<pk>.+\.[jJ][pP][gG])$',                         views.PictureDetailView.as_view(),   name = 'picturefile_detail' ),
@@ -55,9 +55,9 @@ urlpatterns = [
     re_path( r'^comment/(?P<pk>\d+)/approve/$',                              views.comment_approve,               name = 'comment_approve' ),
     re_path( r'^comment/(?P<pk>\d+)/remove/$',                               views.comment_remove,                name = 'comment_remove' ),
     re_path( r'^.*\.[jJ][pP][gG]$',                                          views.compress_view,                 name='jpeg_image'),
-    re_path( r'^accounts/login/',                                            dca_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
-    re_path( r'^accounts/logout/',                                           dca_views.LogoutView.as_view(),      name='logout', kwargs={'next_page': '/'}),
-    re_path( r'favicon\.ico',                                                RedirectView.as_view(url=staticfiles_storage.url('images/favicon.ico')))
+    re_path( r'favicon\.ico',                                                RedirectView.as_view(url=staticfiles_storage.url('images/favicon.ico'))),
+    re_path( r'^accounts/login/',                                            views.LoginView.as_view(),           name='login'),
+    re_path( r'^accounts/', include('django.contrib.auth.urls')),
     # re_path( r'^(?P<search>.+)$', views.PictureListView.as_view(), name = 'picture_list' ),
 ]
 urlpatterns += static( 'static/', document_root=settings.STATIC_ROOT )

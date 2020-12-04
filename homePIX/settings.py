@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 #   'django_bootstrap_breadcrumbs',
 #    'background_task',
+    'captcha',
     'homePIX',
 ]
 
@@ -142,6 +143,8 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join( BASE_DIR, 'static' )
 
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+GOOGLE_RECAPTCHA_SECRET_KEY = os.getenv('GOOGLE_RECAPTCHA_SECRET_KEY')
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_SSL_REDIRECT = True

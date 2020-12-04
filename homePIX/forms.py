@@ -1,5 +1,6 @@
 from django import forms
 from homePIX.models import Comment, CSVEntry, Directory, PictureFile, Keywords, Album, AlbumContent
+from captcha.fields import CaptchaField
 
 class AlbumForm( forms.ModelForm ):
 
@@ -104,3 +105,6 @@ class KeywordsForm( forms.ModelForm ):
         widgets = {
             'keywords' : forms.TextInput( attrs={ 'class': 'textinputclass' })
         }
+
+class CaptchaTestForm(forms.Form):
+    captcha = CaptchaField()

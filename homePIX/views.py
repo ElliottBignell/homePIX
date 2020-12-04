@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 from django.http import HttpResponseNotFound
 from django.contrib.auth.decorators import login_required
 from homePIX.models import ThumbnailBase, Comment, CSVEntry, Directory, PictureFile, Keywords, Album, AlbumContent
-from homePIX.forms import CSVImportForm, CSVImportIntegrateForm, DirectoryForm, PictureForm, CommentForm, AlbumContentForm, AlbumAddForm
+from homePIX.forms import CSVImportForm, CSVImportIntegrateForm, DirectoryForm, PictureForm, CommentForm, AlbumContentForm
 
 from django.views.generic import (
                             TemplateView,
@@ -15,11 +15,13 @@ from django.views.generic import (
 
 from django.urls import reverse_lazy
 from django.http import JsonResponse, HttpResponseRedirect
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.decorators.csrf import csrf_protect, csrf_exempt, ensure_csrf_cookie
 from django.utils.decorators import method_decorator
 from logging import getLogger
 from .tasks import bulk_saver
+from .forms import CaptchaTestForm
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.conf import settings
 from django.db.models import Q
@@ -28,6 +30,7 @@ from itertools import chain
 import os
 from os import path
 from dateutil.relativedelta import relativedelta
+from calendar import monthrange
 
 import json
 import csv
@@ -254,7 +257,7 @@ class PhotoListViewBase( PhotoListView ):
         if x_forwarded_for:
             ip = x_forwarded_for.split(',')[0]
         else:
-            ip = request.META.get('REMOTE_ADDR')
+            ip = self.request.META.get('REMOTE_ADDR')
 
         return ip
 
@@ -558,6 +561,7 @@ class AlbumContentView( PhotoListView ):
     def getlink_params( self ):
         return 'ID=0&Key=0&'
 
+
 class WelcomeView( PhotoListView ):
 
     model = AlbumContent
@@ -615,6 +619,232 @@ class WelcomeView( PhotoListView ):
             return redirect('collection/?fromDate=' + fromDate + '&toDate=' + toDate )
 
         return super().render_to_response(context)
+
+# Sourced from https://stackoverflow.com/questions/3229419/how-to-pretty-print-nested-dictionaries
+# Author: y.petremann
+def pretty(value, htchar='\t', lfchar='\n', indent=0):
+
+    nlch = lfchar + htchar * (indent + 1)
+
+    if type(value) is dict:
+        items = [
+            nlch + repr(key) + ': ' + pretty(value[key], htchar, lfchar, indent + 1)
+            for key in value
+        ]
+        return '{%s}' % (','.join(items) + lfchar + htchar * indent)
+    elif type(value) is list:
+        items = [
+            nlch + pretty(item, htchar, lfchar, indent + 1)
+            for item in value
+        ]
+        return '[%s]' % (','.join(items) + lfchar + htchar * indent)
+    elif type(value) is tuple:
+        items = [
+            nlch + pretty(item, htchar, lfchar, indent + 1)
+            for item in value
+        ]
+        return '(%s)' % (','.join(items) + lfchar + htchar * indent)
+    else:
+        return repr(value)
+
+# Sourced from https://stackoverflow.com/questions/3229419/how-to-pretty-print-nested-dictionaries
+# Author: y.petremann
+class Formatter(object):
+    def __init__(self):
+        self.types = {}
+        self.htchar = '\t'
+        self.lfchar = '\n'
+        self.indent = 0
+        self.set_formater(object, self.__class__.format_object)
+        self.set_formater(dict, self.__class__.format_dict)
+        self.set_formater(list, self.__class__.format_list)
+        self.set_formater(tuple, self.__class__.format_tuple)
+
+    def set_formater(self, obj, callback):
+        self.types[obj] = callback
+
+    def __call__(self, value, **args):
+        for key in args:
+            setattr(self, key, args[key])
+        formater = self.types[type(value) if type(value) in self.types else object]
+        return formater(self, value, self.indent)
+
+    def format_object(self, value, indent):
+        return repr(value)
+
+    def format_dict(self, value, indent):
+        items = [
+            self.lfchar + self.htchar * (indent + 1) + repr(key) + ': ' +
+            (self.types[type(value[key]) if type(value[key]) in self.types else object])(self, value[key], indent + 1)
+            for key in value
+        ]
+        return '{%s}' % (','.join(items) + self.lfchar + self.htchar * indent)
+
+    def format_list(self, value, indent):
+        items = [
+            self.lfchar + self.htchar * (indent + 1) + (self.types[type(item) if type(item) in self.types else object])(self, item, indent + 1)
+            for item in value
+        ]
+        return '[%s]' % (','.join(items) + self.lfchar + self.htchar * indent)
+
+    def format_tuple(self, value, indent):
+        items = [
+            self.lfchar + self.htchar * (indent + 1) + (self.types[type(item) if type(item) in self.types else object])(self, item, indent + 1)
+            for item in value
+        ]
+        return '(%s)' % (','.join(items) + self.lfchar + self.htchar * indent)
+
+class CalendarView( PhotoListView ):
+
+    model = PictureFile
+
+    template_name = 'homePIX/calendar.html'
+    years = {}
+
+    def build_calendar( self ):
+
+        PhotoListView.sortkey = "Date"
+
+        PhotoListView.object_list = PictureFile.objects.none()
+
+        queryset = PictureFile.objects
+
+        if not queryset is None and queryset.count() > 0:
+
+            # out_file = open('calendar'+'.txt', 'w')
+
+            query = 'select id, file, substr( taken_on, 0, 11), count( substr( taken_on, 0, 11 ) ) as count from homePIX_picturefile where not taken_on like "1966-01-28%" group by substr( taken_on, 0, 11 ) order by substr( taken_on, 0, 11);'
+
+            obj_list = PictureFile.objects.raw( query )
+            self.years = {}
+            unique_years = []
+
+            for val in obj_list:
+                unique_years.append( val.taken_on.year )
+
+            unique_years = sorted( set( unique_years ) )
+
+            if len( unique_years ) > 0:
+
+                first_year = unique_years[ 0 ]
+                quarter_len = 4
+                quarter_cnt = int( 12 / quarter_len )
+                year_group_len = 4
+                year_index = 0
+
+                self.years[ unique_years[ 0 ] ] = {}
+
+                for year in unique_years:
+
+                    group_year = year - ( year - first_year ) % year_group_len
+
+                    if year == 2012:
+                        pprint( { "year": year,  "group_year": group_year } )
+
+                    if year_index % year_group_len == 0:
+                        self.years[ group_year ] = {}
+
+                    year_index += 1
+
+                    self.years[ group_year ][ year ] = [None] * quarter_cnt
+
+                    if year == 2012:
+                        pprint( { "Quarters: " : self.years[ group_year ][ year ] } )
+
+                    for quarter in range( 0, quarter_cnt ):
+
+                        self.years[ group_year ][ year ][ quarter ] = {}
+
+                        for month_index in range( 0, quarter_len):
+
+                            index = quarter * quarter_len + month_index + 1
+
+                            first_day, days = monthrange( year, index )
+
+                            self.years[ group_year ][ year ][ quarter ][ month_index ] = [ None ] * 6
+
+                            for day in range( 42 ):
+
+                                week = int( ( day - ( day % 7 ) ) / 7 )
+
+                                if not self.years[ group_year ][ year ][ quarter ][ month_index ][ week ]:
+                                    self.years[ group_year ][ year ][ quarter ][ month_index ][ week ] = [ None ] * 7
+
+                                self.years[
+                                                group_year ][
+                                                year ][
+                                                quarter ][
+                                                month_index ][
+                                                week ][
+                                                int( day % 7 ) ] = [
+                                    -1,
+                                    -1,
+                                    "Default",
+                                    datetime( year, index, day + 1 ) if day < days else None,
+                                    int( quarter * quarter_len + month_index ) + 1,
+                                    ""
+                                    ]
+
+                for val in obj_list:
+
+                    taken_on_year = val.taken_on.year
+                    group_year = taken_on_year - ( taken_on_year - first_year ) % year_group_len
+
+                    month_abs  = val.taken_on.month - 1
+
+                    quarter = int( ( month_abs - (month_abs % quarter_len) ) / quarter_len )
+                    month   = month_abs % quarter_len
+                    day     = val.taken_on.day - 1
+
+                    week = int( ( day - ( day % 7 ) ) / 7 )
+
+                    entry = [
+                        val.id,
+                        val.count,
+                        val.title,
+                        val.taken_on,
+                        int( quarter * quarter_len + month ) + 1,
+                        val.file.replace( 'X3', 'S' )
+                    ]
+
+                    # Note: The final index (day) is 0 here to paper over a problem with
+                    # doing logic in Django templates. We need the first picture from
+                    # ANY day to embellish the calendar month
+                    self.years[ group_year ][ taken_on_year ][ quarter ][ month ][ 0 ][ 0 ] = entry
+                    self.years[ group_year ][ taken_on_year ][ quarter ][ month ][ week ][ int( day % 7 ) ] = entry
+
+        PhotoListView.object_list = obj_list
+
+    def get_context_data(self, **kwargs):
+
+        context = {}
+
+        PhotoListView.sortkey = "Date"
+
+        self.build_calendar()
+
+        context[ 'sort'     ] = self.sortkey
+        context[ 'calendar' ] = self.years
+        context[ 'quarters' ] = range(4)
+        context[ 'months'   ] = range(3)
+        context[ 'days'     ] = [
+            'Mon',
+            'Tue',
+            'Wed',
+            'Thu',
+            'Fri',
+            'Sat',
+            'Sun',
+            ]
+
+        return context
+
+    def get_queryset( self ):
+        self.build_calendar()
+        return PhotoListView.object_list
+
+    def form_valid( self, form ):
+        return redirect('/?fromDate=19660128&toDate=' + datetime.datetime.now().strftime ("%Y%m%d") )
 
 class AlbumContentDetailView( PhotoListViewBase ):
 
@@ -756,6 +986,17 @@ class FoldersView( PhotoListViewBase ):
         else:
             print('Something else returned')
 
+    def processQuery1( self, cmd, param1, param2, method, pic ):
+
+        response = self.getQuery( cmd, param1, param2 )
+
+        if response.status_code == 200:
+            method( response.json(), pic )
+        elif response.status_code == 404:
+            print('Not Found.')
+        else:
+            print('Something else returned')
+
     def get_queryset( self ):
 
         query_cmd = home_settings.REMOTE_CMDs[ 0 ]
@@ -783,7 +1024,7 @@ class FoldersView( PhotoListViewBase ):
 
         dir = None
 
-        def saveWithThumbnail( js ):
+        def saveWithThumbnail( js, pic ):
 
             try:
 
@@ -810,10 +1051,8 @@ class FoldersView( PhotoListViewBase ):
             else:
                 pic = self.createPictureFile( file, dir )
 
-            js = response.json()
-
             if js[ 'Album' ][ 'ImageCount' ] > 0:
-                self.processQuery( 'smugmug.images.getInfo', '&ImageID=' + str( image_id ), '&ImageKey=' + image_key, saveWithThumbnail )
+                self.processQuery1( 'smugmug.images.getInfo', '&ImageID=' + str( image_id ), '&ImageKey=' + image_key, saveWithThumbnail, pic )
 
         def processAllData( js ):
 
@@ -898,7 +1137,12 @@ class FoldersView( PhotoListViewBase ):
         key = 'path'
 
         try:
+
             key = self.sorts[ PhotoListView.sortkey ]
+
+            if key == 'taken_on':
+                key = 'path'
+
         except:
             pass
 
@@ -1073,6 +1317,7 @@ class PictureDeleteView( LoginRequiredMixin, DeleteView ):
     success_url = reverse_lazy( 'picture_list' )
 
 class DraftListView( LoginRequiredMixin, ListView ):
+
     login_url = '/login/'
     redirect_field_name = 'homePIX/picture_list.html'
 
@@ -1080,6 +1325,38 @@ class DraftListView( LoginRequiredMixin, ListView ):
 
     def get_queryset( self ):
         return PictureForm.objects.filter( title__isnull = True ).order_by( '-title' )
+
+class LoginView( TemplateView ):
+
+    template_name = 'homePIX/login.html'
+
+    def post(self, request, **kwargs):
+
+        logout(request)
+
+        username = password = ''
+
+        if request.POST:
+
+            form = CaptchaTestForm(request.POST)
+
+            # Validate the form: the captcha field will automatically
+            # check the input
+            # if form.is_valid():
+
+            username = request.POST['username']
+            password = request.POST['password']
+
+            user = authenticate(username=username, password=password)
+
+            if user is not None:
+
+                if user.is_active:
+
+                    login(request, user)
+                    return HttpResponseRedirect('/')
+
+        return HttpResponseRedirect('homePIX/login.html')
 
 class CSVImportView( LoginRequiredMixin, CreateView ):
 
@@ -1144,7 +1421,6 @@ class CSVImportView( LoginRequiredMixin, CreateView ):
         return HttpResponseRedirect( '../../' )
       else:
         return HttpResponseNotFound()
-
 
 class CSVImportIntegrateView( LoginRequiredMixin, CreateView ):
 
@@ -1296,7 +1572,7 @@ def add_picture_to_album( request, id ):
 
                 return redirect( 'albumcontent', pk = album)
 
-   return render( request, 'homePIX/albumcontent_list.html', { 'form': form} )
+   return render( request, 'homePIX/albumcontent_list.html', { 'form': form } )
 
 @login_required
 def add_id_to_album( request, album_id, pic_id ):
