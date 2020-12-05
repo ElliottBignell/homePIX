@@ -1,5 +1,6 @@
 from django import template
 import calendar
+from pprint import pprint
 
 register = template.Library()
 
@@ -41,3 +42,14 @@ def month_abbr(month_number):
 @register.filter
 def month_number(month_nr):
     return "{:0>2d}".format( month_nr )
+
+@register.simple_tag(takes_context=True)
+def month_thumbnail( context, year, month ):
+
+    idx = str( year ) + "-" + str( month - 1 )
+    thumbnails = context[ 'thumbnails' ]
+
+    if idx in thumbnails:
+        return thumbnails[ idx ]
+    else:
+        return ''

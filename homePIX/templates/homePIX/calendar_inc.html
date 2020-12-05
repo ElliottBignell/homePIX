@@ -32,18 +32,19 @@
                           <div class="calendar_tile calendar_tile_medium">
                             {% with month_name=month.0.0.4|month_abbr %}
                             <a href="#quarterly_{{ year }}_{{ month_name }}">
-                              {% if month.0.0.0 > 0 %}
-                                <img id="picture_{{ month.0.0.0 }}"
-                                     class="lazyload calendar_thumbnail calendar_tile_medium"
-                                     src="{{ month.0.0.5 }}"
-                                     data-src="{{ month.0.0.5 }}"
-                                     alt="{{ month.0.0.3|date:'d' }}">
-                                </img>
-                                <div class="calendar_month">
-                                  <div class="scrim scrim_medium">
-                                    {{ month_name }}
-                                  </div
-                                </div>
+                              {% month_thumbnail year month.0.0.4 as thumb %}
+                                {% if thumb %}
+                                  <img id="picture_{{ month.0.0.0 }}"
+                                       class="lazyload calendar_thumbnail calendar_tile_medium"
+                                       src="{% month_thumbnail year month.0.0.4 %}"
+                                       data-src="{% month_thumbnail year month.0.0.4 %}"
+                                       alt="{{ month.0.0.3|date:'d' }}">
+                                  </img>
+                                  <div class="calendar_month">
+                                    <div class="scrim scrim_medium">
+                                      {{ month_name }}
+                                    </div
+                                  </div>
                               {% else %}
                                 {{ month_name }}
                               {% endif %}
@@ -117,7 +118,7 @@
                             <div class="calendar_tile calendar_tile_small"
                                  style="width:1.6em;height:1.6em;padding-left:0.1em;padding-right:0.1em;padding-top:0.1em;padding-bottom:0.1em;">
                               {% with month_number=month.0.0.4|month_number %}
-                                <a href="../collection/?fromDate={{ year }}-{{ month_number }}-{{ day.3|date:'d' }}&toDate={{ year }}-{{ month_number }}-{{ day.3|date:'d' }}&ID=&Key=&search=&sort=">
+                                <a href="../pictures/?fromDate={{ year }}-{{ month_number }}-{{ day.3|date:'d' }}&toDate={{ year }}-{{ month_number }}-{{ day.3|date:'d' }}&ID=&Key=&search=&sort=">
                               {% endwith%}
                               {% if day.0 > 0 %}
                                 <img id="picture_{{ day.0 }}"

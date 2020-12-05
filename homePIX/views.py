@@ -700,6 +700,7 @@ class CalendarView( PhotoListView ):
 
     template_name = 'homePIX/calendar.html'
     years = {}
+    thumbnails = {}
 
     def build_calendar( self ):
 
@@ -738,18 +739,12 @@ class CalendarView( PhotoListView ):
 
                     group_year = year - ( year - first_year ) % year_group_len
 
-                    if year == 2012:
-                        pprint( { "year": year,  "group_year": group_year } )
-
                     if year_index % year_group_len == 0:
                         self.years[ group_year ] = {}
 
                     year_index += 1
 
                     self.years[ group_year ][ year ] = [None] * quarter_cnt
-
-                    if year == 2012:
-                        pprint( { "Quarters: " : self.years[ group_year ][ year ] } )
 
                     for quarter in range( 0, quarter_cnt ):
 
@@ -797,6 +792,7 @@ class CalendarView( PhotoListView ):
                     day     = val.taken_on.day - 1
 
                     week = int( ( day - ( day % 7 ) ) / 7 )
+                    filename = val.file.replace( 'X3', 'S' )
 
                     entry = [
                         val.id,
@@ -804,13 +800,14 @@ class CalendarView( PhotoListView ):
                         val.title,
                         val.taken_on,
                         int( quarter * quarter_len + month ) + 1,
-                        val.file.replace( 'X3', 'S' )
+                        filename
                     ]
 
-                    # Note: The final index (day) is 0 here to paper over a problem with
-                    # doing logic in Django templates. We need the first picture from
-                    # ANY day to embellish the calendar month
-                    self.years[ group_year ][ taken_on_year ][ quarter ][ month ][ 0 ][ 0 ] = entry
+                    idx = str( taken_on_year ) + "-" + str( month_abs )
+
+                    if idx not in self.thumbnails:
+                        self.thumbnails[ idx ] = filename
+
                     self.years[ group_year ][ taken_on_year ][ quarter ][ month ][ week ][ int( day % 7 ) ] = entry
 
         PhotoListView.object_list = obj_list
@@ -823,11 +820,12 @@ class CalendarView( PhotoListView ):
 
         self.build_calendar()
 
-        context[ 'sort'     ] = self.sortkey
-        context[ 'calendar' ] = self.years
-        context[ 'quarters' ] = range(4)
-        context[ 'months'   ] = range(3)
-        context[ 'days'     ] = [
+        context[ 'sort'       ] = self.sortkey
+        context[ 'calendar'   ] = self.years
+        context[ 'quarters'   ] = range(4)
+        context[ 'months'     ] = range(3)
+        context[ 'thumbnails' ] = self.thumbnails
+        context[ 'days'       ] = [
             'Mon',
             'Tue',
             'Wed',
