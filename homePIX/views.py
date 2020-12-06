@@ -765,6 +765,13 @@ class CalendarView( PhotoListView ):
                                 if not self.years[ group_year ][ year ][ quarter ][ month_index ][ week ]:
                                     self.years[ group_year ][ year ][ quarter ][ month_index ][ week ] = [ None ] * 7
 
+                                # Adjust for month not always starting at first day of week
+                                index = quarter * quarter_len + month_index + 1
+                                day_adjusted = day - first_day
+
+                                if day_adjusted >= days:
+                                    day_adjusted = -1
+
                                 self.years[
                                                 group_year ][
                                                 year ][
@@ -777,7 +784,8 @@ class CalendarView( PhotoListView ):
                                     "Default",
                                     datetime( year, index, day + 1 ) if day < days else None,
                                     int( quarter * quarter_len + month_index ) + 1,
-                                    ""
+                                    "",
+                                    day_adjusted + 1
                                     ]
 
                 for val in obj_list:
@@ -794,13 +802,22 @@ class CalendarView( PhotoListView ):
                     week = int( ( day - ( day % 7 ) ) / 7 )
                     filename = val.file.replace( 'X3', 'S' )
 
+                    # Adjust for month not always starting at first day of week
+                    index = quarter * quarter_len + month_index + 1
+                    first_day, days = monthrange( taken_on_year, index )
+                    day_adjusted = day - first_day
+
+                    if day_adjusted >= days:
+                        day_adjusted = -1
+
                     entry = [
                         val.id,
                         val.count,
                         val.title,
                         val.taken_on,
                         int( quarter * quarter_len + month ) + 1,
-                        filename
+                        filename,
+                        day_adjusted + 1
                     ]
 
                     idx = str( taken_on_year ) + "-" + str( month_abs )
@@ -808,7 +825,7 @@ class CalendarView( PhotoListView ):
                     if idx not in self.thumbnails:
                         self.thumbnails[ idx ] = filename
 
-                    self.years[ group_year ][ taken_on_year ][ quarter ][ month ][ week ][ int( day % 7 ) ] = entry
+                    self.years[ group_year ][ taken_on_year ][ quarter ][ month ][ week ][ int( day_adjusted % 7 ) ] = entry
 
         PhotoListView.object_list = obj_list
 
