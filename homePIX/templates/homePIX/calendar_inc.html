@@ -69,18 +69,24 @@
       {% for year_group_no, year_group in calendar.items %}
       {% for year, material in year_group.items %}
         <table id="quarterly_{{ year }}" class="calendar_year_table" style="width:100%;bg-color:red;">
-          <tr>
-            <td style="colspan:4;">
-              <h1 class="techfont" style="color:var( --homepix-dark ); font-size:24px;">{{ year }}</h1>
-            </td>
+          <tr style="height:10em;">
+              <td>
+              </td>
           </tr>
           <tr>
             <td>
               <table id="quarterly_{{ year }}_{{ month }}">
                 {% for quarter in material %}
                   <tr style="height:48px;">
+                    <td style="max-width:6em;">
+                      {% if forloop.counter == 1 %}
+                      <h1 class="techfont" style="color:var( --homepix-dark ); font-size:96px;position:relative;top:1.8em;left:-0.5em;background: none;transform-origin: 0 0;transform: rotate(270deg);">
+                        {{ year }}
+                      </h1>
+                      {% endif %}
+                    </td>
                   {% for index, month in quarter.items %}
-                    <td id="month_{{ year }}_{{ idx }}_{{day}}" style="width:25%;padding-left:0.1em;padding-right:0.1em;padding-top:0.1em;padding-bottom:0.1em;">
+                    <td id="month_{{ year }}_{{ idx }}_{{day}}" style="width:calc(25%-2em);padding-left:0.1em;padding-right:0.1em;padding-top:0.1em;padding-bottom:0.1em;">
                       {% with month_name=month.0.0.4|month_abbr %}
                         <table id="quarterly_{{ year }}_{{ month_name }}" class="calendar_day_table">
                           <tr>
@@ -118,7 +124,7 @@
                             <div class="calendar_tile calendar_tile_small"
                                  style="width:1.6em;height:1.6em;padding-left:0.1em;padding-right:0.1em;padding-top:0.1em;padding-bottom:0.1em;">
                               {% with month_number=month.0.0.4|month_number %}
-                                <a href="../pictures/?fromDate={{ year }}-{{ month_number }}-{{ day.3|date:'d' }}&toDate={{ year }}-{{ month_number }}-{{ day.3|date:'d' }}&ID=&Key=&search=&sort=">
+                                <a href="../collection/?fromDate={{ year }}-{{ month_number }}-{{ day.3|date:'d' }}&toDate={{ year }}-{{ month_number }}-{{ day.3|date:'d' }}&ID=&Key=&search=&sort=">
                               {% endwith%}
                               {% if day.0 > 0 %}
                                 <img id="picture_{{ day.0 }}"
