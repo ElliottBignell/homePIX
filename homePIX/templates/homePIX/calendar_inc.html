@@ -121,15 +121,14 @@
                             <td></td>
                           {% for day in week %}
                           <td style="width:1.6em;height:1.6em;">
+                            {% with month_number=month.0.0.4|month_number %}
+                            <a href="../collection/?fromDate={{ year }}-{{ month_number }}-{{ day.3|date:'d' }}&toDate={{ year }}-{{ month_number }}-{{ day.3|date:'d' }}&ID=&Key=&search=&sort=">
                             <div
                                 {% if day.6 > 0 %}
                                   class="calendar_tile calendar_tile_small"
                                 {% else %}
                                 {% endif %}
                                  style="width:1.6em;height:1.6em;padding-left:0.1em;padding-right:0.1em;padding-top:0.1em;padding-bottom:0.1em;">
-                              {% with month_number=month.0.0.4|month_number %}
-                            <a href="../collection/?fromDate={{ year }}-{{ month_number }}-{{ day.3|date:'d' }}&toDate={{ year }}-{{ month_number }}-{{ day.3|date:'d' }}&ID=&Key=&search=&sort=">
-                              {% endwith%}
                               {% if day.0 > 0 %}
                                 <img id="picture_{{ day.0 }}"
                                            class="lazyload calendar_thumbnail calendar_tile_small"
@@ -151,7 +150,9 @@
                                   </div>
                                 {% endif %}
                               {% endif %}
+                            </div>
                             </a>
+                            {% endwith%}
                           {% endfor %}
                             <td></td>
                           </tr>
