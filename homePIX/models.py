@@ -7,7 +7,6 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.conf import settings
 from random import randint
-from datetime import datetime
 
 # Create your models here.
 
@@ -283,7 +282,15 @@ class PictureFile( ThumbnailBase ):
         return { "width":100, "height":200 }
 
     def __str__( self ):
-        return self.path.path + '/' + self.title + '/' + str(self.id)
+
+        ret = self.path.path
+
+        if not self.title is None:
+            ret += '/' + self.title
+
+        ret += '/' + str( self.id )
+
+        return ret
 
 class Album( ThumbnailBase ):
 

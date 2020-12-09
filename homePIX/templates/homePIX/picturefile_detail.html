@@ -220,14 +220,14 @@
                 <!--<div class="bounding-box" style="background-image:url("/{{ Item.modpath }}/{{ Item.file }}");">-->
                 <img id="picture_{{ Item.modid }}"
                        class="lazyload responsive"
-                       style="position:absolute:padding:0px;width:100%;height:90%;"
+                       style="position:relative:padding:0px;width:100%;height:90%;"
                        src="{{ Item.modfile }}"
                        data-src="{{ Item.modlargefile }}"
                        alt="{{ Item.file }}"
                        >
                     </img>
                 <div id="titletext"
-                     style="position:absolute;left:2.3em;top:110%;width:100%;"
+                     style="position:relative;left:2.3em;right:2.3em;top:110%;width:calc( 100% - 4.6em );"
                      contenteditable="true"
                      >
                     <h1 style="font-size:1em;">{{ Item.title }}</h1>
