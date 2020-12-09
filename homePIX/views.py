@@ -462,7 +462,7 @@ class OrganisationView( PhotoListView):
 
             if not queryset is None and queryset.count() > 0:
 
-                query = "select * from (( homePIX_albumcontent INNER JOIN homePIX_picturefile ON homePIX_picturefile.id=homePIX_albumcontent.entry_id) INNER JOIN homePIX_album ON homePIX_album.id=homePIX_albumcontent.album_id) WHERE album_id=" + album + ";"
+                query = "select * from AlbumView WHERE album_id=" + album + ";"
 
                 PhotoListView.object_list = AlbumContent.objects.raw( query )
 
@@ -549,7 +549,7 @@ class AlbumContentView( PhotoListView ):
 
             if not queryset is None and queryset.count() > 0:
 
-                query = "select * from (( homePIX_albumcontent INNER JOIN homePIX_picturefile ON homePIX_picturefile.id=homePIX_albumcontent.entry_id) INNER JOIN homePIX_album ON homePIX_album.id=homePIX_albumcontent.album_id) WHERE album_id=" + str( queryset[ 0 ].id )
+                query = "select * from AlbumView WHERE album_id=" + str( queryset[ 0 ].id )
 
                 PhotoListView.object_list = AlbumContent.objects.raw( query )
 
@@ -585,7 +585,7 @@ class WelcomeView( PhotoListView ):
 
         if not queryset is None and queryset.count() > 0:
 
-            query = "select * from (( homePIX_albumcontent INNER JOIN homePIX_picturefile ON homePIX_picturefile.id=homePIX_albumcontent.entry_id) INNER JOIN homePIX_album ON homePIX_album.id=homePIX_albumcontent.album_id) WHERE album_id=" + str( album )
+            query = "select * from AlbumView WHERE album_id=" + str( album )
 
             PhotoListView.object_list = AlbumContent.objects.raw( query )
 
@@ -714,7 +714,7 @@ class CalendarView( PhotoListView ):
 
             # out_file = open('calendar'+'.txt', 'w')
 
-            query = 'select id, file, substr( taken_on, 0, 11), count( substr( taken_on, 0, 11 ) ) as count from homePIX_picturefile where not taken_on like "1966-01-28%" group by substr( taken_on, 0, 11 ) order by substr( taken_on, 0, 11);'
+            query = 'select * from CalendarView;'
 
             obj_list = PictureFile.objects.raw( query )
             self.years = {}
@@ -891,7 +891,7 @@ class AlbumContentDetailView( PhotoListViewBase ):
 
                 if not queryset is None and queryset.count() > 0:
 
-                    query = "select * from (( homePIX_albumcontent INNER JOIN homePIX_picturefile ON homePIX_picturefile.id=homePIX_albumcontent.entry_id) INNER JOIN homePIX_album ON homePIX_album.id=homePIX_albumcontent.album_id) WHERE album_id=" + str( album )
+                    query = "select * from AlbumView WHERE album_id=" + str( album )
 
                     PhotoListView.object_list = AlbumContent.objects.raw( query )
 

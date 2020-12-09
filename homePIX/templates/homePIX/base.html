@@ -64,25 +64,25 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent1">
 
              <ul class="navbar-nav mr-auto mt-2 mt-lg-0 sf-menu">
-              <li>
+              <li class="nav-item active">
                 <a class="bigbrand" href="#">homePIX</a>
               </li>
 
-              <li style="background-color:var( {{ request.get_full_path|current_content:'folders' }} ); height:4em;">
-                <a href="{% url 'paths'%}" class="bigbrand">
+              <li class="nav-item" style="background-color:var( {{ request.get_full_path|current_content:'folders' }} ); height:4em;">
+                <a href="{% url 'paths'%}" class="navlink bigbrand">
                   <i class="large material-icons"
                      style="color:var( {{ request.get_full_path|current_background:'folders' }} );"
                   >
                       folder
                   </i>
                 </a>
-                <ul class="drop-down-menu" style="top:3em;">
+                <ul class="drop-down-menu">
                   <li>
-                    <a href="{% url 'paths'%}" class="bigmenu">Folders</a>
+                    <a href="{% url 'organisation'%}" class="navlink bigmenu">Folders</a>
                   </li>
                 </ul>
               </li>
-              <li style="background-color:var( {{ request.get_full_path|current_content:'albums' }} ); height:4em;">
+              <li class="nav-item" style="background-color:var( {{ request.get_full_path|current_content:'albums' }} ); height:4em;">
                 <a href="{% url 'album_list' %}" class="bigbrand">
                   <i class="large material-icons"
                      style="color:var( {{ request.get_full_path|current_background:'albums' }} );"
@@ -90,27 +90,27 @@
                           photo_album
                   </i>
                 </a>
-                <ul class="drop-down-menu" style="top:3em;">
+                <ul class="drop-down-menu">
                   <li>
-                    <a href="{% url 'album_list'%}" class="bigmenu">Albums</a>
+                    <a href="{% url 'album_list'%}" class="navlink bigmenu">Albums</a>
                   </li>
                 </ul>
               </li>
-              <li style="background-color:var( {{ request.get_full_path|current_content:'organisation' }} ); height:4em;">
-                <a href="{% url 'organisation'%}" class="bigbrand">
+              <li class="nav-item" style="background-color:var( {{ request.get_full_path|current_content:'organisation' }} ); height:4em;">
+                <a href="{% url 'organisation'%}" class="navlink bigbrand">
                   <i class="large material-icons"
                      style="color:var( {{ request.get_full_path|current_background:'organisation' }} );"
                      >
                           view_quilt
                   </i>
                 </a>
-                <ul class="drop-down-menu" style="top:3em;">
+                <ul class="drop-down-menu">
                   <li>
-                    <a href="{% url 'organisation'%}" class="bigmenu">Organise</a>
+                    <a href="{% url 'organisation'%}" class="navlink bigmenu">Organise</a>
                   </li>
                 </ul>
               </li>
-              <li style="background-color:var( {{ request.get_full_path|current_content:'calendar_view_day' }} ); height:4em;">
+              <li class="nav-item" style="background-color:var( {{ request.get_full_path|current_content:'calendar_view_day' }} ); height:4em;">
                 <a href="{% url 'calendar'%}" class="bigbrand">
                   <i class="large material-icons"
                      style="color:var( {{ request.get_full_path|current_background:'calendar_view_day' }} );"
@@ -118,195 +118,195 @@
                           calendar_view_day
                   </i>
                 </a>
-                <ul class="drop-down-menu" style="top:3em;">
+                <ul class="drop-down-menu">
                   <li>
                     <a href="{% url 'calendar'%}" class="bigmenu">Calendar</a>
                   </li>
                 </ul>
               </li>
-              <li style="background-color:var( {{ request.get_full_path|current_content:'about' }} ); height:4em;">
+              <li class="nav-item" style="background-color:var( {{ request.get_full_path|current_content:'about' }} ); height:4em;">
                 <a href="{% url 'about'%}" class="bigbrand">
                   <i class="large material-icons" style="color:var( {{ request.get_full_path|current_background:'about' }} );">
                         info
                   </i>
                 </a>
-                <ul class="drop-down-menu" style="top:3em;">
+                <ul class="drop-down-menu">
                   <li>
                     <a href="{% url 'about'%}" class="bigmenu">About</a>
                   </li>
                 </ul>
               </li>
 
-              <li>
-            <form action="{{ request.path }}" method="get" style="left-margin:12px;margin:0px;position:relative;top:-0.34em;height:5em;width:47em;">
-              <span class="bigbrand" style="color:var( --homepix-bg );position:absolute;top:0.5em;right:27.5em;">From...</span>
-              <input name="fromDate" type="date" placeholder="{{ date_range.0.date|date:'Y-m-d' }}"
-                    value="{{ date_range.0.date|date:'Y-m-d' }}"
-                    class="form-control date-when-start-end"
-                    style="position:absolute;left:5em;top:0.5em;background:var( --homepix-dark );this.style.color='var( --homepix-bglight );"
-                    onmousemove="this.style.backgroundColor='var( --homepix-alarm )'; this.style.color='var( --homepix-dark );';"
-                    onmouseout=" this.style.backgroundColor='var( --homepix-dark  )'; this.style.color='var( --homepix-bg   );';"
-                    >
-              <span class="bigbrand" style="color:var( --homepix-bg );position:absolute;top:0.5em;right:14em;">...to...</span>
-              <input name="toDate"   type="date" placeholder="{{ date_range.1.date|date:'Y-m-d' }}"
-                    value="{{ date_range.1.date|date:'Y-m-d' }}"
-                    class="form-control date-when-start-end"
-                    style="position:absolute;left:20em;top:0.5em;background:var( --homepix-dark );this.style.color='var( --homepix-bglight );"
-                    onmousemove="this.style.backgroundColor='var( --homepix-alarm )'; this.style.color='var( --homepix-dark );';"
-                    onmouseout=" this.style.backgroundColor='var( --homepix-dark  )'; this.style.color='var( --homepix-bg   );';"
-                    >
-              <button type="submit" style="position:absolute;top:0.7em;left:42em;">
-                <i class="medium material-icons">date_range </i>
-              </button>
-              <input name="ID"       type="text" placeholder="{{ request.GET.ID     }}" value="{{ request.GET.ID     }}" style="visibility:hidden;width:0em;">
-              <input name="Key"      type="text" placeholder="{{ request.GET.Key    }}" value="{{ request.GET.Key    }}" style="visibility:hidden;width:0em;">
-              <input name="search"   type="text" placeholder="{{ request.GET.search }}" value="{{ request.GET.search }}" style="visibility:hidden;width:0em;">
-              <input name="sort"     type="text" placeholder="{{ request.GET.sort   }}" value="{{ request.GET.sort   }}" style="visibility:hidden;width:0em;">
-            </form>
-          </li>
-          <li>
-            <form action="{{ request.path }}" method="get" style="left-margin:12px;right-margin:12px;position:relative;width:19em;top:-0.34em;">
-              <select name="sort" id="sort" value="{{ request.GET.sort }}" style="position:absolute;width:10em;top:0.4em;" placeholder="Sort by..." class="form-control">
-               {% for option in sort_options %}
-                 {% if option ==  request.GET.sort %}
-                 <option value="{{ option}}" selected>{{ option}}</option>
-                 {% else %}
-                    <option value="{{ option}}" >{{ option}} </option>
-                 {% endif %}
-               {% endfor %}
-              </select>
-              <button type="submit" style="position:absolute;top:0.7em;left:14em;">
-                <i class="medium material-icons">sort </i>
-              </button>
-              <input name="fromDate" type="date" value="{{ date_range.0.date|date:'Y-m-d' }}" style="visibility:hidden;width:0em;">
-              <input name="toDate"   type="date" value="{{ date_range.1.date|date:'Y-m-d' }}" style="visibility:hidden;width:0em;">
-              <input name="ID"       type="text" placeholder="{{ request.GET.ID     }}" value="{{ request.GET.ID     }}" style="visibility:hidden;width:0em;">
-              <input name="Key"      type="text" placeholder="{{ request.GET.Key    }}" value="{{ request.GET.Key    }}" style="visibility:hidden;width:0em;">
-              <input name="search"   type="text" placeholder="{{ request.GET.search }}" value="{{ request.GET.search }}" style="visibility:hidden;width:0em;">
-            </form>
-          </li>
-          <li>
-            <form action="{{ request.path }}" method="get" style="top-margin:0px;left-margin:12px;right-margin:12px;position:relative;width:19em;top:-0.34em;">
-              <input name="search"   type="text" value="{{ request.GET.search }}" placeholder="Search..."
-                    class="form-control"
-                    style="position:absolute;top:0.5em;background:var( --homepix-dark );this.style.color='var( --homepix-bglight );"
-                    onmousemove="this.style.backgroundColor='var( --homepix-alarm )'; this.style.color='var( --homepix-dark );';"
-                    onmouseout=" this.style.backgroundColor='var( --homepix-dark  )'; this.style.color='var( --homepix-bg   );';"
-                    >
-              <button type="submit" style="position:absolute;top:0.7em;left:15em;">
-                <i class="medium material-icons">search </i>
-              </button>
-              <input name="fromDate" type="date" value="{{ date_range.0.date|date:'Y-m-d' }}" style="visibility:hidden;width:0em;">
-              <input name="toDate"   type="date" value="{{ date_range.1.date|date:'Y-m-d' }}" style="visibility:hidden;width:0em;">
-              <input name="ID"       type="text" placeholder="{{ request.GET.ID     }}" value="{{ request.GET.ID     }}" style="visibility:hidden;width:0em;">
-              <input name="Key"      type="text" placeholder="{{ request.GET.Key    }}" value="{{ request.GET.Key    }}" style="visibility:hidden;width:0em;">
-              <input name="sort"     type="text" placeholder="{{ request.GET.sort   }}" value="{{ request.GET.sort   }}" style="visibility:hidden;width:0em;">
-            </form>
-          </li>
+              <li class="nav-item">
+                <form action="{{ request.path }}" method="get" style="left-margin:12px;margin:0px;position:relative;top:-0.34em;height:5em;width:47em;">
+                  <span class="bigbrand" style="color:var( --homepix-bg );position:absolute;top:0.5em;right:27.5em;">From...</span>
+                  <input name="fromDate" type="date" placeholder="{{ date_range.0.date|date:'Y-m-d' }}"
+                        value="{{ date_range.0.date|date:'Y-m-d' }}"
+                        class="form-control date-when-start-end"
+                        style="position:absolute;left:5em;top:0.5em;background:var( --homepix-dark );this.style.color='var( --homepix-bglight );"
+                        onmousemove="this.style.backgroundColor='var( --homepix-alarm )'; this.style.color='var( --homepix-dark );';"
+                        onmouseout=" this.style.backgroundColor='var( --homepix-dark  )'; this.style.color='var( --homepix-bg   );';"
+                        >
+                  <span class="bigbrand" style="color:var( --homepix-bg );position:absolute;top:0.5em;right:14em;">...to...</span>
+                  <input name="toDate"   type="date" placeholder="{{ date_range.1.date|date:'Y-m-d' }}"
+                        value="{{ date_range.1.date|date:'Y-m-d' }}"
+                        class="form-control date-when-start-end"
+                        style="position:absolute;left:20em;top:0.5em;background:var( --homepix-dark );this.style.color='var( --homepix-bglight );"
+                        onmousemove="this.style.backgroundColor='var( --homepix-alarm )'; this.style.color='var( --homepix-dark );';"
+                        onmouseout=" this.style.backgroundColor='var( --homepix-dark  )'; this.style.color='var( --homepix-bg   );';"
+                        >
+                  <button type="submit" style="position:absolute;top:0.7em;left:42em;">
+                    <i class="medium material-icons">date_range </i>
+                  </button>
+                  <input name="ID"       type="text" placeholder="{{ request.GET.ID     }}" value="{{ request.GET.ID     }}" style="visibility:hidden;width:0em;">
+                  <input name="Key"      type="text" placeholder="{{ request.GET.Key    }}" value="{{ request.GET.Key    }}" style="visibility:hidden;width:0em;">
+                  <input name="search"   type="text" placeholder="{{ request.GET.search }}" value="{{ request.GET.search }}" style="visibility:hidden;width:0em;">
+                  <input name="sort"     type="text" placeholder="{{ request.GET.sort   }}" value="{{ request.GET.sort   }}" style="visibility:hidden;width:0em;">
+                </form>
+              </li>
+              <li class="nav-item">
+                <form action="{{ request.path }}" method="get" style="left-margin:12px;right-margin:12px;position:relative;width:19em;top:-0.34em;">
+                  <select name="sort" id="sort" value="{{ request.GET.sort }}" style="position:absolute;width:10em;top:0.4em;" placeholder="Sort by..." class="form-control">
+                   {% for option in sort_options %}
+                     {% if option ==  request.GET.sort %}
+                     <option value="{{ option}}" selected>{{ option}}</option>
+                     {% else %}
+                        <option value="{{ option}}" >{{ option}} </option>
+                     {% endif %}
+                   {% endfor %}
+                  </select>
+                  <button type="submit" style="position:absolute;top:0.7em;left:14em;">
+                    <i class="medium material-icons">sort </i>
+                  </button>
+                  <input name="fromDate" type="date" value="{{ date_range.0.date|date:'Y-m-d' }}" style="visibility:hidden;width:0em;">
+                  <input name="toDate"   type="date" value="{{ date_range.1.date|date:'Y-m-d' }}" style="visibility:hidden;width:0em;">
+                  <input name="ID"       type="text" placeholder="{{ request.GET.ID     }}" value="{{ request.GET.ID     }}" style="visibility:hidden;width:0em;">
+                  <input name="Key"      type="text" placeholder="{{ request.GET.Key    }}" value="{{ request.GET.Key    }}" style="visibility:hidden;width:0em;">
+                  <input name="search"   type="text" placeholder="{{ request.GET.search }}" value="{{ request.GET.search }}" style="visibility:hidden;width:0em;">
+                </form>
+              </li>
+              <li class="nav-item">
+                <form action="{{ request.path }}" method="get" style="top-margin:0px;left-margin:12px;right-margin:12px;position:relative;width:19em;top:-0.34em;">
+                  <input name="search"   type="text" value="{{ request.GET.search }}" placeholder="Search..."
+                        class="form-control"
+                        style="position:absolute;top:0.5em;background:var( --homepix-dark );this.style.color='var( --homepix-bglight );"
+                        onmousemove="this.style.backgroundColor='var( --homepix-alarm )'; this.style.color='var( --homepix-dark );';"
+                        onmouseout=" this.style.backgroundColor='var( --homepix-dark  )'; this.style.color='var( --homepix-bg   );';"
+                        >
+                  <button type="submit" style="position:absolute;top:0.7em;left:15em;">
+                    <i class="medium material-icons">search </i>
+                  </button>
+                  <input name="fromDate" type="date" value="{{ date_range.0.date|date:'Y-m-d' }}" style="visibility:hidden;width:0em;">
+                  <input name="toDate"   type="date" value="{{ date_range.1.date|date:'Y-m-d' }}" style="visibility:hidden;width:0em;">
+                  <input name="ID"       type="text" placeholder="{{ request.GET.ID     }}" value="{{ request.GET.ID     }}" style="visibility:hidden;width:0em;">
+                  <input name="Key"      type="text" placeholder="{{ request.GET.Key    }}" value="{{ request.GET.Key    }}" style="visibility:hidden;width:0em;">
+                  <input name="sort"     type="text" placeholder="{{ request.GET.sort   }}" value="{{ request.GET.sort   }}" style="visibility:hidden;width:0em;">
+                </form>
+              </li>
           {% if user.is_authenticated %}
-            <li><a href="{% url 'picture_new'%}">   <i class="large material-icons">add_a_photo </i></a></li>
-            <li><a href="{% url 'directory_new'%}"> <i class="large material-icons">create_new_folder </i></a></li>
-            <li><a href="{% url 'logout'%}">        <i class="large material-icons">exit_to_app </i></a></li>
+            <li class="nav-item"><a href="{% url 'picture_new'%}">   <i class="large material-icons">add_a_photo </i></a></li>
+            <li class="nav-item"><a href="{% url 'directory_new'%}"> <i class="large material-icons">create_new_folder </i></a></li>
+            <li class="nav-item"><a href="{% url 'logout'%}">        <i class="large material-icons">exit_to_app </i></a></li>
           {% else %}
-            <li><a href="{% url 'login'%}" class="bigbrand">       <i class="large material-icons">person        </i></a>
+            <li class="nav-item"><a href="{% url 'login'%}" class="bigbrand">       <i class="large material-icons">person        </i></a>
             </li>
           {% endif %}
         </ul>
       </div>
-  {% if is_paginated %}
-    <div id="panenavigate" style="position:absolute;left:5em;top:4em;width:100%;">
-      <div id="pages" style="position:absolute;top:0px;left:4em;width:20em;">
-        <ul class="pagination" style="margin:0 0;">
-          {% if page_obj.has_previous %}
-            <li><a href="?{{ link_params }}page={{ page_obj.previous_page_number }}">&laquo;</a></li>
-          {% else %}
-            <li class="disabled"><span>&laquo;</span></li>
-          {% endif %}
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </nav>
 
-          {% for l in Items.paginator.page_range %}
-            {% if l == page %}
-              <li class="disabled"><span>{{page}}</span></li>
-            {% elif l == 1 %}
-              <li><a href="?{{ link_params }}page={{l}}">{{l}}</a></li>
-            {% elif l == 2 %}
-              {% if page > 5 %}
-                <li class="disabled"><a href="">...</a></li>
+      {% if is_paginated %}
+        <div id="panenavigate" style="position:absolute;left:5em;top:4em;width:100%;">
+          <div id="pages" style="position:absolute;top:0px;left:4em;width:20em;">
+            <ul class="pagination" style="margin:0 0;">
+              {% if page_obj.has_previous %}
+                <li><a href="?{{ link_params }}page={{ page_obj.previous_page_number }}">&laquo;</a></li>
               {% else %}
-                <li class="page"><a href="?{{ link_params }}page={{l}}">{{l}}</a></li>
-              {% endif%}
-            {% elif l <= Items.number|add:3 and l >= Items.number|add:-3 %}
-              {% if page == l %}
-                <li class="page"><a href="?{{ link_params }}page={{l}}"><b>{{l}}</b></a></li>
-              {% else %}
-                <li class="page"><a href="?{{ link_params }}page={{l}}">{{l}}</a></li>
-              {% endif%}
-            {% elif l == ForItemCount|add:-1 %}
-              {% if page < ForItemCount|add:-5 %}
-                <li class="disabled"><a href="">...</a></li>
-              {% else %}
-                <li class="page">{{l}}:{{ ForItemCount|add:-5 }}:{{ page }}</li>
-              {% endif%}
-            {% elif l == ForItemCount %}
-              <li class="page">
-                <a href="?{{ link_params }}page={{ ForItemCount }}">{{ ForItemCount }}
-                </a>
-              </li>
-            {% endif %}
-          {% endfor %}
-          {% if page_obj.has_next %}
-            <li class="page">
-              <a href="?{{ link_params }}page={{ page_obj.next_page_number }}">
-                &raquo;
-              </a>
-            </li>
-          {% else %}
-            <li class="disabled">
-                <span style="background-color:var( --homepix-dark );color:var( --homepix-bg );">
+                <li class="disabled"><span>&laquo;</span></li>
+              {% endif %}
+
+              {% for l in Items.paginator.page_range %}
+                {% if l == page %}
+                  <li class="disabled"><span>{{page}}</span></li>
+                {% elif l == 1 %}
+                  <li><a href="?{{ link_params }}page={{l}}">{{l}}</a></li>
+                {% elif l == 2 %}
+                  {% if page > 5 %}
+                    <li class="disabled"><a href="">...</a></li>
+                  {% else %}
+                    <li class="page"><a href="?{{ link_params }}page={{l}}">{{l}}</a></li>
+                  {% endif%}
+                {% elif l <= Items.number|add:3 and l >= Items.number|add:-3 %}
+                  {% if page == l %}
+                    <li class="page"><a href="?{{ link_params }}page={{l}}"><b>{{l}}</b></a></li>
+                  {% else %}
+                    <li class="page"><a href="?{{ link_params }}page={{l}}">{{l}}</a></li>
+                  {% endif%}
+                {% elif l == ForItemCount|add:-1 %}
+                  {% if page < ForItemCount|add:-5 %}
+                    <li class="disabled"><a href="">...</a></li>
+                  {% else %}
+                    <li class="page">{{l}}:{{ ForItemCount|add:-5 }}:{{ page }}</li>
+                  {% endif%}
+                {% elif l == ForItemCount %}
+                  <li class="page">
+                    <a href="?{{ link_params }}page={{ ForItemCount }}">{{ ForItemCount }}
+                    </a>
+                  </li>
+                {% endif %}
+              {% endfor %}
+              {% if page_obj.has_next %}
+                <li class="page">
+                  <a href="?{{ link_params }}page={{ page_obj.next_page_number }}">
                     &raquo;
-                </span>
-            </li>
-          {% endif %}
+                  </a>
+                </li>
+              {% else %}
+                <li class="disabled">
+                    <span style="background-color:var( --homepix-dark );color:var( --homepix-bg );">
+                        &raquo;
+                    </span>
+                </li>
+              {% endif %}
 
-        <li>
-          <div class="container">
-            <div class="vertical-center">
-              <div style="width:8em;height:100%;">
-                <ul class="pagination" style="margin: 0 0;">
-                    <li id="page_no">
-                        <a style="background-color:var( --homepix-dark );color:var( --homepix-bg );" href="?page={{l}}">
-                            Go to: {{page}}
-                        </a>
-                    </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div class="container">
-            <div class="vertical-center">
-              <div style="position:absolute;top:10px;width:72em;">
-                <div class="range-slider">
-                  <input
-                    class="custom-range form-control-slider"
-                    type="range" value="{{ page }}" min="1" max="{{ ForItemCount }}"
-                    id="slider" >
+            <li>
+              <div class="container">
+                <div class="vertical-center">
+                  <div style="width:8em;height:100%;">
+                    <ul class="pagination" style="margin: 0 0;">
+                        <li id="page_no">
+                            <a style="background-color:var( --homepix-dark );color:var( --homepix-bg );" href="?page={{l}}">
+                                Go to: {{page}}
+                            </a>
+                        </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
-            </div>
+            </li>
+            <li>
+              <div class="container">
+                <div class="vertical-center">
+                  <div style="position:absolute;top:10px;width:72em;">
+                    <div class="range-slider">
+                      <input
+                        class="custom-range form-control-slider"
+                        type="range" value="{{ page }}" min="1" max="{{ ForItemCount }}"
+                        id="slider" >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            </ul>
           </div>
-        </li>
-        </ul>
-      </div>
-    </div>
-    </div>
-  {% endif %}
-  </div>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-    </nav>
-
+        </div>
+        </div>
+      {% endif %}
     </div>
 
   <div class="col-sm-12 panemain" id="panemain" style="width:90%;">

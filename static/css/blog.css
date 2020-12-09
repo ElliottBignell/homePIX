@@ -65,7 +65,7 @@
 .drop-down-menu
 {
   position:relative;
-  top:-30em;
+  top:3em;
   left:0px;
   background-color:var( --homepix-dark );
 }

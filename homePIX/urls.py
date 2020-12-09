@@ -7,13 +7,13 @@ from django.views.generic.base import RedirectView
 
 urlpatterns = [
     re_path( r'^$',                                                          views.WelcomeView.as_view(),         name = 'welcome' ),
-    re_path( r'^collection/',                                                views.PictureListView.as_view(),     name = 'picture_list' ),
-    re_path( r'^calendar/$',                                                 views.CalendarView.as_view(),        name = 'calendar' ),
     re_path( r'^item/(?P<pk>\d+)/?.*$',                                      views.PictureDetailView.as_view(),   name = 'picturefile_detail' ),
     re_path( r'^pictures/item/(?P<pk>\d+)/?.*$',                             views.PictureDetailView.as_view(),   name = 'picturefile_detail' ),
     re_path( r'^collection/item/(?P<pk>\d+)/?.*$',                           views.PictureDetailView.as_view(),   name = 'picturefile_detail' ),
     re_path( r'^pictures/(?P<pk>.+\.[jJ][pP][gG])$',                         views.PictureDetailView.as_view(),   name = 'picturefile_detail' ),
     re_path( r'^organise/',                                                  views.PictureOrqaniseView.as_view(), name = 'picturefile_organise' ),
+    re_path( r'^collection/',                                                views.PictureListView.as_view(),     name = 'picture_list' ),
+    re_path( r'^calendar/$',                                                 views.CalendarView.as_view(),        name = 'calendar' ),
     re_path( r'^folders/(?P<id>\d+)/item/(?P<pk>\d+)/.*$',                   views.PictureDetailView.as_view(),   name = 'picturefile_detail' ),
     re_path( r'^folders/(?P<album_id>\d+)/make_thumbnail/(?P<pic_id>\d+)/$', views.set_folder_thumb,              name = 'make_folder_thumbnail' ),
     re_path( r'^folders/$',                                                  views.FoldersView.as_view(),         name = 'paths' ),
