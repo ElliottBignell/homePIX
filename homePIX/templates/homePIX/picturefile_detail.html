@@ -383,28 +383,30 @@
                           <span id="focallength" class="titlecontent"> ? </span>
                           <span id="focallen35mm" class="titlecontent"> ? <br></span>
                       {% endif %}
+                  </div>
 
-                      <div style="height:0.5em;width:5em;">
-                      </div>
+                  <div style="height:0.5em;width:5em;">
+                  </div>
 
+                  <div class="techfont" style="vertical-align:top;width:5.5em;line-height:0.2em;padding:0px;">
                       <div style="height:2em;width:7em;">
                          <form action="/albums/add/{{ Item.modid }}" method="get" class="float-right" style="font-size:0.5em;">
                            {% csrf_token %}
                            <input name="add_to_album" type="text" value="" id="trace" placeholder="Add to album..." style="width:400px;"/>
-                           <div id="image-dropdown" >
+                           <div id="image-dropdown" class="image-dropdown">
                                  {% for album in albums %}
-                                   <input type="radio" id="line{{ album.name }}" name="line-style" value="{{ album.name }}" /><label for="line{{ album.name }}" style="background:url('{{ album.thumbnail.modfile }}') 50% 50%;"></label>
+                                   <input type="radio" id="line{{ album.name }}" name="line-style" value="{{ album.name }}" /><label for="line{{ album.name }}" style="background:url('{{ album.thumbnail.modfile }}') 50% 50%;">{{ album.name }}</label>
                                  {% empty %}
                                  {% endfor%}
                            </div>
                          </form>
                       </div>
-
-                      <div style="height:0.5em;width:7em;">
-                      </div>
                   </div>
 
-                  <div class="techfont" style="position:absolute;bottom:0px;vertical-align:bottom;height:5em;width:5em;line-height:0.2em;padding:0px;">
+                  <div style="height:0.5em;width:7em;">
+                  </div>
+
+                  <div class="techfont" style="vertical-align:bottom;height:5em;width:5em;line-height:0.2em;padding:0px;">
                       <div id="panel1" style="display:inline">
                           <span class="titletext">
                               Keywords:
