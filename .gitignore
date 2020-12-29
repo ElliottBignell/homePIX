@@ -1,4 +1,7 @@
 homePIX/__pycache__/*
+homePIX/templatetags/__pycache__/*
+homePIX/.env
+homePIX/migrations/*
 *.swp
 db.sqlite
 db.sqlite3
