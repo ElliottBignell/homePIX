@@ -1,0 +1,5 @@
+homePIX/__pycache__/*
+*.swp
+db.sqlite
+db.sqlite3
+
