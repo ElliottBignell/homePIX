@@ -1,2 +1,8 @@
 # homePIX
 Python-based photo-sharing site. Demo online at https://elliottcb.pythonanywhere.com/
+
+## Introduction
+ 
+## Purpose
+ 
+## How to contribute
