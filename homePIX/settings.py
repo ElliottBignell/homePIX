@@ -18,7 +18,7 @@ load_dotenv()
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join( BASE_DIR, 'homePIX/templates' )
-MEDIA_ROOT = os.path.abspath( '/home/ElliottCB/pictures' )
+MEDIA_ROOT = os.path.abspath( '/home/elliott/pictures' )
 MEDIA_URL  = '/media/'
 REMOTE_URLs  = [
     'https://api.smugmug.com/services/api/json/1.3.0/',
@@ -42,6 +42,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '127.0.0.1',
     '192.168.1.110',
+    'localhost',
     'elliottcb.pythonanywhere.com'
 ]
 
@@ -147,7 +148,7 @@ LOGOUT_REDIRECT_URL = '/'
 GOOGLE_RECAPTCHA_SECRET_KEY = os.getenv('GOOGLE_RECAPTCHA_SECRET_KEY')
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = False
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECUR = True
 
