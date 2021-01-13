@@ -1,6 +1,3 @@
-FROM python:3
-
-# install nginx
 # COPY nginx.default /etc/nginx/sites-available/default
 
 # copy source and install dependencies
