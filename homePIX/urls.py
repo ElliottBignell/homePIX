@@ -7,6 +7,8 @@ from django.views.generic.base import RedirectView
 
 urlpatterns = [
     re_path( r'^$',                                                          views.WelcomeView.as_view(),         name = 'welcome' ),
+    re_path( r'^(?P<pk>google.*.html)$',                                     views.RawView.as_view(),             name = 'file_raw' ),
+    re_path( r'^(?P<pk>sitemap.xml)$',                                       views.Sitemap.as_view(),             name = 'sitemap' ),
     re_path( r'^item/(?P<pk>\d+)/?.*$',                                      views.PictureDetailView.as_view(),   name = 'picturefile_detail' ),
     re_path( r'^pictures/item/(?P<pk>\d+)/?.*$',                             views.PictureDetailView.as_view(),   name = 'picturefile_detail' ),
     re_path( r'^collection/item/(?P<pk>\d+)/?.*$',                           views.PictureDetailView.as_view(),   name = 'picturefile_detail' ),
@@ -15,6 +17,7 @@ urlpatterns = [
     re_path( r'^collection/',                                                views.PictureListView.as_view(),     name = 'picture_list' ),
     re_path( r'^calendar/$',                                                 views.CalendarView.as_view(),        name = 'calendar' ),
     re_path( r'^folders/(?P<id>\d+)/item/(?P<pk>\d+)/.*$',                   views.PictureDetailView.as_view(),   name = 'picturefile_detail' ),
+    re_path( r'^folders/item/(?P<pk>\d+)/.*$',                               views.PictureDetailView.as_view(),   name = 'picturefile_detail' ),
     re_path( r'^folders/(?P<album_id>\d+)/make_thumbnail/(?P<pic_id>\d+)/$', views.set_folder_thumb,              name = 'make_folder_thumbnail' ),
     re_path( r'^folders/$',                                                  views.FoldersView.as_view(),         name = 'paths' ),
     re_path( r'^folders/(?P<pk>\d+)/.*$',                                    views.FoldersView.as_view(),         name = 'paths' ),
@@ -43,6 +46,7 @@ urlpatterns = [
     re_path( r'^albums/<slug:slug>/$',                                       views.AlbumContentView.as_view(),    name = 'albumcontent' ),
     re_path( r'^folder/new/',                                                views.CreateDirectoryView.as_view(), name = 'directory_new' ),
     re_path( r'^picture/new/',                                               views.CreatePictureView.as_view(),   name = 'picture_new' ),
+    re_path( r'^picture/(?P<pk>.+)\.jpg',                                    views.get_picture,                   name = 'picture_get' ),
     re_path( r'^keywords/add/(?P<pk>\d+)$',                                  views.add_keywords,                  name = 'add_keywords' ),
     re_path( r'^keywords/remove/(?P<pk>\d+)$',                               views.remove_keywords,               name = 'remove_keywords' ),
     re_path( r'^keywords/change/(?P<pk>\d+)$',                               views.picture_change,                name = 'picture_change' ),

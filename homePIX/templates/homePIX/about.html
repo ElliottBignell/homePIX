@@ -1,10 +1,30 @@
 {% extends "homePIX/base.html" %}
+{% load static %}
 {% block content %}
 
+    <style type="text/css">
+      .fa_custom {
+        color: #0099CC
+      }
+    </style>
+
+    <div style="position:absolute;top:4em;left:50em;">
+      <a href="https://www.linkedin.com/in/elliottbignell/">
+        <img src="{% static 'images/1606398009197.jpeg' %}" style="width:25em;">
+      </a>
+      <p><i class="fa fa-linkedin fa_custom fa-4x"></i>
+      <p><a href="https://twitter.com/ElliottCBi/" style="color:var( --homepix-dark );">
+        <img src="{% static 'images/twitter.png' %}" style="width:5em;"> @ElliottCBi
+      </a>
+      <p><a href="https://www.alamy.com/portfolio/elliottbignellonalamy" style="color:var( --homepix-dark );">Marketplace</a>
+    </div>
     <div class="techfont" id="div_8" style="min-height:100px;">
       <h1>Blog created as Python Django exercise on Udemy course</h1>
-      <h2>Implementation for pictures by Elliott Bignell</h2>
-      <a href="https://github.com/ElliottBignell/homePIX">GitHub source project</a>
+      <h2>Implementation for pictures by
+        <a href="https://www.linkedin.com/in/elliottbignell/" style="color:var( --homepix-dark );">Elliott Bignell</a>
+      </h2>
+
+      <p><a href="https://github.com/ElliottBignell/homePIX" style="color:var( --homepix-dark );">GitHub source project</a>
       <h2>Happy shooting</h2>
 
       <h2>TODO</h2>

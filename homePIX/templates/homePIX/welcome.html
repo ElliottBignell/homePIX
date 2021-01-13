@@ -56,9 +56,9 @@
                     {% if picture.modtype == 1 or picture.modtype == 4 %}
                       <img id="picture_{{ picture.modthumb.modid }}"
                            class="mySlides lazyload"
-                           src="{{ picture.modthumb.file }}"
-                           data-src="{{ picture.modthumb.file }}"
-                           alt="{{ picture.modthumb.file }}">
+                           src="{{ picture.modthumb.modfile }}"
+                           data-src="{{ picture.modthumb.modfile }}"
+                           alt="{{ picture.modthumb.modfile }}">
                       </img>
                     {% else  %}
                         Other type

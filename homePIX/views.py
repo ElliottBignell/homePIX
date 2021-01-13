@@ -1488,10 +1488,22 @@ def response_from_keywords( pic, key ):
 
     pic.keywords = key
     pic.save()
-
     data = {}
     data[ 'keywords' ] = key.keywords.split( ',' )
     return JsonResponse( data )
+
+class RawView( TemplateView ):
+    template_name = 'homePIX/googledccb283f853c90e3.html'
+
+class Sitemap( TemplateView ):
+    template_name = 'homePIX/sitemap.xml'
+
+@login_required
+def get_picture( request, pk ):
+
+    key = request.META.get('PATH_INFO', None)
+    response = redirect( 'https://elliottbignell.smugmug.com/' + key )
+    return response
 
 @login_required
 def add_keywords( request, pk ):
