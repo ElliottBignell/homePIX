@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
    <url>
       <loc>https://elliott.pythonanywhere.com/</loc>
-      <lastmod>2020-01-12</lastmod>
+      <lastmod>2020-01-13</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.8</priority>
    </url>
@@ -816,6 +816,26 @@
    </url>
    <url>
       <loc>http://elliottcb.pythonanywhere.com/folders/?Page=198</loc>
+      <changefreq>monthly</changefreq>
+   </url>
+   <url>
+      <loc>http://elliottcb.pythonanywhere.com/albums/1/</loc>
+      <changefreq>monthly</changefreq>
+   </url>
+   <url>
+      <loc>http://elliottcb.pythonanywhere.com/albums/2/</loc>
+      <changefreq>monthly</changefreq>
+   </url>
+   <url>
+      <loc>http://elliottcb.pythonanywhere.com/albums/3/</loc>
+      <changefreq>monthly</changefreq>
+   </url>
+   <url>
+      <loc>http://elliottcb.pythonanywhere.com/albums/4/</loc>
+      <changefreq>monthly</changefreq>
+   </url>
+   <url>
+      <loc>http://elliottcb.pythonanywhere.com/albums/5/</loc>
       <changefreq>monthly</changefreq>
    </url>
 </urlset>
