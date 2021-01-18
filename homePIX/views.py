@@ -909,8 +909,8 @@ class AlbumContentDetailView( PhotoListViewBase ):
 
                                 current_pic = PictureFile.objects.get( id=file.entry_id )
 
-                                current_pic.hits += 1
-                                current_pic.save()
+                                # current_pic.hits += 1
+                                # current_pic.save()
 
                             next_id = ( index + 1 ) % len( PhotoListView.object_list )
 
