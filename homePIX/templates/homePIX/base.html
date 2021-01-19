@@ -5,7 +5,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>homePIX</title>
+    <title>homePIX Photo Server</title>
 
     <!-- Medium-Style Editor -->
     <script src="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/js/medium-editor.min.js"></script>
@@ -26,6 +26,21 @@
 
     <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" />
 
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@ElliottCBi">
+    <meta name="twitter:creator" content="@ElliottCBi">
+    <meta name="twitter:title" content="{{ Item.title }}">
+    <meta name="twitter:description" content="Taken  on {{ Item.taken_on|date:"d M, Y" }} in {{ Item.location }}">
+    <meta name="twitter:image" content="{{ Item.file }}">
+
+    <meta property="og:title" content="{{ Item.title }}">
+    <meta property="og:site_name" content="homePIX Open Picture Server">
+    <meta property="og:image" content="{{ Item.modfile_orig }}">
+    <meta property="og:description" content='{{ Item.title }}'>
+    <meta property="og:url"  content="//elliottcb.pythonanywhere.com{{ request.path }}">
+    <meta property="og:site" content="https://elliottcb.pythonanywhere.com/">
+    <meta property="article:publisher" content="https://elliottcb.pythonanywhere.com/">
+
     {% load parseurl %}
     {% csrf_token %}
 
@@ -40,6 +55,7 @@
           a.appendChild(r);
       })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
     </script>
+
 
   </head>
 
