@@ -579,7 +579,7 @@ class WelcomeView( PhotoListView ):
 
         PhotoListView.object_list = AlbumContent.objects.none()
 
-        album = '4'
+        album = '5'
 
         queryset = Album.objects.filter( id=album )
 
@@ -589,7 +589,11 @@ class WelcomeView( PhotoListView ):
 
             PhotoListView.object_list = AlbumContent.objects.raw( query )
 
-            previous = PhotoListView.object_list[ len( PhotoListView.object_list ) - 1 ]
+            previous = None
+
+            if PhotoListView.object_list:
+                if len( PhotoListView.object_list ) > 0:
+                    previous = PhotoListView.object_list[ len( PhotoListView.object_list ) - 1 ]
 
             index = 0
 
@@ -1644,6 +1648,8 @@ def add_ids_to_album( request, album_id, pic_id ):
                 entry.entry = picture
                 entry.save()
 
+                print( "save" )
+
     return HttpResponse(json.dumps(
         {
             'name': album.name,
@@ -1685,15 +1691,69 @@ def del_ids_from_album( request, album_id, pic_id ):
 def delete_id_from_album( request, album_id, pic_id ):
 
     try:
-        entries = AlbumContent.objects.filter(
+        AlbumContent.objects.filter(
                             Q( album_id=album_id )
                           & Q( entry_id=pic_id )
                           ).delete()
-        return redirect( '/albums/?ID=' + str( album_id ) )
     except:
         pass
 
-    return redirect( '/albums/' )
+    return redirect( '/albums/' + str( album_id ) + '/' )
+
+@login_required
+def move_id_in_album( request, album_id, pic_id, index ):
+
+    #try:
+
+        subjects = AlbumContent.objects.filter(
+                            Q( album_id=album_id )
+                          & Q( entry_id=pic_id )
+                          )
+
+        if subjects:
+
+            subject = subjects[ 0 ]
+
+            if subject:
+
+                idx = int( subject.id )
+
+                filter = Q( id__lt=idx )
+
+                if int( index ) > 0:
+                    filter = Q( id__gt=idx )
+
+                neighbours = AlbumContent.objects.filter(
+                                    Q( album_id=album_id )
+                                  & filter
+                                  )
+
+                if neighbours:
+
+                    print( neighbours )
+
+                    neighbour = None
+
+                    if int( index ) > 0:
+                        neighbour = neighbours[ 0 ]
+                    else:
+                        neighbour = neighbours.last()
+
+                    if neighbour:
+
+                        # Swap values with preceding entry
+                        entry = subject.entry
+                        subject.entry = neighbour.entry
+                        neighbour.entry = entry
+
+                        subject.save()
+                        neighbour.save()
+
+    #except:
+    #    print("Exception...")
+    #    pass
+
+        return redirect( '/albums/' + str( album_id ) + '/' )
 
 @login_required
 def organisation_bubble_ids( request, pic_ids ):

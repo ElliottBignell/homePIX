@@ -1,4 +1,4 @@
-const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+//const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
 var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
 var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
@@ -69,28 +69,28 @@ $.ajaxSetup({
      }
 });
 
-$( "div[id^=selectable_]" ).click(function () {
-
-    $( ".tt_focussed" ).removeClass( "tt_focussed" );
-
-    var img = $(this).find( "img[id^=picture_]" )
-    img.addClass( "tt_focussed" );
-
-    if ( !isCtrlPressed ) {
-
-        $( ".tt_selected" ).addClass( "tt_unselected" );
-        $( ".tt_unselected" ).removeClass( "tt_selected" );
-    }
-
-    currentIndex = parseInt( this.id.match(/\d+/) );
-
-    img.removeClass( "tt_unselected" );
-    img.addClass( "tt_selected" );
+  
+$('.selectable').click( function( e ) {
+  
+      $( ".tt_focussed" ).removeClass( "tt_focussed" );
+  
+      var img = $(this).find( "img[id^=picture_]" )
+      img.addClass( "tt_focussed" );
+  
+      if ( !isCtrlPressed ) {
+  
+          $( ".tt_selected" ).addClass( "tt_unselected" );
+          $( ".tt_unselected" ).removeClass( "tt_selected" );
+      }
+  
+      currentIndex = parseInt( this.id.match(/\d+/) );
+  
+      img.removeClass( "tt_unselected" );
+      img.addClass( "tt_selected" );
 });
 
 $( '.keynav' ).keydown( function( e ) {
 
-    alert( "key" );
     var code = (e.keyCode ? e.keyCode : e.which);
     var evtobj = window.event? event : e;
 
@@ -98,7 +98,6 @@ $( '.keynav' ).keydown( function( e ) {
 
     case 9: //Tab
 
-        alert( target.html );
         event.preventDefault();               
         break;
 
@@ -376,7 +375,6 @@ $('div[id^=universe_]').on('drop dragdrop', function( event ) {
 
 $('div[id^=album_]').on('drop dragdrop', function( event ) {
 
-    alert( event.originalEvent.dataTransfer );
     var ids = event.originalEvent.dataTransfer.getData("text");
     var album = $(this).attr( 'id' ).split( '_' )[ 1 ];
 

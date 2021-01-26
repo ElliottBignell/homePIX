@@ -31,12 +31,27 @@
               </span>
             </section>
             <div id="header_o_{{ albumcontent.modthumb.modid }}" class="tt_left tt_text">
-              <a href="./make_thumbnail/{{request.GET.ID}}/{{ albumcontent.modthumb.modid }}/"><i class="material-icons">album</i></a>
-              <a href="./make_thumbnail/"><i class="material-icons">keyboard_arrow_left</i></a>
-              <a href="./make_thumbnail/"><i class="material-icons">keyboard_arrow_right</i></a>
-              <a href="./make_thumbnail/"><i class="material-icons">bedtime</i></a>
-              <a href="./make_thumbnail/"><i class="material-icons">photo_album</i></a>
-              <div style="position:absolute;top:5px;right:5px;"><i class="material-icons">photo</i></div>
+              <a href="./make_thumbnail/{{request.GET.ID}}/{{ albumcontent.modthumb.modid }}/" style="color:black;height:1em;"><i class="material-icons">album</i></a>
+              <a href="./move/{{ albumcontent.modthumb.modid }}/-1/">
+                <i class="material-icons" style="color:black;height:1em;">
+                  keyboard_arrow_left
+                </i>
+              </a>
+              <a href="./move/{{ albumcontent.modthumb.modid }}/+1/">
+                <i class="material-icons" style="color:black;height:1em;">
+                  keyboard_arrow_right
+                </i>
+              </a>
+              <a href="./move/{{ albumcontent.modthumb.modid }}/+1/">
+                <i class="material-icons" style="color:black;height:1em;">
+                  bedtime
+                </i>
+              </a>
+              <a href="./delete/{{ albumcontent.modthumb.modid }}/">
+                <i class="material-icons" style="color:black;height:1em;">
+                  delete
+                </i>
+              </a>
               <div style="position:absolute;left:5px;top:5px;right:150px;">
                 <div id="header_{{ albumcontent.modthumb.modid }}" class="tt_lefttextnooff">
                   {{ albumcontent.modthumb.modtitle }}
