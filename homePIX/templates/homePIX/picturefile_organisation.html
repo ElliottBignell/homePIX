@@ -1243,9 +1243,10 @@
         </div>
       </a>
       {% for album in album_list %}
+         <div style="height:12em;">
          <a id="albumlink_{{ forloop.counter }}" href="?album={{ album.modid }}">
            <div class="tt_base draggable droppable techfont organise_gallery justified" id="album_{{ forloop.counter }}">
-             <div class="desc" style="position:absolute;top:5px;height:100px;left:5px;width:60%;">
+             <div class="desc" style="position:absolute;top:5px;height:100px;left:5px;width:20em;">
                  <section class="wrapper" id="albumsect_{{ forloop.counter }}">
                    <span class="tt_subject">
                      <img id="picture_{{ forloop.counter }}"
@@ -1266,14 +1267,17 @@
                    </div>
                  </div>
                </div>
-               <div class="desc" style="position:absolute;top:5px;height:90%;left:91%;width:5%;text-align:right;">
+               <div class="desc" style="position:absolute;top:5px;height:90%;left:85%;width:10%;text-align:right;">
                  <i class="material-icons small-icon" style="position:absolute;top:5px;right:5px;width:20px;">album</i>
                </div>
           </div>
          </a>
          <a href="javascript:add_ids_to_album( {{ forloop.counter }}, get_selected_ids() );">
-           <i class="material-icons medium-icon" style="position:absolute;left:calc( 100% - 50px );top:{% album_top 1 20 20 %};width:20px;">add_to_photos</i>
+           <div style="position:relative;left:41em;top:-12.3em;width:3em;height:10.8em;fill:red;outline:1px solid #ccc;" id="add_{{ forloop.counter }}">
+             <i class="material-icons medium-icon" style="color:black;">add_to_photos</i>
+           </div>
          </a>
+         </div>
       {% empty %}
         No folders loaded
       {% endfor %}
