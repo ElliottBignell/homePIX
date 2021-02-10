@@ -569,9 +569,8 @@ $( "div[id^=selectable_]" ).click(function () {
     img.addClass( "tt_selected" );
 });
 
-$( '.keynav' ).keydown( function( e ) {
+$( "div[id^=selectable_]" ).keydown(function () {
 
-    alert( "key" );
     var code = (e.keyCode ? e.keyCode : e.which);
     var evtobj = window.event? event : e;
 

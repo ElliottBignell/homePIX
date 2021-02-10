@@ -1065,24 +1065,6 @@
             //alert( $( "find" ).attr( "innerText" ) );
         }
 
-        function advanceY( evtobj )
-        {
-            imgnav.navigate(
-                parseInt( index )
-              + parseInt( rows[ rowIds[ index ] ].count )
-              % parseInt( count ), evtobj
-            );
-        }
-
-        function retreatY( evtobj )
-        {
-            imgnav.navigate(
-                parseInt( index )
-              - parseInt( rows[ rowIds[ rows[ rowIds[ index ] ].begin - 1 ] ].count )
-              % parseInt( count ), evtobj
-            );
-        }
-
         /*function advance( evtobj ) { imgnav.navigate( parseInt( index ) + parseInt( 1 ) % parseInt( count ), evtobj ); }
         function retreat( evtobj ) { imgnav.navigate( parseInt( index ) - parseInt( 1 ) % parseInt( count ), evtobj ); }*/
 
@@ -1243,7 +1225,6 @@
         </div>
       </a>
       {% for album in album_list %}
-         <div style="height:12em;">
          <a id="albumlink_{{ forloop.counter }}" href="?album={{ album.modid }}">
            <div class="tt_base draggable droppable techfont organise_gallery justified" id="album_{{ forloop.counter }}">
              <div class="desc" style="position:absolute;top:5px;height:100px;left:5px;width:20em;">
@@ -1273,11 +1254,10 @@
           </div>
          </a>
          <a href="javascript:add_ids_to_album( {{ forloop.counter }}, get_selected_ids() );">
-           <div style="position:relative;left:41em;top:-12.3em;width:3em;height:10.8em;fill:red;outline:1px solid #ccc;" id="add_{{ forloop.counter }}">
-             <i class="material-icons medium-icon" style="color:black;">add_to_photos</i>
+           <div style="position:absolute;left:41em;top:{% album_top 3 20 20 %};width:3em;height:10em;fill:red;outline:1px solid #ccc;" id="add_{{ forloop.counter }}">
+             <i class="material-icons medium-icon">add_to_photos</i>
            </div>
          </a>
-         </div>
       {% empty %}
         No folders loaded
       {% endfor %}
@@ -1321,7 +1301,7 @@
   </div>
 
   <div class="pane">
-    <div id="content_organise" class="split right draggable droppable" style="user-select: none;">
+    <div id="content_organise" class="split right droppable" style="user-select: none;">
       {% for picture in object_list %}
         <div class="tt_base draggable droppable keynav" draggable="true" id="selectable_{{ forloop.counter }}_{{ picture.modthumb.modid }}">
           <!-- <a id="piclink_{{ forloop.counter }}" href="{{ picture.modpath }}/{{ picture.modfile }}"> -->

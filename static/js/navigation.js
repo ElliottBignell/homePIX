@@ -11,6 +11,8 @@ var isShiftPressed = false;
 var isCtrlPressed  = false;
 var currentIndex   = -1;
 
+imgnav = new albumMover(".");
+
 //document.addEventListener( "touchstart", handleTouchStart, false);
 //document.addEventListener( "touchmove",  handleTouchMove,  false);
 //document.addEventListener( "keydown",    doKeyDown,        false );
@@ -70,11 +72,15 @@ $.ajaxSetup({
 });
 
   
-$('.selectable').click( function( e ) {
+$('.draggable').on( 'click', function( e ) {
+
+      elem_id = this.id.replace( 'selectable', 'picture' );
+
+      currentIndex = parseInt( elem_id.replace(/.*_(\d+)_\d+/, '$1' ) );
   
       $( ".tt_focussed" ).removeClass( "tt_focussed" );
   
-      var img = $(this).find( "img[id^=picture_]" )
+      var img = $( '#' + elem_id );
       img.addClass( "tt_focussed" );
   
       if ( !isCtrlPressed ) {
@@ -83,13 +89,11 @@ $('.selectable').click( function( e ) {
           $( ".tt_unselected" ).removeClass( "tt_selected" );
       }
   
-      currentIndex = parseInt( this.id.match(/\d+/) );
-  
       img.removeClass( "tt_unselected" );
       img.addClass( "tt_selected" );
 });
 
-$( '.keynav' ).keydown( function( e ) {
+$( '.keynav' ).on( 'keydown',  function( e ) {
 
     var code = (e.keyCode ? e.keyCode : e.which);
     var evtobj = window.event? event : e;
@@ -111,11 +115,12 @@ $( 'body' ).keydown( function( e ) {
     var code = (e.keyCode ? e.keyCode : e.which);
     var evtobj = window.event? event : e;
 
-    if ( e.target == document.body ||
-       ( e.target. nodeType == 1 && e.target.tagName == 'A' )
-       )
+    if ( e.target == document.body || e.target.nodeType == 1 )
     {
         switch ( code ) {
+        case 8: //Delete
+            event.preventDefault();
+            break;
         case 13: //Return
             event.preventDefault();
             //document.getElementById( 'piclink_' + index ).click();
@@ -151,6 +156,9 @@ $( 'body' ).keydown( function( e ) {
             if ( currentIndex >= 0 ) {
                 retreat( e );
             }
+            else {
+                moveTo(0);
+            }
             break;
 
         case 'l':
@@ -158,6 +166,9 @@ $( 'body' ).keydown( function( e ) {
             event.preventDefault();
             if ( currentIndex >= 0 ) {
                 advance( e );
+            }
+            else {
+                moveTo(0);
             }
             break;
 
@@ -247,6 +258,7 @@ function retreat( evtobj )
 
 function moveTo( index )
 {
+    alert(currentIndex);
     var oldIndex = "[id^=selectable_" + ( currentIndex ).toString() + "_]";
 
     if ( $( oldIndex ).length ) { // Element exists
@@ -1053,26 +1065,32 @@ function doSubmit()
 }
 
 
-/*function advanceY( evtobj )
+function advanceY( evtobj )
 {
-    imgnav.navigate(
-        parseInt( index )
-      + parseInt( rows[ rowIds[ index ] ].count )
-      % parseInt( count ), evtobj
-    );
+    if ( rows[ rowIds[ index ] ] ) {
+
+        imgnav.navigate(
+            parseInt( index )
+          + parseInt( rows[ rowIds[ index ] ].count )
+          % parseInt( count ), evtobj
+        );
+    }
 }
 
 function retreatY( evtobj )
 {
-    imgnav.navigate(
-        parseInt( index )
-      - parseInt( rows[ rowIds[ rows[ rowIds[ index ] ].begin - 1 ] ].count )
-      % parseInt( count ), evtobj
-    );
+    if ( rows[ rowIds[ index ] ] ) {
+
+        imgnav.navigate(
+            parseInt( index )
+          - parseInt( rows[ rowIds[ rows[ rowIds[ index ] ].begin - 1 ] ].count )
+          % parseInt( count ), evtobj
+        );
+    }
 }
 
 function advance( evtobj ) { imgnav.navigate( parseInt( index ) + parseInt( 1 ) % parseInt( count ), evtobj ); }
-function retreat( evtobj ) { imgnav.navigate( parseInt( index ) - parseInt( 1 ) % parseInt( count ), evtobj ); }*/
+function retreat( evtobj ) { imgnav.navigate( parseInt( index ) - parseInt( 1 ) % parseInt( count ), evtobj ); }
 
 function panel1() { panelSwitch( 1 ); }
 function panel2() { panelSwitch( 2 ); }
@@ -1160,16 +1178,4 @@ function detectswipe(el,func)
             direc = "";
             swipe_det.sX = 0; swipe_det.sY = 0; swipe_det.eX = 0; swipe_det.eY = 0;
         },false);
-}
-
-function myfunction(el,d)
-{
-    switch ( d ) {
-    case "r":
-        advance();
-        break;
-    case "l":
-        retreat();
-        break;
-    }
 }
