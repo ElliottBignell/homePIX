@@ -129,7 +129,7 @@ div.gallery:hover {
   color: var( --homepix-bg );
   background-color: var( --homepix-alarm );
   border: 1px solid #ccc;
-  min-height:200px;
+  min-height:16em;
   font-size: 1.5em;
   margin:2px;
 }
