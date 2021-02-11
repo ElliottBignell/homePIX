@@ -946,6 +946,13 @@ class FoldersView( PhotoListViewBase ):
     pic_objs     = None
     rem_pic_objs = None
 
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        context[ 'folder_name' ] = self.subdir
+
+        return context
+
     def getfilter( self, index ):
 
         if 0 == index:
