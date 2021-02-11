@@ -27,8 +27,8 @@
  -->
 
 {% for album in object_list %}
-  <div class="tt_base droppable techfont gallery justified" id="div_{{ album.id }}_{{ folder.modthumb.modpath }}_{{ folder.modthumb.file }}">
-    <div class="desc">{{ album.name }}</div>
+  <figure class="tt_base droppable techfont gallery justified" id="div_{{ album.id }}_{{ folder.modthumb.modpath }}_{{ folder.modthumb.file }}">
+    <figcaption class="desc">{{ album.name }}</figcaption>
     <a id="piclink_{{ album.id }}" href="{{ album.id }}/">
       <section class="wrapper" id="file-number_{{ folder.modthumb.modpath }}_{{ folder.modthumb.file }}">
         <span class="tt_subject">
@@ -42,8 +42,8 @@
         </span>
       </section>
     </a>
-    <div class="count">Contains {{ album.modcount }} shots</div>
-  </div>
+    <figcaption class="count">Contains {{ album.modcount }} shots</figcaption>
+  </figure>
 {% empty %}
  No albums loaded
   <!--

@@ -29,7 +29,7 @@
                     <tr style="height:48px;">
                     {% for idx, month in quarter.items %}
                       <td id="month_{{ year }}_{{ idx }}" style="width:56px;height:56px;padding-left:0.1em;padding-right:0.1em;padding-top:0.1em;padding-bottom:0.1em;">
-                          <div class="calendar_tile calendar_tile_medium">
+                          <figure class="calendar_tile calendar_tile_medium">
                             {% with month_name=month.0.0.4|month_abbr %}
                             <a href="#quarterly_{{ year }}_{{ month_name }}">
                               {% month_thumbnail year month.0.0.4 as thumb %}
@@ -40,17 +40,17 @@
                                        data-src="{% month_thumbnail year month.0.0.4 %}"
                                        alt="{{ month.0.0.3|date:'d' }}">
                                   </img>
-                                  <div class="calendar_month">
+                                  <figcaption class="calendar_month">
                                     <div class="scrim scrim_medium">
                                       {{ month_name }}
                                     </div
-                                  </div>
+                                  </figcaption>
                               {% else %}
                                 {{ month_name }}
                               {% endif %}
                             </a>
                             {% endwith %}
-                          </div>
+                          </figure>
                       </td>
                     {% endfor %}
                     </tr>

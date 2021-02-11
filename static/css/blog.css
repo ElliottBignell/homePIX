@@ -116,9 +116,27 @@ div.justified {
   min-height:16em;
 }
 
+figure.gallery {
+  color: var( --homepix-bg  );
+  background-color: var( --homepix-dark);
+  border: 1px solid #ccc;
+  min-height:16em;
+  font-size: 1.5em;
+  margin:2px;
+}
+
 div.gallery {
   color: var( --homepix-bg  );
   background-color: var( --homepix-dark);
+  border: 1px solid #ccc;
+  min-height:16em;
+  font-size: 1.5em;
+  margin:2px;
+}
+
+figure.gallery:hover {
+  color: var( --homepix-bg );
+  background-color: var( --homepix-alarm );
   border: 1px solid #ccc;
   min-height:16em;
   font-size: 1.5em;
@@ -310,8 +328,17 @@ img.gallery_picture {
 }
 
 
+figcaption.desc {
+  text-align: left;
+}
+
 div.desc {
   text-align: left;
+}
+
+figcaption.count {
+  text-align: right;
+  font-size: 0.6em;
 }
 
 div.count {

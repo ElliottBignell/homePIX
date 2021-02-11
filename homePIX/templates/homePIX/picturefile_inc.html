@@ -31,7 +31,7 @@
     {% with previous_picture=object_list|previous:forloop.counter0 %}
 
         {% if picture.modtype == 1 or picture.modtype == 4 %}
-          <div class="tt_base droppable draggable justified" id="div_{{ picture.modthumb.modid }}">
+          <figure class="tt_base justified" id="div_{{ picture.modthumb.modid }}">
             <a id="piclink_{{ picture.modthumb.modid }}"
                href="./item/{{ picture.modthumb.modid }}/?next={{ next_picture.modthumb.modid }}&previous={{ previous_picture.modthumb.modid }}&search={{ request.GET.search }}&sort= {{request.GET.sort }}&startDate={{ request.GET.startDate }}&endDate={{ request.GET.endDate }}">
               <section class="wrapper" id="file-number_{{ picture.modthumb.modid }}">
@@ -66,15 +66,15 @@
                 <a href="./make_thumbnail/"><i class="material-icons">bedtime</i></a>
                 <a href="./make_thumbnail/"><i class="material-icons">photo_album</i></a>
                 <div class="caption"><i class="material-icons">photo</i></div>
-                <div class="caption title">
+                <figcaption class="caption title">
                   <div id="header_{{ picture.modthumb.modid }}" class="tt_lefttextnooff">w
                     {{ picture.modthumb.modtitle }}
                   </div>
-                </div>
+                </figcaption>
               </div>
-              <span class="tt_text tt_bottom">
+              <figcaption class="tt_text tt_bottom">
                 <article id="art_keywords_{{ picture.modthumb.modid }}">No keywords</article>
-              </span>
+              </figcaption>
             </a>
             <span class="tt_edit">
                 <form id="editprops">
@@ -83,7 +83,7 @@
                     </fieldset>
                 </form>
             </span>
-          </div>
+          </figure>
         {% endif %}
 
     {% endwith %}
