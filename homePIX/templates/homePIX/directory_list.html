@@ -17,9 +17,9 @@
   {% for folder in object_list %}
     {% if folder.modtype == 2 %}
       {% if folder.modcount > 0 %}
-        <div class="tt_base droppable draggable techfont gallery justified" id="div_{{ folder.modid }}">
+        <figure class="tt_base droppable techfont gallery justified" id="div_{{ folder.modid }}">
           <a id="piclink_{{ folder.modid }}" href="{{ folder.modid }}/">
-            <div class="desc">{{ folder.modname }}</div>
+            <figcaption class="desc">{{ folder.modname }}</figcaption>
             <div style="position:absolute;top:0px;right:0px;color:black;"><i class="material-icons">folder</i></div>
             <section class="wrapper" id="file-number_{{ folder.modthumb.modpath }}_{{ folder.modthumb.file }}">
               <span class="tt_subject">
@@ -45,9 +45,9 @@
                 </img>
               </span>
             </section>
-            <div class="count">Contains {{ folder.modcount }} shots</div>
+            <figcaption class="count">Contains {{ folder.modcount }} shots</figcaption>
           </a>
-        </div>
+        </figure>
       {% endif %}
     {% endif %}
   {% empty %}

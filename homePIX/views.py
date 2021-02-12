@@ -533,6 +533,14 @@ class AlbumContentView( PhotoListView ):
 
     model = AlbumContent
     form_class = AlbumContentForm
+    name = ''
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        context[ 'name' ] = self.name
+
+        return context
 
     def getfilter( self, index ):
         return -1;
@@ -548,6 +556,8 @@ class AlbumContentView( PhotoListView ):
             queryset = Album.objects.filter( id = album )
 
             if not queryset is None and queryset.count() > 0:
+
+                self.name = queryset[ 0 ].name
 
                 query = "select * from AlbumView WHERE album_id=" + str( queryset[ 0 ].id )
 

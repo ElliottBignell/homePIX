@@ -2,7 +2,9 @@
 {% block content %}
 
   <div class="techfont" style="min-height:100px;">
-      <h1>Content</h1>
+
+      <h1>{{ name }}</h1>
+      <h2>Page #{{ page }} of {{ ForItemCount }}</h2>
 
       <form action="{% url 'album_list' %}" method="get">
         <input name="pk" type="text" placeholder="Add new...">
