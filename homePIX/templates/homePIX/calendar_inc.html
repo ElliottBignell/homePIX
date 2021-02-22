@@ -29,7 +29,7 @@
                     <tr style="height:48px;">
                     {% for idx, month in quarter.items %}
                       <td id="month_{{ year }}_{{ idx }}" style="width:56px;height:56px;padding-left:0.1em;padding-right:0.1em;padding-top:0.1em;padding-bottom:0.1em;">
-                          <div class="calendar_tile calendar_tile_medium">
+                          <figure class="calendar_tile calendar_tile_medium">
                             {% with month_name=month.0.0.4|month_abbr %}
                             <a href="#quarterly_{{ year }}_{{ month_name }}">
                               {% month_thumbnail year month.0.0.4 as thumb %}
@@ -40,17 +40,17 @@
                                        data-src="{% month_thumbnail year month.0.0.4 %}"
                                        alt="{{ month.0.0.3|date:'d' }}">
                                   </img>
-                                  <div class="calendar_month">
+                                  <figcaption class="calendar_month">
                                     <div class="scrim scrim_medium">
                                       {{ month_name }}
                                     </div
-                                  </div>
+                                  </figcaption>
                               {% else %}
                                 {{ month_name }}
                               {% endif %}
                             </a>
                             {% endwith %}
-                          </div>
+                          </figure>
                       </td>
                     {% endfor %}
                     </tr>
@@ -119,44 +119,56 @@
                           {% for week in month %}
                           <tr>
                             <td></td>
-                          {% for day in week %}
-                          <td style="width:1.6em;height:1.6em;">
-                            {% with month_number=month.0.0.4|month_number %}
-                            <a href="../collection/?fromDate={{ year }}-{{ month_number }}-{{ day.3|date:'d' }}&toDate={{ year }}-{{ month_number }}-{{ day.3|date:'d' }}&ID=&Key=&search=&sort=">
-                            <div
-                                {% if day.6 > 0 %}
-                                  class="calendar_tile calendar_tile_small"
-                                {% else %}
-                                {% endif %}
-                                 style="width:1.6em;height:1.6em;padding-left:0.1em;padding-right:0.1em;padding-top:0.1em;padding-bottom:0.1em;">
-                              {% if day.0 > 0 %}
-                                <img id="picture_{{ day.0 }}"
-                                           class="lazyload calendar_thumbnail calendar_tile_small"
-                                           src="{{ day.5 }}"
-                                           data-src="{{ day.5 }}"
-                                           alt="{{ day.3|date:'d' }}">
-                                </img>
-                                <div class="calendar_day_pic">
-                                  <div class="scrim scrim_small" style="font-size:1em;font-weight:bolder;left:0px;">
-                                    {{ day.6|date:'d' }}
-                                  </div
-                                </div>
-                              {% else %}
-                                {% if day.6 > 0 %}
-                                  <div class="calendar_day" style="color:var( --homepix-dark );background-color:var( --homepix-bg );">
-                                    <div class="calendar_day" style="color:var( --homepix-dark );background-color:var( --homepix-bg );">
-                                      {{ day.6 }}
+                            {% for day in week %}
+                              <td>
+                                {% with month_number=month.0.0.4|month_number %}
+                                <a href="../collection/?fromDate={{ year }}-{{ month_number }}-{{ day.3|date:'d' }}&toDate={{ year }}-{{ month_number }}-{{ day.3|date:'d' }}&ID=&Key=&search=&sort=">
+                                <div
+                                    {% if day.6 > 0 %}
+                                      class="calendar_tile calendar_tile_small"
+                                    {% else %}
+                                      class="calendar_tile_empty calendar_tile_small"
+                                    {% endif %}
+                                     style="padding-left:0.1em;padding-right:0.1em;padding-top:0.1em;padding-bottom:0.1em;">
+                                  {% if day.0 > 0 %}
+                                    <img id="picture_{{ day.0 }}"
+                                               class="lazyload calendar_thumbnail calendar_tile_small"
+                                               src="{{ day.5 }}"
+                                               data-src="{{ day.5 }}"
+                                               alt="{{ day.3|date:'d' }}">
+                                    </img>
+                                    <div class="calendar_day_pic">
+                                      <div class="scrim scrim_small" style="font-size:1em;font-weight:bolder;left:0px;">
+                                        {{ day.6|date:'d' }}
+                                      </div
                                     </div>
-                                  </div>
-                                {% endif %}
-                              {% endif %}
-                            </div>
-                            </a>
-                            {% endwith%}
-                          {% endfor %}
+                                  {% else %}
+                                    {% if day.6 > 0 %}
+                                      <div class="calendar_day" style="color:var( --homepix-dark );background-color:var( --homepix-bg );">
+                                        <div class="calendar_day" style="color:var( --homepix-dark );background-color:var( --homepix-bg );">
+                                          {{ day.6 }}
+                                        </div>
+                                      </div>
+                                    {% endif %}
+                                  {% endif %}
+                                </div>
+                                </a>
+                                {% endwith%}
+                            {% endfor %}
                             <td></td>
                           </tr>
                           {% endfor %}
+                          {% if month.count < 6 %}
+                          <tr>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                          </tr>
+                          {% endif %}
                         </table>
                       {% endwith %}
                       </div>

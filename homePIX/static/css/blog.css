@@ -116,9 +116,27 @@ div.justified {
   min-height:16em;
 }
 
+figure.gallery {
+  color: var( --homepix-bg  );
+  background-color: var( --homepix-dark);
+  border: 1px solid #ccc;
+  min-height:16em;
+  font-size: 1.5em;
+  margin:2px;
+}
+
 div.gallery {
   color: var( --homepix-bg  );
   background-color: var( --homepix-dark);
+  border: 1px solid #ccc;
+  min-height:16em;
+  font-size: 1.5em;
+  margin:2px;
+}
+
+figure.gallery:hover {
+  color: var( --homepix-bg );
+  background-color: var( --homepix-alarm );
   border: 1px solid #ccc;
   min-height:16em;
   font-size: 1.5em;
@@ -129,7 +147,7 @@ div.gallery:hover {
   color: var( --homepix-bg );
   background-color: var( --homepix-alarm );
   border: 1px solid #ccc;
-  min-height:200px;
+  min-height:16em;
   font-size: 1.5em;
   margin:2px;
 }
@@ -310,8 +328,17 @@ img.gallery_picture {
 }
 
 
+figcaption.desc {
+  text-align: left;
+}
+
 div.desc {
   text-align: left;
+}
+
+figcaption.count {
+  text-align: right;
+  font-size: 0.6em;
 }
 
 div.count {
@@ -482,6 +509,7 @@ h4{
 .selectable {
     border-radius:8px;
     overflow:hidden;
+    border:3px solid var( --homepix-br-lightest );
 }
 
 .selectable:hover {
@@ -585,7 +613,7 @@ h4{
     left:-0.2em;
     right:0px;
     bottom:0px;
-    width:1.6em;
+    width:1.8em;
     height:1.6em;
     color:#e6e9f0;
 }
@@ -650,7 +678,7 @@ h4{
     left:-0.2em;
     line-height:1.6em;
     height:1.6em;
-    width:1.6em;
+    width:1.8em;
 }
 
 .calendar_tile_medium {
@@ -659,6 +687,21 @@ h4{
     line-height:2.4em;
     height:2.4em;
     width:2.4em;
+}
+
+.calendar_tile_empty {
+
+    position:relative;
+    top:0px;
+    left:0px;
+    right:0px;
+    bottom:0px;
+    z-index:0;
+    border-radius:0.6em;
+    text-align:center;
+    vertical-align:center;
+    font-size: 2em;
+    color:var( --homepix-bg );
 }
 
 .calendar_tile {

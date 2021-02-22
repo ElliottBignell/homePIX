@@ -534,6 +534,14 @@ class AlbumContentView( PhotoListView ):
 
     model = AlbumContent
     form_class = AlbumContentForm
+    name = ''
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        context[ 'name' ] = self.name
+
+        return context
 
     def getfilter( self, index ):
         return -1;
@@ -549,6 +557,8 @@ class AlbumContentView( PhotoListView ):
             queryset = Album.objects.filter( id = album )
 
             if not queryset is None and queryset.count() > 0:
+
+                self.name = queryset[ 0 ].name
 
                 query = "select * from AlbumView WHERE album_id=" + str( queryset[ 0 ].id )
 
@@ -580,7 +590,7 @@ class WelcomeView( PhotoListView ):
 
         PhotoListView.object_list = AlbumContent.objects.none()
 
-        album = '4'
+        album = '5'
 
         queryset = Album.objects.filter( id=album )
 
@@ -590,7 +600,11 @@ class WelcomeView( PhotoListView ):
 
             PhotoListView.object_list = AlbumContent.objects.raw( query )
 
-            previous = PhotoListView.object_list[ len( PhotoListView.object_list ) - 1 ]
+            previous = None
+
+            if PhotoListView.object_list:
+                if len( PhotoListView.object_list ) > 0:
+                    previous = PhotoListView.object_list[ len( PhotoListView.object_list ) - 1 ]
 
             index = 0
 
@@ -910,8 +924,8 @@ class AlbumContentDetailView( PhotoListViewBase ):
 
                                 current_pic = PictureFile.objects.get( id=file.entry_id )
 
-                                current_pic.hits += 1
-                                current_pic.save()
+                                # current_pic.hits += 1
+                                # current_pic.save()
 
                             next_id = ( index + 1 ) % len( PhotoListView.object_list )
 
@@ -942,6 +956,13 @@ class FoldersView( PhotoListViewBase ):
     dir_objs     = None
     pic_objs     = None
     rem_pic_objs = None
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        context[ 'folder_name' ] = self.subdir
+
+        return context
 
     def getfilter( self, index ):
 
@@ -1489,10 +1510,22 @@ def response_from_keywords( pic, key ):
 
     pic.keywords = key
     pic.save()
-
     data = {}
     data[ 'keywords' ] = key.keywords.split( ',' )
     return JsonResponse( data )
+
+class RawView( TemplateView ):
+    template_name = 'homePIX/googledccb283f853c90e3.html'
+
+class Sitemap( TemplateView ):
+    template_name = 'homePIX/sitemap.xml'
+
+@login_required
+def get_picture( request, pk ):
+
+    key = request.META.get('PATH_INFO', None)
+    response = redirect( 'https://elliottbignell.smugmug.com/' + key )
+    return response
 
 @login_required
 def add_keywords( request, pk ):
@@ -1633,6 +1666,8 @@ def add_ids_to_album( request, album_id, pic_id ):
                 entry.entry = picture
                 entry.save()
 
+                print( "save" )
+
     return HttpResponse(json.dumps(
         {
             'name': album.name,
@@ -1674,15 +1709,69 @@ def del_ids_from_album( request, album_id, pic_id ):
 def delete_id_from_album( request, album_id, pic_id ):
 
     try:
-        entries = AlbumContent.objects.filter(
+        AlbumContent.objects.filter(
                             Q( album_id=album_id )
                           & Q( entry_id=pic_id )
                           ).delete()
-        return redirect( '/albums/?ID=' + str( album_id ) )
     except:
         pass
 
-    return redirect( '/albums/' )
+    return redirect( '/albums/' + str( album_id ) + '/' )
+
+@login_required
+def move_id_in_album( request, album_id, pic_id, index ):
+
+    #try:
+
+        subjects = AlbumContent.objects.filter(
+                            Q( album_id=album_id )
+                          & Q( entry_id=pic_id )
+                          )
+
+        if subjects:
+
+            subject = subjects[ 0 ]
+
+            if subject:
+
+                idx = int( subject.id )
+
+                filter = Q( id__lt=idx )
+
+                if int( index ) > 0:
+                    filter = Q( id__gt=idx )
+
+                neighbours = AlbumContent.objects.filter(
+                                    Q( album_id=album_id )
+                                  & filter
+                                  )
+
+                if neighbours:
+
+                    print( neighbours )
+
+                    neighbour = None
+
+                    if int( index ) > 0:
+                        neighbour = neighbours[ 0 ]
+                    else:
+                        neighbour = neighbours.last()
+
+                    if neighbour:
+
+                        # Swap values with preceding entry
+                        entry = subject.entry
+                        subject.entry = neighbour.entry
+                        neighbour.entry = entry
+
+                        subject.save()
+                        neighbour.save()
+
+    #except:
+    #    print("Exception...")
+    #    pass
+
+        return redirect( '/albums/' + str( album_id ) + '/' )
 
 @login_required
 def organisation_bubble_ids( request, pic_ids ):

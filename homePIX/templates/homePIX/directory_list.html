@@ -4,16 +4,10 @@
 
 {% if object_list %}
   <div class="techfont" id="div_header" style="min-height:100px;padding-left:5em;padding-right:5em;margin-left:5em;margin-right:5em;">
-    <h1>Folders</h1>
-  </div>
-  <div id="div_collection" style="padding-left:5em;padding-right:5em;margin-left:5em;margin-right:5em;">
-    <div class="row">
-      <div class="col-md-3">
-      </div>
-      <div class="col-md-6">
-        <h1>{% with object_list|first as first_doc %}{{ first_doc.path.modname }}{% endwith %}</h1>
-      </div>
+    <h1>{{ folder_name }}</h1>
+    <h2>Page #{{ page }} of {{ ForItemCount }}</h2>
     </div>
+  <div id="div_collection" style="padding-left:5em;padding-right:5em;margin-left:5em;margin-right:5em;">
 {% else %}
   <div class="techfont" id="div_header" style="min-height:100px;">
     <h1>Nothing here!</h1>
@@ -23,9 +17,9 @@
   {% for folder in object_list %}
     {% if folder.modtype == 2 %}
       {% if folder.modcount > 0 %}
-        <div class="tt_base droppable draggable techfont gallery justified" id="div_{{ folder.modid }}">
+        <figure class="tt_base droppable techfont gallery justified" id="div_{{ folder.modid }}">
           <a id="piclink_{{ folder.modid }}" href="{{ folder.modid }}/">
-            <div class="desc">{{ folder.modname }}</div>
+            <figcaption class="desc">{{ folder.modname }}</figcaption>
             <div style="position:absolute;top:0px;right:0px;color:black;"><i class="material-icons">folder</i></div>
             <section class="wrapper" id="file-number_{{ folder.modthumb.modpath }}_{{ folder.modthumb.file }}">
               <span class="tt_subject">
@@ -51,9 +45,9 @@
                 </img>
               </span>
             </section>
-            <div class="count">Contains {{ folder.modcount }} shots</div>
+            <figcaption class="count">Contains {{ folder.modcount }} shots</figcaption>
           </a>
-        </div>
+        </figure>
       {% endif %}
     {% endif %}
   {% empty %}

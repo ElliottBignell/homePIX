@@ -3,7 +3,9 @@ homePIX/.idea
 homePIX/templatetags/__pycache__/*
 homePIX/.env
 homePIX/migrations/*
+*.swo
 *.swp
+*.swr
 db.sqlite
 db.sqlite3
 data.txt

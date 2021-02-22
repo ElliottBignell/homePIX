@@ -228,27 +228,41 @@ class PictureFile( ThumbnailBase ):
 
     @property
     def modfilestemmed( self ):
-        return re.sub( r'(.*)/X3/(.*)-X3(\.[jJ][pP][gG])', r'\2-L\3', self.file )
+        filename = self.file # re.sub( 'https://elliottbignell.smugmug.com/', '/picture/', self.file )
+        return re.sub( r'(.*)/X3/(.*)-X3(\.[jJ][pP][gG])', r'\2-L\3', filename )
 
     @property
     def modfilename( self ):
-        return re.sub( r'(.*)/X3/(.*)-X3(\.[jJ][pP][gG])', r'\1/S/\2-L\3', self.file )
+        filename = self.file # re.sub( 'https://elliottbignell.smugmug.com/', '/picture/', self.file )
+        return re.sub( r'(.*)/X3/(.*)-X3(\.[jJ][pP][gG])', r'\1/S/\2-L\3', filename )
 
     @property
     def modfile( self ):
-        return re.sub( r'(.*)/X3/(.*)-X3(\.[jJ][pP][gG])', r'\1/M/\2-M\3', self.file )
+        filename = self.file # re.sub( 'https://elliottbignell.smugmug.com/', '/picture/', self.file )
+        return re.sub( r'(.*)/X3/(.*)-X3(\.[jJ][pP][gG])', r'\1/M/\2-M\3', filename )
+
+    @property
+    def modfile_orig( self ):
+        filename = self.file
+        filename = re.sub( r'(.*)/X3/(.*)-X3(\.[jJ][pP][gG])', r'\1/M/\2-M\3', filename )
+        filename = filename.replace( ':', '%3A' )
+        filename = filename.replace( '/', '%2F' )
+        return filename
 
     @property
     def modsmallfile( self ):
-        return re.sub( r'(.*)/X3/(.*)-X3(\.[jJ][pP][gG])', r'\1/S/\2-S\3', self.file )
+        filename = self.file # re.sub( 'https://elliottbignell.smugmug.com/', '/picture/', self.file )
+        return re.sub( r'(.*)/X3/(.*)-X3(\.[jJ][pP][gG])', r'\1/S/\2-S\3', filename )
 
     @property
     def modtinyfile( self ):
-        return re.sub( r'(.*)/X3/(.*)-X3(\.[jJ][pP][gG])', r'\1/Ti/\2-Ti\3', self.file )
+        filename = self.file # re.sub( 'https://elliottbignell.smugmug.com/', '/picture/', self.file )
+        return re.sub( r'(.*)/X3/(.*)-X3(\.[jJ][pP][gG])', r'\1/Ti/\2-Ti\3', filename )
 
     @property
     def modlargefile( self ):
-        return re.sub( r'(.*)/X3/(.*)-X3(\.[jJ][pP][gG])', r'\1/X3/\2-X3\3', self.file )
+        filename = self.file # re.sub( 'https://elliottbignell.smugmug.com/', '/picture/', self.file )
+        return re.sub( r'(.*)/X3/(.*)-X3(\.[jJ][pP][gG])', r'\1/X3/\2-X3\3', filename )
 
     @property
     def modpreview( self ):
