@@ -215,6 +215,7 @@ class AlbumView( PhotoListView ):
         return '.*'
 
     def get_queryset( self ):
+
         ret = lambda queryset, filter_dict: ( queryset.filter( **filter_dict ).
                                               select_related( 'thumbnail' ).
                                               extra( select={'lower_name': 'lower(name)'} ).order_by('lower_name')

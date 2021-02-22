@@ -61,5 +61,5 @@ urlpatterns = [
     re_path( r'^accounts/', include('django.contrib.auth.urls')),
     # re_path( r'^(?P<search>.+)$', views.PictureListView.as_view(), name = 'picture_list' ),
 ]
-urlpatterns += static( 'static/', document_root=settings.STATIC_ROOT )
+urlpatterns += static( '/static/', document_root=settings.STATIC_ROOT )
 urlpatterns += static( 'pics/',   document_root=settings.MEDIA_ROOT  )

@@ -1,5 +1,12 @@
 /* custom.scss */
 /* import the necessary Bootstrap files */
+@import "../bootstrap/css/bootstrap.css";
+@import "../bootstrap/css/bootstrap.min.css";
+@import "tooltips.css";
+@import "blog.css";
+@import "directories.css";
+@import "flyout.css";
+
 /* -------begin customization-------- */
 /* simply assign the value */
 /* or, use an existing variable */
@@ -38,14 +45,14 @@
   --homepix-bglight: #c2dde6;
   --homepix-br-lightest: #e6e9f0;
   --homepix-alarm: #e05915;
+  --pagination-color: #bccbde;
+  --pagination-bg: #431c5d;
+  --pagination-text: #bccbde;
   --breakpoint-xs: 0;
   --breakpoint-sm: 576px;
   --breakpoint-md: 768px;
   --breakpoint-lg: 992px;
   --breakpoint-xl: 1200px;
-  --pagination-color: #bccbde;
-  --pagination-bg: #431c5d;
-  --pagination-text: #bccbde;
   --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
 
@@ -69,9 +76,10 @@ body {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #212529;
+  color: var( --homepix-dark );
   text-align: left;
-  background-color: #e05915; }
+  background-color: var( --homepix-br-lightest );
+}
 
 [tabindex="-1"]:focus {
   outline: 0 !important; }
@@ -145,11 +153,12 @@ sup {
   top: -.5em; }
 
 a {
-  color: #var( --homepix-dark );
+  color: #bcebdd;
   text-decoration: none;
   background-color: transparent; }
   a:hover {
-    color: #190a22;
+    color: #bcebdd;
+    background-color: #e05915;
     text-decoration: underline; }
 
 a:not([href]):not([tabindex]) {
@@ -215,7 +224,7 @@ optgroup,
 textarea {
   margin: 0;
   font-family: inherit;
-  font-size: inherit;
+  font-size: 1em;
   line-height: inherit; }
 
 button,
@@ -1549,7 +1558,7 @@ pre {
   font-weight: 400;
   line-height: 1.5;
   color: #495057;
-  background-color: #fff;
+  background-color:var( --homepix-dark )
   background-clip: padding-box;
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
@@ -1562,7 +1571,7 @@ pre {
     border: 0; }
   .form-control:focus {
     color: #495057;
-    background-color: #fff;
+    background-color:var( --homepix-dark )
     border-color: #80bdff;
     outline: 0;
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); }
@@ -1575,7 +1584,7 @@ pre {
 
 select.form-control:focus::-ms-value {
   color: #495057;
-  background-color: #fff; }
+  background-color:var( --homepix-dark ) }
 
 .form-control-file,
 .form-control-range {
@@ -2613,7 +2622,7 @@ input[type="button"].btn-block {
   color: #212529;
   text-align: left;
   list-style: none;
-  background-color: #fff;
+  background-color:var( --homepix-dark )
   background-clip: padding-box;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 0.25rem; }
@@ -3046,7 +3055,7 @@ input[type="button"].btn-block {
     height: 1rem;
     pointer-events: none;
     content: "";
-    background-color: #fff;
+    background-color:var( --homepix-dark )
     border: #adb5bd solid 1px; }
   .custom-control-label::after {
     position: absolute;
@@ -3098,7 +3107,7 @@ input[type="button"].btn-block {
       .custom-switch .custom-control-label::after {
         transition: none; } }
   .custom-switch .custom-control-input:checked ~ .custom-control-label::after {
-    background-color: #fff;
+    background-color:var( --homepix-dark )
     transform: translateX(0.75rem); }
   .custom-switch .custom-control-input:disabled:checked ~ .custom-control-label::before {
     background-color: rgba(0, 123, 255, 0.5); }
@@ -3114,7 +3123,7 @@ input[type="button"].btn-block {
   color: #495057;
   vertical-align: middle;
   background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") no-repeat right 0.75rem center/8px 10px;
-  background-color: #fff;
+  background-color:var( --homepix-dark )
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
   appearance: none; }
@@ -3124,7 +3133,7 @@ input[type="button"].btn-block {
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); }
     .custom-select:focus::-ms-value {
       color: #495057;
-      background-color: #fff; }
+      background-color:var( --homepix-dark ) }
   .custom-select[multiple], .custom-select[size]:not([size="1"]) {
     height: auto;
     padding-right: 0.75rem;
@@ -3184,7 +3193,7 @@ input[type="button"].btn-block {
   font-weight: 400;
   line-height: 1.5;
   color: #495057;
-  background-color: #fff;
+  background-color:var( --homepix-dark )
   border: 1px solid #ced4da;
   border-radius: 0.25rem; }
   .custom-file-label::after {
@@ -3622,7 +3631,7 @@ input[type="button"].btn-block {
   flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
-  background-color: #fff;
+  background-color:var( --homepix-dark )
   background-clip: border-box;
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0.25rem; }
@@ -3820,8 +3829,8 @@ input[type="button"].btn-block {
   margin-left: -1px;
   line-height: 1.25;
   color: #var( --homepix-dark );
-  background-color: #fff;
-  border: 1px solid #dee2e6; }
+  background-color: red;
+  border: 1px solid red; }
   .page-link:hover {
     z-index: 2;
     color: #190a22;
@@ -3849,7 +3858,7 @@ input[type="button"].btn-block {
   color: #6c757d;
   pointer-events: none;
   cursor: auto;
-  background-color: #fff;
+  background-color:var( --homepix-dark )
   border-color: #dee2e6; }
 
 .pagination-lg .page-link {
@@ -4271,7 +4280,7 @@ input[type="button"].btn-block {
   display: block;
   padding: 0.75rem 1.25rem;
   margin-bottom: -1px;
-  background-color: #fff;
+  background-color:var( --homepix-dark )
   border: 1px solid rgba(0, 0, 0, 0.125); }
   .list-group-item:first-child {
     border-top-left-radius: 0.25rem;
@@ -4283,7 +4292,7 @@ input[type="button"].btn-block {
   .list-group-item.disabled, .list-group-item:disabled {
     color: #6c757d;
     pointer-events: none;
-    background-color: #fff; }
+    background-color:var( --homepix-dark ) }
   .list-group-item.active {
     z-index: 2;
     color: #fff;
@@ -4653,7 +4662,7 @@ a.close.disabled {
   flex-direction: column;
   width: 100%;
   pointer-events: auto;
-  background-color: #fff;
+  background-color:var( --homepix-dark )
   background-clip: padding-box;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 0.3rem;
@@ -4843,7 +4852,7 @@ a.close.disabled {
   line-break: auto;
   font-size: 0.875rem;
   word-wrap: break-word;
-  background-color: #fff;
+  background-color:var( --homepix-dark )
   background-clip: padding-box;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 0.3rem; }
@@ -5069,7 +5078,7 @@ a.close.disabled {
     margin-left: 3px;
     text-indent: -999px;
     cursor: pointer;
-    background-color: #fff;
+    background-color:var( --homepix-dark )
     background-clip: padding-box;
     border-top: 10px solid transparent;
     border-bottom: 10px solid transparent;
@@ -8284,6 +8293,32 @@ a.text-homepix-alarm:hover, a.text-homepix-alarm:focus {
   .table-bordered th,
   .table-bordered td {
     border: 1px solid #dee2e6 !important; }
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+table {
+    padding         : 1px;
+    border-collapse : collapse;
+    border-spacing  : 5px;
+    font-size       : 400%;
+}
+
+.titlecontent {
+    font-size       : 0.3em;
+    font-weight     : bold;
+    margin-bottom   : 0px;
+}
+
+.titletext {
+    font-size       : 0.25em;
+    font-style      : italic;
+    margin-bottom   : 0px;
+}
+
+#draggable { width: 100px; height: 100px; padding: 0.5em; float: left; margin: 10px 10px 10px 0; }
+#droppable { width: 150px; height: 150px; padding: 0.5em; float: left; margin: 10px; }
 
   .table-dark {
     color: inherit; }
@@ -8298,3 +8333,38 @@ a.text-homepix-alarm:hover, a.text-homepix-alarm:focus {
     border-color: #dee2e6; } }
 
 /*# sourceMappingURL=custom.css.map */
+
+.image-dropdown {
+    /*style the "box" in its minimzed state*/
+    border:1px solid black; width:400px; height:50px; overflow:hidden;
+    /*animate the dropdown collapsing*/
+    transition: height 0.1s;
+}
+.image-dropdown:hover {
+    /*when expanded, the dropdown will get native means of scrolling*/
+    height:400px; overflow-y:scroll;
+    /*animate the dropdown expanding*/
+    transition: height 0.5s;
+}
+.image-dropdown input {
+    /*hide the nasty default radio buttons!*/
+    position:absolute;top:0;left:0;opacity:0;
+}
+.image-dropdown label {
+    /*style the labels to look like dropdown options*/
+    display:none; margin:2px; height:92px; opacity:0.2;
+    background:url("http://www.google.com/images/srpr/logo3w.png") 50% 50%;
+}
+.image-dropdown:hover label{
+    /*this is how labels render in the "expanded" state.
+     we want to see only the selected radio button in the collapsed menu,
+     and all of them when expanded*/
+    display:block;
+}
+.image-dropdown input:checked + label {
+    /*tricky! labels immediately following a checked radio button
+      (with our markup they are semantically related) should be fully opaque
+      and visible even in the collapsed menu*/
+    opacity:1 !important; display:block;
+}
+

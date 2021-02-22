@@ -6,5 +6,6 @@ homePIX/migrations/*
 *.swp
 db.sqlite
 db.sqlite3
-
-
+data.txt
+db.backup
+homePIX/static/css/custom.css.map
