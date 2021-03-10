@@ -8367,3 +8367,23 @@ table {
       and visible even in the collapsed menu*/
     opacity:1 !important; display:block;
 }
+
+.imageinlist {
+    border:2px solid white;
+    position:relative;
+    top:100%;
+    left:0%;
+    z-index:0;
+    border-radius:12px;
+}
+
+.imageresponsive {
+    height:20em;
+}
+
+@media (max-width: 840px) {
+
+    .imageresponsive {
+        height:50em;
+    }
+}

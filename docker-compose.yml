@@ -2,11 +2,11 @@ version: "3.0"
    
 services:
   db: 
-    image: postgres
+    image: mysql:15.1
     environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=mysql
+      - POSTGRES_USER=mysql
+      - POSTGRES_PASSWORD=mysql
   web:
     build: .
     command: python manage.py localhost:8020

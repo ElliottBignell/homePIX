@@ -3,6 +3,7 @@ homePIX/.idea
 homePIX/templatetags/__pycache__/*
 homePIX/.env
 homePIX/migrations/*
+maven/*
 *.swo
 *.swp
 *.swr
@@ -11,3 +12,4 @@ db.sqlite3
 data.txt
 db.backup
 homePIX/static/css/custom.css.map
+my.cnf

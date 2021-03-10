@@ -40,8 +40,7 @@ SECRET_KEY = str(os.getenv('SECRET_KEY'))
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '127.0.0.1',
-    '192.168.1.110',
+    '172.17.0.2',
     'localhost',
     'elliottcb.pythonanywhere.com'
 ]

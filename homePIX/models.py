@@ -47,6 +47,44 @@ class Keywords( ListModel ):
     def __str__( self ):
         return self.keywords
 
+class Categories( ListModel ):
+
+    id   = models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)
+    category = models.TextField( unique = True )
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)  # Call the "real" save() method.
+
+    @property
+    def modlist( self ):
+        return self.category.split( ',' )
+
+    @property
+    def modid( self ):
+        return self.id
+
+    def __str__( self ):
+        return self.category
+
+class Titles( ListModel ):
+
+    id   = models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)
+    title = models.TextField( unique = True )
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)  # Call the "real" save() method.
+
+    @property
+    def modlist( self ):
+        return self.category.split( ',' )
+
+    @property
+    def modid( self ):
+        return self.id
+
+    def __str__( self ):
+        return self.title
+
 class ThumbnailBase( ListModel ):
 
     id   = models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)
@@ -179,7 +217,7 @@ class PictureFile( ThumbnailBase ):
 
     file              = models.CharField( max_length = 200, default='.default.jpg' )
     path              = models.ForeignKey( Directory, on_delete = models.CASCADE, null = True )
-    title             = models.TextField(null = True)
+    title             = models.ForeignKey( Titles, on_delete = models.CASCADE, null = True )
     objects           = models.Manager()
     keywords          = models.ForeignKey( Keywords, on_delete = models.CASCADE, null = True )
     sortkey           = models.PositiveIntegerField( unique = True,  null = True )
@@ -187,8 +225,8 @@ class PictureFile( ThumbnailBase ):
     taken_on          = models.DateTimeField( auto_now_add  = True,  null = True )
     last_modified     = models.DateTimeField( auto_now      = True,  null = True )
     location          = models.CharField( max_length        =  200,  null = True )
-    primaryCategory   = models.CharField( max_length        =   20,  null = True )
-    secondaryCategory = models.CharField( max_length        =   20,  null = True )
+    primaryCategory   = models.ForeignKey( Categories, related_name='category1', on_delete = models.CASCADE, null = True )
+    secondaryCategory = models.ForeignKey( Categories, related_name='category2', on_delete = models.CASCADE, null = True )
 
     mod_file    = ''
     mod_preview = ''
@@ -300,7 +338,7 @@ class PictureFile( ThumbnailBase ):
         ret = self.path.path
 
         if not self.title is None:
-            ret += '/' + self.title
+            ret += '/' + str( self.title_id )
 
         ret += '/' + str( self.id )
 

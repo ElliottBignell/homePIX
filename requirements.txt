@@ -8,3 +8,4 @@ django-sslserver
 django-simple-captcha
 python-dotenv
 requests
+mysqlclient

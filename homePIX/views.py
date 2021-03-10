@@ -736,7 +736,10 @@ class CalendarView( PhotoListView ):
             unique_years = []
 
             for val in obj_list:
-                unique_years.append( val.taken_on.year )
+                try:
+                    unique_years.append( val.taken_on.year )
+                except:
+                    pass
 
             unique_years = sorted( set( unique_years ) )
 
@@ -805,7 +808,11 @@ class CalendarView( PhotoListView ):
 
                 for val in obj_list:
 
-                    taken_on_year = val.taken_on.year
+                    try:
+                        taken_on_year = val.taken_on.year
+                    except:
+                        continue
+
                     group_year = taken_on_year - ( taken_on_year - first_year ) % year_group_len
 
                     month_abs  = val.taken_on.month - 1
@@ -930,8 +937,16 @@ class AlbumContentDetailView( PhotoListViewBase ):
                             next_id = ( index + 1 ) % len( PhotoListView.object_list )
 
                             self.nav[ 'Item'     ] = PictureFile.objects.get( id=file.entry_id )
-                            self.nav[ 'next'     ] = PictureFile.objects.get( id=PhotoListView.object_list[ next_id ].entry_id )
-                            self.nav[ 'previous' ] = PictureFile.objects.get( id=previous.entry_id )
+
+                            try:
+                                self.nav[ 'next' ] = PictureFile.objects.get( id=PhotoListView.object_list[ next_id ].entry_id )
+                            except:
+                                self.nav[ 'next' ] = current_pic
+
+                            try:
+                                self.nav[ 'previous' ] = PictureFile.objects.get( id=previous.entry_id )
+                            except:
+                                self.nav[ 'previous' ] = current_pic
 
                             break
 

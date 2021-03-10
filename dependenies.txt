@@ -1,0 +1,4 @@
+Virtualenv homePIX
+Install MariaDB
+Install python mariadb 
+

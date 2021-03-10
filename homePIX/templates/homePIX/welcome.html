@@ -7,19 +7,30 @@
     {
         position:relative;
         left:0em;
-        width:100%;
         top:0em;
         height:inherit;
+        display:none;
+    }
+    .mySlideFrames
+    {
+        height:inherit;
+        margin-left: auto;
+        margin-right: auto;
+        display:block;
+        display: flex; // make us of Flexbox
         object-fit:contain;
         object-position:center center;
+        justify-content: center; // horizontally centers single line items
+        align-items: center; // does vertically center the desired content
+        text-align: center; // optional, but helps horizontally center text that breaks into multiple lines
     }
-    .mySlides {
-        display:none;
-  display: flex; // make us of Flexbox
-  align-items: center; // does vertically center the desired content
-  justify-content: center; // horizontally centers single line items
-  text-align: center; // optional, but helps horizontally center text that breaks into multiple lines
-}
+    .shadowed
+    {
+        height:30vw;
+        box-shadow: 20px 20px 15px 0 rgb(0, 0, 0, 0.75);
+        -webkit-box-shadow: 20px 20px 15px 0 rgb(0, 0, 0, 0.75);
+        -moz-box-shadow: 20px 20px 15px 0 rgb(0, 0, 0, 0.75);
+    }
   </style>
 
   <div class="centerstage" style="height:100%;">
@@ -54,12 +65,14 @@
                 <div style="height:30vw;">
                   {% for picture in object_list %}
                     {% if picture.modtype == 1 or picture.modtype == 4 %}
-                      <img id="picture_{{ picture.modthumb.modid }}"
-                           class="mySlides lazyload"
+                      <figure class="mySlides">
+                        <img id="picture_{{ picture.modthumb.modid }}"
+                           class="mySlideFrames lazyload shadowed"
                            src="{{ picture.modthumb.modfile }}"
                            data-src="{{ picture.modthumb.modfile }}"
                            alt="{{ picture.modthumb.modfile }}">
-                      </img>
+                        </img>
+                      </figure>
                     {% else  %}
                         Other type
                     {% endif %}
